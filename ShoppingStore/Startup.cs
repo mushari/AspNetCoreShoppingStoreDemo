@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using ShoppingStore.Data.Repositories;
 using AspNetCore.JsonLocalization;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace ShoppingStore
 {
@@ -59,6 +60,7 @@ namespace ShoppingStore
                 var supportedCultures = new List<CultureInfo>
                 {
                     new CultureInfo("en-GB"),
+                    new CultureInfo("en-US"),
                     new CultureInfo("zh-TW"),
                 };
 
@@ -94,6 +96,15 @@ namespace ShoppingStore
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "pagination",
+                    template: "Products/Page{page}",
+                    defaults: new
+                    {
+                        controller = "Product",
+                        action = "Index"
+                    });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

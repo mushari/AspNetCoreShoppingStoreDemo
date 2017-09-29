@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Localization
+@model ProductViewModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = requestCulture.RequestCulture.Culture.Name;
+}
+
+<br />
+@foreach (var item in Model.Items)
+{
+    <div class="well">
+        <div class="media">
+
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://www.placehold.it/64x64" alt="media-object">
+            </a>
+
+            <div class="media-body">
+                <div class="media-heading">
+                    <strong style="color:crimson">@Localizer["Product Name"]:</strong>
+                    <strong>@item.Name</strong>
+                </div>
+
+                <div>
+                    <strong style="color:crimson">@Localizer["Product Description"]:</strong>
+                    <br />
+                    <br />
+                    <div class="list-group-item" style="font-family:'Microsoft Himalaya'">
+                        <span class="glyphicon glyphicon-hand-right"> @item.Description</span>
+                    </div>
+                </div>
+                <br />
+                <div class="pull-right label label-info ">
+                    @if (currentCulture == "en-GB")
+                {
+                        @(((double)item.Price / 40).ToString("C"))
+                    }
+                    else if (currentCulture == "en-US")
+                    {
+                        @(((double)item.Price / 30).ToString("C"))
+                    }
+                    else
+                    {
+                        @item.Price.ToString("C")
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<a href="@Url.Action("AddProduct","Product")" class="btn btn-primary">Add New Product</a>
+
+<pagination item-per-page="Model.ItemPerPage"
+            current-page="Model.Page"
+            total-items="Model.TotalItems"
+            page-controller="Product"
+            page-action="Index">
+</pagination>
+
