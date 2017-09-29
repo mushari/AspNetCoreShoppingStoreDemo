@@ -9,5 +9,6 @@ namespace ShoppingStore.Data.Repositories
     public interface IProductRepository
     {
         IEnumerable<Product> Products { get; }
+       
     }
 }

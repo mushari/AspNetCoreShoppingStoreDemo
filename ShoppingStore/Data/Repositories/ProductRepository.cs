@@ -8,10 +8,11 @@ namespace ShoppingStore.Data.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-
-        public IEnumerable<Product> Products
+        private ApplicationDbContext context;
+        public ProductRepository(ApplicationDbContext context)
         {
-
+            this.context = context;
         }
+        public IEnumerable<Product> Products => context.Products;
     }
 }

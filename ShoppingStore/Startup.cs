@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using ShoppingStore.Data.Repositories;
+using AspNetCore.JsonLocalization;
 
 namespace ShoppingStore
 {
@@ -39,16 +41,17 @@ namespace ShoppingStore
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
-            services.AddLocalization(opts =>
-            {
-                opts.ResourcesPath = "Resources";
-            });
+            services.AddJsonLocalization();
 
             services.AddMvc()
                 .AddViewLocalization(
                 LanguageViewLocationExpanderFormat.Suffix,
-                opts => { opts.ResourcesPath = "Resources"; })
+                opt =>
+                {
+                    opt.ResourcesPath = "Resources";
+                })
                 .AddDataAnnotationsLocalization();
 
             services.Configure<RequestLocalizationOptions>(opts =>
@@ -68,9 +71,6 @@ namespace ShoppingStore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var options = app.ApplicationServices
-                .GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(options.Value);
 
             if (env.IsDevelopment())
             {
@@ -87,7 +87,10 @@ namespace ShoppingStore
 
             app.UseAuthentication();
 
+            var options = app.ApplicationServices
+                           .GetService<IOptions<RequestLocalizationOptions>>();
 
+            app.UseRequestLocalization(options.Value);
 
             app.UseMvc(routes =>
             {
