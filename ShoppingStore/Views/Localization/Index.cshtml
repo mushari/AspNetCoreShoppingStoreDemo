@@ -1,0 +1,67 @@
+﻿@using AspNetCore.JsonLocalization
+@model List<JsonLocalizationFormat>
+
+
+
+<br />
+<div class="panel panel-success">
+    <div class="panel panel-heading">
+        Localization Table
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>KeyName</th>
+                <th>
+                    Culture
+                </th>
+                <th>Localized Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var local in Model)
+            {
+                <tr>
+                    <td rowspan="@((int)local.Value.Count()+1)">
+                        <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
+                            @local.Key
+                        </a>
+                    </td>
+                </tr>
+
+                @foreach (var l in local.Value)
+                {
+                    <tr>
+                        <td>
+                            @l.Key
+                        </td>
+                        <td>
+                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)_value" data-type="text" data-pk="@local.Key.Replace(" ",String.Empty)_@(l.Key)_value" data-url="api/editvalue" data-title="Modified Localized Value">
+                                @l.Value
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    @foreach (var local in Model)
+    {
+        @foreach (var l in local.Value)
+        {
+            <script>
+            $.fn.editable.defaults.mode = "popup";
+            $(document).ready(function () {
+                $('#@local.Key.Replace(" ", String.Empty)').editable();
+                $('#@local.Key.Replace(" ", String.Empty)_@l.Key').editable();
+                $('#@local.Key.Replace(" ",String.Empty)_@(l.Key)_value').editable();
+            });
+            </script>
+        }
+    }
+}

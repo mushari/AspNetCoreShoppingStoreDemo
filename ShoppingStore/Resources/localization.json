@@ -1,4 +1,4 @@
-﻿// Localization
+// Localization
 [
   {
     "Key": "Hello",
@@ -65,5 +65,38 @@
       "en-US": "Product Category",
       "zh-TW": "產品類別"
     }
+  },
+  {
+    "Key": "Name",
+    "Value": {
+      "en-GB": "Name",
+      "en-US": "Name",
+      "zh-TW": "名稱"
+    }
+  },
+  {
+    "Key": "Description",
+    "Value": {
+      "en-GB": "Description",
+      "en-US": "Description",
+      "zh-TW": "描述"
+    }
+  },
+  {
+    "Key": "Price",
+    "Value": {
+      "en-GB": "Price",
+      "en-US": "Price",
+      "zh-TW": "價格"
+    }
+  },
+  {
+    "Key": "Category",
+    "Value": {
+      "en-GB": "Category",
+      "en-US": "Category",
+      "zh-TW": "類別"
+    }
   }
+
 ]
