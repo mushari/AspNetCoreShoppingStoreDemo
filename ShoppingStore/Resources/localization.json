@@ -1,102 +1,98 @@
-// Localization
 [
   {
-    "Key": "Hello",
     "Value": {
-      "en-GB": "Hello",
+      "en-GB": "Hello World",
       "en-US": "Hello",
-      "zh-TW": "你好"
-    }
+      "zh-TW": "哈囉"
+    },
+    "Key": "Hello"
   },
   {
-    "Key": "Language",
     "Value": {
       "en-GB": "Language",
       "en-US": "Language",
       "zh-TW": "語言"
-    }
+    },
+    "Key": "Language"
   },
   {
-    "Key": "ChangeLanguage",
     "Value": {
       "en-GB": "Change Lang",
       "en-US": "Change Lang",
       "zh-TW": "轉換語言"
-    }
+    },
+    "Key": "ChangeLanguage"
   },
-
-  // Products
   {
-    "Key": "Product ID",
     "Value": {
       "en-GB": "Product ID",
       "en-US": "Product ID",
       "zh-TW": "產品辨識碼"
-    }
+    },
+    "Key": "Product ID"
   },
   {
-    "Key": "Product Name",
     "Value": {
       "en-GB": "Product Name",
       "en-US": "Product Name",
       "zh-TW": "產品名稱"
-    }
+    },
+    "Key": "Product Name"
   },
   {
-    "Key": "Product Description",
     "Value": {
       "en-GB": "Product Description",
       "en-US": "Product Description",
       "zh-TW": "產品描述"
-    }
+    },
+    "Key": "Product Description"
   },
   {
-    "Key": "Product Price",
     "Value": {
       "en-GB": "Product Price",
       "en-US": "Product Price",
       "zh-TW": "產品價格"
-    }
+    },
+    "Key": "Product Price"
   },
   {
-    "Key": "Product Category",
     "Value": {
       "en-GB": "Product Category",
       "en-US": "Product Category",
       "zh-TW": "產品類別"
-    }
+    },
+    "Key": "Product Category"
   },
   {
-    "Key": "Name",
     "Value": {
       "en-GB": "Name",
       "en-US": "Name",
       "zh-TW": "名稱"
-    }
+    },
+    "Key": "Name"
   },
   {
-    "Key": "Description",
     "Value": {
       "en-GB": "Description",
       "en-US": "Description",
       "zh-TW": "描述"
-    }
+    },
+    "Key": "Description"
   },
   {
-    "Key": "Price",
     "Value": {
       "en-GB": "Price",
       "en-US": "Price",
       "zh-TW": "價格"
-    }
+    },
+    "Key": "Price"
   },
   {
-    "Key": "Category",
     "Value": {
       "en-GB": "Category",
       "en-US": "Category",
       "zh-TW": "類別"
-    }
+    },
+    "Key": "Category"
   }
-
 ]

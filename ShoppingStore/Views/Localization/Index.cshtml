@@ -37,7 +37,7 @@
                             @l.Key
                         </td>
                         <td>
-                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)_value" data-type="text" data-pk="@local.Key.Replace(" ",String.Empty)_@(l.Key)_value" data-url="api/editvalue" data-title="Modified Localized Value">
+                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="Modified Localized Value">
                                 @l.Value
                             </a>
                         </td>
@@ -57,9 +57,24 @@
             <script>
             $.fn.editable.defaults.mode = "popup";
             $(document).ready(function () {
-                $('#@local.Key.Replace(" ", String.Empty)').editable();
-                $('#@local.Key.Replace(" ", String.Empty)_@l.Key').editable();
-                $('#@local.Key.Replace(" ",String.Empty)_@(l.Key)_value').editable();
+                $('#@local.Key.Replace(" ", String.Empty)').editable({
+                    error: function (response, newValue) {
+                        if (response.status === 500) {
+                            return 'Service unavailable. Please try later.';
+                        } else {
+                            return 'Value can\'t be null';
+                        }
+                    }
+                });
+                $('#@local.Key.Replace(" ",String.Empty)_@(l.Key)').editable({
+                    error: function (response, newValue) {
+                        if (response.status === 500) {
+                            return 'Service unavailable. Please try later.';
+                        } else {
+                            return 'Value can\'t be null';
+                        }
+                    }
+                });
             });
             </script>
         }

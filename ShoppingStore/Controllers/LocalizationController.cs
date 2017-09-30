@@ -40,15 +40,22 @@ namespace ShoppingStore.Controllers
 
         [HttpPost]
         [Route("api/editCulture")]
-        public IActionResult EditCulture(string pk, string value, string name)
+        public IActionResult AddNewCulture(string pk, string value, string name)
         {
             return Ok();
         }
 
         [HttpPost]
         [Route("api/editValue")]
-        public IActionResult EditLocalizedValue(string pk, string value)
+        public IActionResult EditLocalizedValue(string pk, string name, string value)
         {
+
+            jsonLocalization.Where(data => data.Key == pk)
+              .ToList().ForEach(d => d.Value[name] = value);
+
+            var output = JsonConvert.SerializeObject(jsonLocalization, Formatting.Indented);
+            System.IO.File.WriteAllText(@"Resources/localization.json", output);
+
             return Ok();
         }
 
