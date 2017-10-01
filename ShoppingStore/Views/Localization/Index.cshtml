@@ -2,7 +2,6 @@
 @model List<JsonLocalizationFormat>
 
 
-
 <br />
 <div class="panel panel-success">
     <div class="panel panel-heading">
@@ -23,7 +22,7 @@
             @foreach (var local in Model)
             {
                 <tr>
-                    <td rowspan="@((int)local.Value.Count()+1)">
+                    <td rowspan="@((int)local.Value.Count()+2)">
                         <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
                             @local.Key
                         </a>
@@ -41,8 +40,36 @@
                                 @l.Value
                             </a>
                         </td>
+
                     </tr>
                 }
+                <tr>
+                    <td>
+                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-danger" data-container="body" data-toggle="popover" title="New lang and value"
+                                data-html="true"
+                                data-content='
+                                <form id="@(local.Key.Replace(" ",String.Empty))_form">
+                                    <div class="form-group">
+                                        <label for="culture-input">Culture</label>
+                                        <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="value-input">Value</label>
+                                        <input id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </div>
+                                </form>'>
+                            Add New Language And Value
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -50,33 +77,81 @@
 
 @section Scripts{
     <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+
+    @foreach (var local in Model)
+    {
+
+        <script>
+                $.fn.editable.defaults.mode = "popup";
+
+                $(function () {
+
+                    $(document).on('submit','#@(local.Key.Replace(" ",String.Empty))_form',function(e){
+
+                        formData = $(this).serializeArray();
+
+                        dataString = "pk=" + formData[0].name + "&culture=" + formData[0].value + "&value=" + formData[1].value;
+
+
+                        $.ajax({
+                            url: "api/addNewCulture",
+                            type: "POST",
+                            data: dataString
+                        }).done(function () {
+                            console.log("success");
+                        }).fail(function () {
+                            console.log("failed");
+                        });
+                        e.preventDefault();
+                    });
+
+                    $('#@local.Key.Replace(" ", String.Empty)_new').popover();
+                    $('body').on('mousedown', function (e) {
+                        $('#@local.Key.Replace(" ", String.Empty)_new').each(function () {
+                            //the 'is' for buttons that trigger popups
+                            //the 'has' for icons within a button that triggers a popup
+                            if ($(this).attr('aria-describedby') != null) { //Check if the popover is active / contain an aria-describedby with a value
+                                var id = $(this).attr('aria-describedby'); //Put the value in a variable
+                                if (!$(e.target).closest(".popover-content").length &&
+                                    $(e.target).attr("aria-describedby") != id &&
+                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) { //Look if the click is a child of the popover box or if it's the button itself or a child of the button
+                                    $('[aria-describedby="' + id + '"]').trigger("click"); //trigger a click as if you clicked the button
+                                }
+                            }
+                        });
+                    });
+
+
+                    $('#@local.Key.Replace(" ", String.Empty)').editable({
+                        error: function (response, newValue) {
+                            if (response.status === 500) {
+                                return 'Service unavailable. Please try later.';
+                            } else {
+                                return 'Value can\'t be null';
+                            }
+                        }
+                    });
+
+            });
+        </script>
+    }
     @foreach (var local in Model)
     {
         @foreach (var l in local.Value)
         {
             <script>
-            $.fn.editable.defaults.mode = "popup";
-            $(document).ready(function () {
-                $('#@local.Key.Replace(" ", String.Empty)').editable({
-                    error: function (response, newValue) {
-                        if (response.status === 500) {
-                            return 'Service unavailable. Please try later.';
-                        } else {
-                            return 'Value can\'t be null';
+        $(function () {
+         $('#@local.Key.Replace(" ", String.Empty)_@(l.Key)').editable({
+                        error: function (response, newValue) {
+                            if (response.status === 500) {
+                                return 'Service unavailable. Please try later.';
+                            } else {
+                                return 'Value can\'t be null';
+                            }
                         }
-                    }
-                });
-                $('#@local.Key.Replace(" ",String.Empty)_@(l.Key)').editable({
-                    error: function (response, newValue) {
-                        if (response.status === 500) {
-                            return 'Service unavailable. Please try later.';
-                        } else {
-                            return 'Value can\'t be null';
-                        }
-                    }
-                });
-            });
+                    });
+
+                })
             </script>
-        }
-    }
+        }}
 }

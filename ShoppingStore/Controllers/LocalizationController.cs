@@ -39,9 +39,30 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
-        [Route("api/editCulture")]
-        public IActionResult AddNewCulture(string pk, string value, string name)
+        [Route("api/addNewCulture")]
+        public IActionResult AddNewCulture(string pk, string culture, string value)
         {
+
+            //jsonLocalization.Where(data => data.Key == pk).ToList().ForEach(d =>
+            //{
+            //    d.Value[culture] = value;
+            //});
+
+            var jsonData = jsonLocalization.Where(data => data.Key == pk).ToList();
+            foreach (var d in jsonData)
+            {
+                if (d.Value.Keys.Contains(culture))
+                {
+                    return BadRequest();
+                }
+                d.Value[culture] = value;
+            }
+
+
+
+
+            var output = JsonConvert.SerializeObject(jsonLocalization, Formatting.Indented);
+            System.IO.File.WriteAllText(@"Resources/localization.json", output);
             return Ok();
         }
 
