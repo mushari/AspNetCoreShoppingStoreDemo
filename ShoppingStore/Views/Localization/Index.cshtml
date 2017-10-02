@@ -291,7 +291,11 @@
                             if (response.status === 500) {
                                 return 'Service unavailable. Please try later.';
                             } else {
-                                return response.responseJSON.keyname.value + " " +response.responseJSON.notempty.value;
+                                if (response.responseJSON.keyname != null &&
+                                    response.responseJSON.notempty != null) {
+                                    return response.responseJSON.keyname.value + " " + response.responseJSON.notempty.value;
+                                }
+                                return response.responseJSON.value;
                             }
                         }
                     });

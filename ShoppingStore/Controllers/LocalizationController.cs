@@ -107,9 +107,9 @@ namespace ShoppingStore.Controllers
                 return NotFound(localizer["NotFound"]);
             }
 
-            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            var regexItem = new Regex("^[a-zA-Z0-9]*$");
 
-            if (!regexItem.IsMatch(pk))
+            if (!regexItem.IsMatch(value))
             {
                 return BadRequest(localizer["LettersNumbersOnly"]);
             }
