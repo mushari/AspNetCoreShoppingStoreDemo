@@ -9,20 +9,20 @@ namespace ShoppingStore.Models
     public class Product
     {
         [Required]
-        [Display(Name="Product ID")]
+        [Display(Name="ProductID")]
         public int ProductID { get; set; }
 
         [Required]
-        [Display(Name = "Product Name")]
+        [Display(Name = "ProductName")]
         public string Name { get; set; }
         [Required]
-        [Display(Name="Product Description")]
+        [Display(Name="ProductDescription")]
         public string Description { get; set; }
         [Required]
-        [Display(Name="Product Price")]
+        [Display(Name="ProductPrice")]
         public decimal Price { get; set; }
         [Required]
-        [Display(Name="Product Category")]
+        [Display(Name="ProductCategory")]
         public string Category { get; set; }
     }
 }

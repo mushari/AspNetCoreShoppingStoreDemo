@@ -1,28 +1,33 @@
 ﻿@using AspNetCore.JsonLocalization
-@model List<JsonLocalizationFormat>
+@model LocalizedViewModel
 
+@inject IViewLocalizer Localizer
 
+<br/>
+<button class="btn btn-primary">Add New Key Name</button>
+<br/>
 <br />
 <div class="panel panel-success">
     <div class="panel panel-heading">
-        Localization Table
+        @Localizer["Localization Table"]
     </div>
 
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>KeyName</th>
+                <th>@Localizer["KeyName"]</th>
                 <th>
-                    Culture
+                    @Localizer["CultureCode"]
                 </th>
-                <th>Localized Value</th>
+                <th>@Localizer["LocalizedValue"]</th>
+                <th>@Localizer["Delete Language"]</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var local in Model)
+            @foreach (var local in Model.Items)
             {
                 <tr>
-                    <td rowspan="@((int)local.Value.Count()+2)">
+                    <td id="@(local.Key)_td" rowspan="@((int)local.Value.Count()+2)">
                         <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
                             @local.Key
                         </a>
@@ -40,14 +45,30 @@
                                 @l.Value
                             </a>
                         </td>
-
+                        <td>
+                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="Are you sure?"
+                                    data-html="true"
+                                    data-content='
+                             <div class="text-danger"id="validation-message"></div>
+                             <form id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm">
+                                 <div class="form-group">
+                                     <input type="hidden" value="@local.Key.Replace(" ",String.Empty)" name="@l.Key" class="btn btn-danger" />
+                                     <button type="submit"class="btn btn-sm btn-primary" >Confirm</button>
+                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete">Cancel</button>
+                                 </div>
+                             </form>
+                            '>
+                            Delete
+                        </button>
+                        </td>
                     </tr>
                 }
                 <tr>
                     <td>
-                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-danger" data-container="body" data-toggle="popover" title="New lang and value"
+                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" title="New lang and value"
                                 data-html="true"
                                 data-content='
+                                <div class="text-danger"id="validation-message"></div>
                                 <form id="@(local.Key.Replace(" ",String.Empty))_form">
                                     <div class="form-group">
                                         <label for="culture-input">Culture</label>
@@ -61,7 +82,7 @@
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             <i class="glyphicon glyphicon-ok"></i>
                                         </button>
-                                        <button type="button" class="btn btn-default btn-sm">
+                                        <button id="@(local.Key)_cancel" type="button" class="btn btn-default btn-sm">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </button>
                                     </div>
@@ -75,47 +96,71 @@
     </table>
 </div>
 
+<pagination page-controller="Localization"
+            page-action="Index"
+            current-page="@Model.Page"
+            total-items="@Model.TotalItems"
+            item-per-page="@Model.ItemPerPage">
+
+</pagination>
+
 @section Scripts{
     <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
 
-    @foreach (var local in Model)
+    @foreach (var local in Model.Items)
     {
-
         <script>
-                $.fn.editable.defaults.mode = "popup";
+            $.fn.editable.defaults.mode = "popup";
 
-                $(function () {
+            $(function () {
 
-                    $(document).on('submit','#@(local.Key.Replace(" ",String.Empty))_form',function(e){
+                $('#@local.Key.Replace(" ", String.Empty)_new').popover();
+
+                $(document).on('click', '#@(local.Key)_cancel', function (e) {
+                    e.preventDefault();
+
+                    $('body').on('hidden.bs.popover', function (e) {
+                        $(e.target).data("bs.popover").inState.click = false;
+                    });
+
+                    $('#@local.Key.Replace(" ", String.Empty)_new').popover('hide');
+                });
+
+                $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_form', function (e) {
 
                         formData = $(this).serializeArray();
+                        console.log(formData);
 
                         dataString = "pk=" + formData[0].name + "&culture=" + formData[0].value + "&value=" + formData[1].value;
-
 
                         $.ajax({
                             url: "api/addNewCulture",
                             type: "POST",
                             data: dataString
-                        }).done(function () {
-                            console.log("success");
-                        }).fail(function () {
+                        }).done(function (data) {
+                            location.reload();
+                        }).fail(function (xhr, textStatus, errorThrown) {
+                            console.log(xhr.responseText);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                            $('#validation-message').html(xhr.responseText);
                             console.log("failed");
                         });
                         e.preventDefault();
                     });
 
-                    $('#@local.Key.Replace(" ", String.Empty)_new').popover();
                     $('body').on('mousedown', function (e) {
                         $('#@local.Key.Replace(" ", String.Empty)_new').each(function () {
-                            //the 'is' for buttons that trigger popups
-                            //the 'has' for icons within a button that triggers a popup
-                            if ($(this).attr('aria-describedby') != null) { //Check if the popover is active / contain an aria-describedby with a value
-                                var id = $(this).attr('aria-describedby'); //Put the value in a variable
+                            //Check if the popover is active / contain an aria-describedby with a value
+                            if ($(this).attr('aria-describedby') != null) {
+                                //Put the value in a variable
+                                var id = $(this).attr('aria-describedby');
                                 if (!$(e.target).closest(".popover-content").length &&
                                     $(e.target).attr("aria-describedby") != id &&
-                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) { //Look if the click is a child of the popover box or if it's the button itself or a child of the button
-                                    $('[aria-describedby="' + id + '"]').trigger("click"); //trigger a click as if you clicked the button
+                                    //Look if the click is a child of the popover box or if it's the button itself or a child of the button
+                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) {
+                                    //trigger a click as if you clicked the button
+                                    $('[aria-describedby="' + id + '"]').trigger("click");
                                 }
                             }
                         });
@@ -131,17 +176,75 @@
                             }
                         }
                     });
-
             });
         </script>
     }
-    @foreach (var local in Model)
+
+
+    @foreach (var local in Model.Items)
     {
         @foreach (var l in local.Value)
         {
             <script>
-        $(function () {
-         $('#@local.Key.Replace(" ", String.Empty)_@(l.Key)').editable({
+                $(function () {
+
+                    $('#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete').popover();
+
+                    $(document).on('click', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete', function (e) {
+                        e.preventDefault();
+
+                        $('body').on('hidden.bs.popover', function (e) {
+                            $(e.target).data("bs.popover").inState.click = false;
+                        });
+
+                        $('#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete').popover('hide');
+                    });
+
+                    $('body').on('mousedown', function (e) {
+                        $('#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete').each(function () {
+                            //Check if the popover is active / contain an aria-describedby with a value
+                            if ($(this).attr('aria-describedby') != null) {
+                                //Put the value in a variable
+                                var id = $(this).attr('aria-describedby');
+                                if (!$(e.target).closest(".popover-content").length &&
+                                    $(e.target).attr("aria-describedby") != id &&
+                                    //Look if the click is a child of the popover box or if it's the button itself or a child of the button
+                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) {
+                                    //trigger a click as if you clicked the button
+                                    $('[aria-describedby="' + id + '"]').trigger("click");
+                                }
+                            }
+                        });
+                    });
+
+                     $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm', function (e) {
+
+                        formData = $(this).serializeArray();
+                        console.log(formData);
+                        console.log(formData[0].name);
+                        console.log(formData[0].value);
+
+                        //dataString = "pk=" + formData[0].name + "&culture=" + formData[0].value + "&value=" + formData[1].value;
+                        dataString = "culture=" + formData[0].name + "&value=" +formData[0].value;
+
+                        $.ajax({
+                            url: "api/deleteCulture",
+                            type: "DELETE",
+                            data: dataString
+                        }).done(function (data) {
+                            location.reload();
+                        }).fail(function (xhr, textStatus, errorThrown) {
+                            console.log(xhr.responseText);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                            $('#validation-message').html(xhr.responseText);
+                            console.log("failed");
+                        });
+                        e.preventDefault();
+                    });
+
+
+                    $('#@local.Key.Replace(" ", String.Empty)_@(l.Key)').editable({
                         error: function (response, newValue) {
                             if (response.status === 500) {
                                 return 'Service unavailable. Please try later.';
@@ -150,7 +253,6 @@
                             }
                         }
                     });
-
                 })
             </script>
         }}
