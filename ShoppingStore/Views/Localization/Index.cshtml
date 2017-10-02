@@ -3,9 +3,33 @@
 
 @inject IViewLocalizer Localizer
 
-<br/>
-<button class="btn btn-primary">Add New Key Name</button>
-<br/>
+<br />
+<button type="button" id="addNewKeyName" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="Add New KeyName"
+        data-html="true"
+        data-content='
+        <div id="addNewKeyName_validation" class="text-danger"></div>
+       <form id="addNewKeyName_form">
+        <div class="form-group">
+            <label for="addKeyName">KeyName</label>
+            <input id="addKeyName" name="pk"type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="addCulture">Culture</label>
+            <input id="addCulture" name="culture"type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="addValue">Value</label>
+            <input id="addValue" name="value"type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Add</button>
+            <button id="addNewKeyName_cancel"class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+   '>
+    Add New KeyName
+</button>
+<br />
 <br />
 <div class="panel panel-success">
     <div class="panel panel-heading">
@@ -28,9 +52,23 @@
             {
                 <tr>
                     <td id="@(local.Key)_td" rowspan="@((int)local.Value.Count()+2)">
-                        <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
-                            @local.Key
-                        </a>
+                        <div>
+                            <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
+                                @local.Key
+                            </a>
+                        </div>
+                        <br/>
+                        <button class="btn btn-danger" id="@(local.Key.Replace(" ",String.Empty))_delete" data-container="body" data-toggle="popover" data-title="Are you sure?"
+                                data-html="true"
+                                data-content='
+                                    <form id="@(local.Key.Replace(" ",String.Empty))_deleteForm">
+                                        <div class="form-group">
+                                            <input type="hidden" name="pk" value="@local.Key"/>
+                                            <button type="submit" class="btn btn-sm btn-primary">Confirm</button>
+                                            <button id="@(local.Key)_delete_cancel"type="button" class="btn btn-sm btn-default">Cancel</button>
+                                        </div>
+                                    </form>
+                                '>Delete</button>
                     </td>
                 </tr>
 
@@ -106,6 +144,61 @@
 
 @section Scripts{
     <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script>
+        $(function () {
+            $('#addNewKeyName').popover();
+
+            $(document).on('click', '#addNewKeyName_cancel', function (e) {
+                e.preventDefault();
+
+                $('body').on('hidden.bs.popover', function (e) {
+                    $(e.target).data("bs.popover").inState.click = false;
+                });
+
+                $('#addNewKeyName').popover('hide');
+            });
+
+
+
+            $('body').on('mousedown', function (e) {
+                $('#addNewKeyName').each(function () {
+                    //Check if the popover is active / contain an aria-describedby with a value
+                    if ($(this).attr('aria-describedby') != null) {
+                        //Put the value in a variable
+                        var id = $(this).attr('aria-describedby');
+                        if (!$(e.target).closest(".popover-content").length &&
+                            $(e.target).attr("aria-describedby") != id &&
+                            //Look if the click is a child of the popover box or if it's the button itself or a child of the button
+                            !$(e.target).closest('[aria-describedby="' + id + '"').length) {
+                            //trigger a click as if you clicked the button
+                            $('[aria-describedby="' + id + '"]').trigger("click");
+                        }
+                    }
+                });
+            });
+
+            $(document).on('submit', '#addNewKeyName_form', function (e) {
+                e.preventDefault();
+
+                formData = $(this).serialize();
+
+                $.ajax({
+                    url: "api/addNewKeyName",
+                    type: "POST",
+                    data: formData
+                }).done(function (data) {
+                    location.reload();
+                }).fail(function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    $('#addNewKeyName_validation').html(xhr.responseText);
+                    console.log("failed");
+                });
+            });
+
+        });
+    </script>
 
     @foreach (var local in Model.Items)
     {
@@ -126,7 +219,23 @@
                     $('#@local.Key.Replace(" ", String.Empty)_new').popover('hide');
                 });
 
-                $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_form', function (e) {
+                 $('body').on('mousedown', function (e) {
+                        $('#@local.Key.Replace(" ", String.Empty)_new').each(function () {
+                            //Check if the popover is active / contain an aria-describedby with a value
+                            if ($(this).attr('aria-describedby') != null) {
+                                //Put the value in a variable
+                                var id = $(this).attr('aria-describedby');
+                                if (!$(e.target).closest(".popover-content").length &&
+                                    $(e.target).attr("aria-describedby") != id &&
+                                    //Look if the click is a child of the popover box or if it's the button itself or a child of the button
+                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) {
+                                    //trigger a click as if you clicked the button
+                                    $('[aria-describedby="' + id + '"]').trigger("click");
+                                }
+                            }
+                        });
+                    });
+                 $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_form', function (e) {
 
                         formData = $(this).serializeArray();
                         console.log(formData);
@@ -149,8 +258,31 @@
                         e.preventDefault();
                     });
 
-                    $('body').on('mousedown', function (e) {
-                        $('#@local.Key.Replace(" ", String.Empty)_new').each(function () {
+                    $('#@local.Key.Replace(" ", String.Empty)').editable({
+                        error: function (response, newValue) {
+                            if (response.status === 500) {
+                                return 'Service unavailable. Please try later.';
+                            } else {
+                                return 'Value can\'t be null';
+                            }
+                        }
+                    });
+
+
+                $('#@local.Key.Replace(" ", String.Empty)_delete').popover();
+
+                $(document).on('click', '#@(local.Key)_delete_cancel', function (e) {
+                    e.preventDefault();
+
+                    $('body').on('hidden.bs.popover', function (e) {
+                        $(e.target).data("bs.popover").inState.click = false;
+                    });
+
+                    $('#@(local.Key.Replace(" ", String.Empty))_delete').popover('hide');
+                });
+
+                 $('body').on('mousedown', function (e) {
+                        $('#@local.Key.Replace(" ", String.Empty)_delete').each(function () {
                             //Check if the popover is active / contain an aria-describedby with a value
                             if ($(this).attr('aria-describedby') != null) {
                                 //Put the value in a variable
@@ -166,15 +298,25 @@
                         });
                     });
 
+                 $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_deleteForm', function (e) {
 
-                    $('#@local.Key.Replace(" ", String.Empty)').editable({
-                        error: function (response, newValue) {
-                            if (response.status === 500) {
-                                return 'Service unavailable. Please try later.';
-                            } else {
-                                return 'Value can\'t be null';
-                            }
-                        }
+                     formData = $(this).serialize();
+                     console.log(formData);
+
+                        $.ajax({
+                            url: "api/deleteKeyName",
+                            type: "DELETE",
+                            data: formData 
+                        }).done(function (data) {
+                            location.reload();
+                        }).fail(function (xhr, textStatus, errorThrown) {
+                            console.log(xhr.responseText);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                            $('#validation-message').html(xhr.responseText);
+                            console.log("failed");
+                        });
+                        e.preventDefault();
                     });
             });
         </script>
@@ -220,11 +362,6 @@
                      $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm', function (e) {
 
                         formData = $(this).serializeArray();
-                        console.log(formData);
-                        console.log(formData[0].name);
-                        console.log(formData[0].value);
-
-                        //dataString = "pk=" + formData[0].name + "&culture=" + formData[0].value + "&value=" + formData[1].value;
                         dataString = "culture=" + formData[0].name + "&value=" +formData[0].value;
 
                         $.ajax({
@@ -234,11 +371,7 @@
                         }).done(function (data) {
                             location.reload();
                         }).fail(function (xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseText);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-                            $('#validation-message').html(xhr.responseText);
-                            console.log("failed");
+                            alert('delete failed:' + xhr.responseText + ',status:' + textStatus + ',error:' + errorThrown);
                         });
                         e.preventDefault();
                     });
