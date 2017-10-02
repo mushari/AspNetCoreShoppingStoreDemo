@@ -8,21 +8,24 @@ using Newtonsoft.Json;
 using ShoppingStore.Models.LocalizedViewModels;
 using PaginationTagHelper.Extensions;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization;
 
 namespace ShoppingStore.Controllers
 {
     public class LocalizationController : Controller
     {
         private List<JsonLocalizationFormat> jsonLocalization;
-        public LocalizationController()
+        private IStringLocalizer<LocalizationController> localizer;
+        public LocalizationController(IStringLocalizer<LocalizationController> localizer)
         {
             jsonLocalization = JsonConvert.DeserializeObject<List<JsonLocalizationFormat>>(
                 System.IO.File.ReadAllText(@"Resources/localization.json"));
+            this.localizer = localizer;
         }
         public IActionResult Index(LocalizedViewModel model)
         {
 
-            var jsonLocalizedPaging = 
+            var jsonLocalizedPaging =
                 jsonLocalization.ToPageList(model.Page, model.ItemPerPage);
 
             var jsonData = new LocalizedViewModel
@@ -41,21 +44,25 @@ namespace ShoppingStore.Controllers
         {
             if (String.IsNullOrWhiteSpace(pk))
             {
-                return BadRequest("KeyName can't be empty");
+                return BadRequest(new
+                {
+                    keyname = localizer["KeyName"],
+                    notempty = localizer["CannotNullEmpty"]
+                });
             }
 
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
 
             if (!regexItem.IsMatch(pk))
             {
-                return BadRequest("Only words and numbers");
+                return BadRequest(localizer["LettersNumbersOnly"]);
             }
 
             if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(value))
             {
                 var onlyKeyName = new JsonLocalizationFormat
                 {
-                    Key=pk
+                    Key = pk
                 };
                 jsonLocalization.Add(onlyKeyName);
 
@@ -88,19 +95,23 @@ namespace ShoppingStore.Controllers
         {
             if (String.IsNullOrWhiteSpace(value))
             {
-                return BadRequest("Can't be empty or white space");
+                return BadRequest(new
+                {
+                    keyname = localizer["KeyName"],
+                    notempty = localizer["CannotNullEmpty"]
+                });
             }
 
             if (String.IsNullOrWhiteSpace(pk))
             {
-                return NotFound(pk + " Not Found");
+                return NotFound(localizer["NotFound"]);
             }
 
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
 
             if (!regexItem.IsMatch(pk))
             {
-                return BadRequest("Only words and number");
+                return BadRequest(localizer["LettersNumbersOnly"]);
             }
 
             jsonLocalization.Where(data => data.Key == pk)
@@ -124,7 +135,7 @@ namespace ShoppingStore.Controllers
             var keyName = jsonLocalization.FirstOrDefault(p => p.Key == pk);
             if (keyName == null)
             {
-                return NotFound(pk + " not found");
+                return NotFound(localizer["NotFound"]);
             }
 
             jsonLocalization.Remove(keyName);
@@ -141,42 +152,51 @@ namespace ShoppingStore.Controllers
         {
             if (String.IsNullOrWhiteSpace(culture))
             {
-                return BadRequest("Culture value can't be empty or white space");
-            }
-
-            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
-
-            if (!regexItem.IsMatch(culture))
-            {
-                return BadRequest("Only letters and numbers");
-            }
-
-            var jsonData = jsonLocalization.Where(data => data.Key == pk).ToList();
-
-            foreach (var d in jsonData)
-            {
-                if (d.Value.Keys.Any(k => k.Equals(culture, StringComparison.OrdinalIgnoreCase)))
+                return BadRequest(new
                 {
-                    return BadRequest(culture + " has repeated");
-                }
-                d.Value[culture] = value;
+                    culture = localizer["Culture"],
+                    notempty = localizer["CannotNullEmpty"]
+                });
             }
 
-            var output = JsonConvert.SerializeObject(jsonLocalization, Formatting.Indented);
-            System.IO.File.WriteAllText(@"Resources/localization.json", output);
+            var cultureFormat1 = new Regex("^[a-zA-Z]*-[a-zA-Z]*$");
+            var cultureFormat2 = new Regex("^[a-zA-Z]*$");
 
-            return Ok(new { culture, value });
+            if (cultureFormat1.IsMatch(culture) || cultureFormat2.IsMatch(culture))
+            {
+                var jsonData = jsonLocalization.Where(data => data.Key == pk).ToList();
+
+                foreach (var d in jsonData)
+                {
+                    if (d.Value.Keys.Any(k => k.Equals(culture, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        return BadRequest(new { culture = localizer["Culture"], alreadyhave = localizer["AlreadyHave"] });
+                    }
+                    d.Value[culture] = value;
+                }
+
+                var output = JsonConvert.SerializeObject(jsonLocalization, Formatting.Indented);
+                System.IO.File.WriteAllText(@"Resources/localization.json", output);
+
+                return Ok(new { culture, value });
+            }
+            return BadRequest(new
+            {
+                culture = localizer["Culture"],
+                formatnotright = localizer["FormatNotCorrect"]
+            });
         }
 
         [HttpDelete]
         [Route("api/deleteCulture")]
         public IActionResult DeleteCulture(string culture, string value)
         {
-            if (String.IsNullOrWhiteSpace(culture))
-            {
-                return BadRequest("Culture doesn't exist");
-            }
+
             var jsonData = jsonLocalization.Where(d => d.Key == value).ToList();
+            if (jsonData == null)
+            {
+                return NotFound();
+            }
 
             foreach (var data in jsonData)
             {
@@ -195,7 +215,7 @@ namespace ShoppingStore.Controllers
         {
             if (String.IsNullOrWhiteSpace(pk))
             {
-                return NotFound();
+                return NotFound(localizer["NotFound"]);
             }
 
             jsonLocalization.Where(data => data.Key == pk)

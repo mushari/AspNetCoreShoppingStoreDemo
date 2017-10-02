@@ -4,36 +4,36 @@
 @inject IViewLocalizer Localizer
 
 <br />
-<button type="button" id="addNewKeyName" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="Add New KeyName"
+<button type="button" id="addNewKeyName" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
         data-content='
         <div id="addNewKeyName_validation" class="text-danger"></div>
        <form id="addNewKeyName_form">
         <div class="form-group">
-            <label for="addKeyName">KeyName</label>
+            <label for="addKeyName">@Localizer["KeyName"]</label>
             <input id="addKeyName" name="pk"type="text" class="form-control" />
         </div>
         <div class="form-group">
-            <label for="addCulture">Culture</label>
+            <label for="addCulture">@Localizer["Culture"]</label>
             <input id="addCulture" name="culture"type="text" class="form-control" />
         </div>
         <div class="form-group">
-            <label for="addValue">Value</label>
+            <label for="addValue">@Localizer["LocalizedValue"]</label>
             <input id="addValue" name="value"type="text" class="form-control" />
         </div>
         <div class="form-group">
-            <button class="btn btn-primary" type="submit">Add</button>
-            <button id="addNewKeyName_cancel"class="btn btn-default">Cancel</button>
+            <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
+            <button id="addNewKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
         </div>
     </form>
    '>
-    Add New KeyName
+    @Localizer["AddNewKeyName"]
 </button>
 <br />
 <br />
 <div class="panel panel-success">
     <div class="panel panel-heading">
-        @Localizer["Localization Table"]
+        @Localizer["LocalizationTable"]
     </div>
 
     <table class="table table-bordered table-hover">
@@ -44,31 +44,31 @@
                     @Localizer["CultureCode"]
                 </th>
                 <th>@Localizer["LocalizedValue"]</th>
-                <th>@Localizer["Delete Language"]</th>
+                <th>@Localizer["DeleteLanguage"]</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var local in Model.Items)
             {
                 <tr>
-                    <td id="@(local.Key)_td" rowspan="@((int)local.Value.Count()+2)">
+                    <td id="@(local.Key)_td" rowspan="@((int)local.Value.Count() + 2)">
                         <div>
-                            <a href="#" id="@local.Key.Replace(" ",String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="Modified KeyName">
+                            <a href="#" id="@local.Key.Replace(" ", String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="@Localizer["EditKeyName"]">
                                 @local.Key
                             </a>
                         </div>
-                        <br/>
-                        <button class="btn btn-danger" id="@(local.Key.Replace(" ",String.Empty))_delete" data-container="body" data-toggle="popover" data-title="Are you sure?"
+                        <br />
+                        <button class="btn btn-danger" id="@(local.Key.Replace(" ", String.Empty))_delete" data-container="body" data-toggle="popover" data-title="@Localizer["AreYouSure"]"
                                 data-html="true"
                                 data-content='
                                     <form id="@(local.Key.Replace(" ",String.Empty))_deleteForm">
                                         <div class="form-group">
                                             <input type="hidden" name="pk" value="@local.Key"/>
-                                            <button type="submit" class="btn btn-sm btn-primary">Confirm</button>
-                                            <button id="@(local.Key)_delete_cancel"type="button" class="btn btn-sm btn-default">Cancel</button>
+                                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Confirm"]</button>
+                                            <button id="@(local.Key)_delete_cancel"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
                                         </div>
                                     </form>
-                                '>Delete</button>
+                                '>@Localizer["Delete"]</button>
                     </td>
                 </tr>
 
@@ -79,41 +79,41 @@
                             @l.Key
                         </td>
                         <td>
-                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="Modified Localized Value">
+                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">
                                 @l.Value
                             </a>
                         </td>
                         <td>
-                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="Are you sure?"
+                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
                                     data-html="true"
                                     data-content='
                              <div class="text-danger"id="validation-message"></div>
                              <form id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm">
                                  <div class="form-group">
                                      <input type="hidden" value="@local.Key.Replace(" ",String.Empty)" name="@l.Key" class="btn btn-danger" />
-                                     <button type="submit"class="btn btn-sm btn-primary" >Confirm</button>
-                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete">Cancel</button>
+                                     <button type="submit"class="btn btn-sm btn-primary" >@Localizer["Confirm"]</button>
+                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete">@Localizer["Cancel"]</button>
                                  </div>
                              </form>
                             '>
-                            Delete
+                            @Localizer["Delete"]
                         </button>
                         </td>
                     </tr>
                 }
                 <tr>
                     <td>
-                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" title="New lang and value"
+                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" data-placement="left" title="@Localizer["AddNewCulture"]"
                                 data-html="true"
                                 data-content='
-                                <div class="text-danger"id="validation-message"></div>
+                                <div class="text-danger"id="addnewculture-validation-message"></div>
                                 <form id="@(local.Key.Replace(" ",String.Empty))_form">
                                     <div class="form-group">
-                                        <label for="culture-input">Culture</label>
+                                        <label for="culture-input">@Localizer["Culture"]</label>
                                         <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="value-input">Value</label>
+                                        <label for="value-input">@Localizer["LocalizedValue"]</label>
                                         <input id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
@@ -125,7 +125,7 @@
                                         </button>
                                     </div>
                                 </form>'>
-                            Add New Language And Value
+                            @Localizer["AddNewCulture"]
                         </button>
                     </td>
                 </tr>
@@ -138,7 +138,11 @@
             page-action="Index"
             current-page="@Model.Page"
             total-items="@Model.TotalItems"
-            item-per-page="@Model.ItemPerPage">
+            item-per-page="@Model.ItemPerPage"
+            page-first-icon="@Localizer["FirstPage"].Value"
+            page-last-icon="@Localizer["LastPage"].Value"
+            page-previous-icon="@Localizer["PreviousPage"].Value"
+            page-next-icon="@Localizer["NextPage"].Value">
 
 </pagination>
 
@@ -189,10 +193,14 @@
                 }).done(function (data) {
                     location.reload();
                 }).fail(function (xhr, textStatus, errorThrown) {
-                    console.log(xhr.responseText);
+                    console.log(xhr.responseJSON);
                     console.log(textStatus);
                     console.log(errorThrown);
-                    $('#addNewKeyName_validation').html(xhr.responseText);
+                    if (xhr.responseJSON.keyname != null && xhr.responseJSON.notempty != null) {
+                        $('#addNewKeyName_validation').html(xhr.responseJSON.keyname.value + " " + xhr.responseJSON.notempty.value);
+                    }
+                    $('#addNewKeyName_validation').html(xhr.responseJSON.value);
+                    
                     console.log("failed");
                 });
             });
@@ -249,10 +257,28 @@
                         }).done(function (data) {
                             location.reload();
                         }).fail(function (xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseText);
+                            console.log(xhr.responseJSON);
                             console.log(textStatus);
                             console.log(errorThrown);
-                            $('#validation-message').html(xhr.responseText);
+                            if (xhr.responseJSON.culture != null &&
+                                xhr.responseJSON.notempty != null) {
+                                $('#addnewculture-validation-message').html(
+                                    xhr.responseJSON.culture.value + " " +
+                                    xhr.responseJSON.notempty.value);
+                            }
+                            if (xhr.responseJSON.culture != null &&
+                                xhr.responseJSON.alreadyhave != null) {
+                                $('#addnewculture-validation-message').html(
+                                    xhr.responseJSON.culture.value + " " +
+                                    xhr.responseJSON.alreadyhave.value);
+                            }
+                            if (xhr.responseJSON.culture != null &&
+                                xhr.responseJSON.formatnotright != null) {
+                                $('#addnewculture-validation-message').html(
+                                    xhr.responseJSON.culture.value + " " +
+                                    xhr.responseJSON.formatnotright.value);
+                            }
+                            
                             console.log("failed");
                         });
                         e.preventDefault();
@@ -260,10 +286,12 @@
 
                     $('#@local.Key.Replace(" ", String.Empty)').editable({
                         error: function (response, newValue) {
+                            console.log(response);
+
                             if (response.status === 500) {
                                 return 'Service unavailable. Please try later.';
                             } else {
-                                return 'Value can\'t be null';
+                                return response.responseJSON.keyname.value + " " +response.responseJSON.notempty.value;
                             }
                         }
                     });
@@ -306,14 +334,14 @@
                         $.ajax({
                             url: "api/deleteKeyName",
                             type: "DELETE",
-                            data: formData 
+                            data: formData
                         }).done(function (data) {
                             location.reload();
                         }).fail(function (xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseText);
+                            console.log(xhr.response);
                             console.log(textStatus);
                             console.log(errorThrown);
-                            $('#validation-message').html(xhr.responseText);
+                            $('#validation-message').html(xhr.responseJSON.value);
                             console.log("failed");
                         });
                         e.preventDefault();
@@ -371,7 +399,9 @@
                         }).done(function (data) {
                             location.reload();
                         }).fail(function (xhr, textStatus, errorThrown) {
-                            alert('delete failed:' + xhr.responseText + ',status:' + textStatus + ',error:' + errorThrown);
+                                console.log(xhr.responseJSON.value);
+                                console.log(textStatus);
+                                console.log(errorThrown);
                         });
                         e.preventDefault();
                     });
@@ -382,7 +412,7 @@
                             if (response.status === 500) {
                                 return 'Service unavailable. Please try later.';
                             } else {
-                                return 'Value can\'t be null';
+                                return response.responseJSON.value;
                             }
                         }
                     });

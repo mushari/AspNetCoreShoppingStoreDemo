@@ -126,5 +126,164 @@
       "zh-TW": "區域化值"
     },
     "Key": "LocalizedValue"
+  },
+  {
+    "Value": {
+      "en-GB": "Delete Language",
+      "en-US": "Delete Language",
+      "zh-TW": "刪除語系"
+    },
+    "Key": "DeleteLanguage"
+  },
+  {
+    "Value": {
+      "en-GB": "Delete",
+      "zh-TW": "刪除",
+      "en-US": "Delete"
+    },
+    "Key": "Delete"
+  },
+  {
+    "Value": {
+      "en-GB": "Add New KeyName",
+      "zh-TW": "加入新的關鍵詞",
+      "en-US": "Add New KeyName"
+    },
+    "Key": "AddNewKeyName"
+  },
+  {
+    "Value": {
+      "en-GB": "Culture",
+      "en-US": "Culture",
+      "zh-TW": "語系"
+    },
+    "Key": "Culture"
+  },
+  {
+    "Value": {
+      "en-GB": "Add New Culture",
+      "en-US": "Add New Culture",
+      "zh-TW": "加入新的語系"
+    },
+    "Key": "AddNewCulture"
+  },
+  {
+    "Value": {
+      "en-GB": "Add",
+      "zh-TW": "加入",
+      "en-US": "Add"
+    },
+    "Key": "Add"
+  },
+  {
+    "Value": {
+      "zh-TW": "取消",
+      "en-US": "Cancel",
+      "en-GB": "Cancel"
+    },
+    "Key": "Cancel"
+  },
+  {
+    "Value": {
+      "en-GB": "Confirm",
+      "zh-TW": "確定",
+      "en-US": "Confirm"
+    },
+    "Key": "Confirm"
+  },
+  {
+    "Value": {
+      "en-GB": "Edit KeyName",
+      "zh-TW": "編輯關鍵詞"
+    },
+    "Key": "EditKeyName"
+  },
+  {
+    "Value": {
+      "en-GB": "Edit Localized Value",
+      "en-US": "Edit Localized Value",
+      "zh-TW": "編輯區域化值"
+    },
+    "Key": "EditLocalizedValue"
+  },
+  {
+    "Value": {
+      "zh-TW": "你確定?",
+      "en-GB": "Are you Sure?",
+      "en-US": "Are you sure?"
+    },
+    "Key": "AreYouSure"
+  },
+  {
+    "Value": {
+      "en-GB": "First",
+      "zh-TW": "頁首",
+      "en-US": "First"
+    },
+    "Key": "FirstPage"
+  },
+  {
+    "Value": {
+      "zh-TW": "頁尾",
+      "en-GB": "Last",
+      "en-US": "Last"
+    },
+    "Key": "LastPage"
+  },
+  {
+    "Value": {
+      "en-GB": "Previous",
+      "zh-TW": "上一頁",
+      "en-US": "Previous"
+    },
+    "Key": "PreviousPage"
+  },
+  {
+    "Value": {
+      "en-GB": "Next",
+      "en-US": "Next",
+      "zh-TW": "下一頁"
+    },
+    "Key": "NextPage"
+  },
+  {
+    "Value": {
+      "en-GB": "Only use letters and numbers",
+      "en-US": "Only use letters and numbers",
+      "zh-TW": "只接受數字或英文字母"
+    },
+    "Key": "LettersNumbersOnly"
+  },
+  {
+    "Value": {
+      "en-GB": "can't be empty or white space",
+      "zh-TW": "不能為空白",
+      "en-US": "can't be empty or white space"
+    },
+    "Key": "CannotNullEmpty"
+  },
+  {
+    "Value": {
+      "en-GB": "Not Found",
+      "en-US": "Not Found",
+      "zh-TW": "找不到"
+    },
+    "Key": "NotFound"
+  },
+  {
+    "Value": {
+      "en-GB": "\tnot courrect format",
+      "en-US": "not courrect format",
+      "zh-TW": "不正確格式"
+    },
+    "Key": "FormatNotCorrect"
+  },
+  {
+    "Value": {
+      "en-GB": "already have",
+      "en-US": "already have",
+      "zh-TW": "已經重複"
+    },
+    "Key": "AlreadyHave"
   }
 ]
