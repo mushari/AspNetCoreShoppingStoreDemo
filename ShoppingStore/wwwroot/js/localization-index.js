@@ -30,10 +30,7 @@ var click_backgroud_cancel_popover = function(popover_btn_id) {
     });
 }
 
-var addPopover = function(cancel_btn_id, popover_btn_id, popover_mode) {
-
-    $.fn.editable.defaults.mode = popover_mode;
-
+var addPopover = function(cancel_btn_id, popover_btn_id) {
     $(popover_btn_id).popover();
     cancel_btn(cancel_btn_id, popover_btn_id);
     click_backgroud_cancel_popover(popover_btn_id);
