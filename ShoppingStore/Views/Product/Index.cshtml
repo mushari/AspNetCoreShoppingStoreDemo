@@ -51,12 +51,16 @@
         </div>
     </div>
 }
-<a href="@Url.Action("AddProduct","Product")" class="btn btn-primary">Add New Product</a>
+<a href="@Url.Action("AddProduct","Product")" class="btn btn-primary">@Localizer["AddNewProduct"]</a>
 
 <pagination item-per-page="Model.ItemPerPage"
             current-page="Model.Page"
             total-items="Model.TotalItems"
             page-controller="Product"
-            page-action="Index">
+            page-action="Index"
+            page-first-icon="@Localizer["FirstPage"].Value"
+            page-last-icon="@Localizer["LastPage"].Value"
+            page-previous-icon="@Localizer["PreviousPage"].Value"
+            page-next-icon="@Localizer["NextPage"].Value">
 </pagination>
 

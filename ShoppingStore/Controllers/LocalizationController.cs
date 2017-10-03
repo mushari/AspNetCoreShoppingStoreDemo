@@ -25,15 +25,21 @@ namespace ShoppingStore.Controllers
         public IActionResult Index(LocalizedViewModel model)
         {
 
-            var jsonLocalizedPaging =
-                jsonLocalization.ToPageList(model.Page, model.ItemPerPage);
+            var localizationList = jsonLocalization.AsQueryable();
+
+            var searchLocalizationList = localizationList.ToSearchByList(model.SearchType, model.SearchItem);
+
+            localizationList =
+                searchLocalizationList.ToPageList(model.Page, model.ItemPerPage);
 
             var jsonData = new LocalizedViewModel
             {
                 Page = model.Page,
                 ItemPerPage = model.ItemPerPage,
-                Items = jsonLocalizedPaging,
-                TotalItems = jsonLocalization.Count()
+                Items = localizationList,
+                TotalItems = searchLocalizationList.Count(),
+                SearchItem=model.SearchItem,
+                SearchType=model.SearchType
             };
             return View(jsonData);
         }

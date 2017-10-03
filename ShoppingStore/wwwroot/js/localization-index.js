@@ -125,6 +125,7 @@ var deleteKeyName_ajax = function(delete_form_id) {
 
 var editable_ajax = function(id) {
     $(id).editable({
+       
         success: function(response, newValue) {
             location.reload();
         },

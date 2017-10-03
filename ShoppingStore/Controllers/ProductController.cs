@@ -28,6 +28,7 @@ namespace ShoppingStore.Controllers
 
             model.ItemPerPage = 5;
 
+
             products = products.ToPageList(model.Page, model.ItemPerPage);
 
             ProductViewModel productViewModel = new ProductViewModel

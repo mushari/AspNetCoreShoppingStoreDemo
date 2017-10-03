@@ -287,7 +287,11 @@
     "Key": "AlreadyHave"
   },
   {
-    "Value": {},
-    "Key": "adsf"
+    "Value": {
+      "zh-TW": "加入新產品",
+      "en-GB": "Add New Product",
+      "en-US": "Add New Product"
+    },
+    "Key": "AddNewProduct"
   }
 ]

@@ -4,6 +4,32 @@
 @inject IViewLocalizer Localizer
 
 <br />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <form method="get" asp-action="Index" asp-controller="Localization" class="input-group">
+                @*<div class="input-group-btn search-panel">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#contains">Contains</a></li>
+                            <li><a href="#its_equal">It's equal</a></li>
+                            <li><a href="#greather_than">Greather than ></a></li>
+                            <li><a href="#less_than">Less than < </a></li>
+                            <li class="divider"></li>
+                            <li><a href="#all">Anything</a></li>
+                        </ul>
+                    </div>*@
+                <input type="hidden" name="searchType" value="Key" id="search_param">
+                <input type="text" class="form-control" name="searchItem" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
 
 <button type="button" id="addKeyName_pop" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
@@ -20,7 +46,7 @@
         </div>
         <div class="form-group">
             <label for="addValue">@Localizer["LocalizedValue"]</label>
-            <input id="addValue" name="value"type="text" class="form-control" />
+            <textarea  rows="10" class="form-control"></textarea>
         </div>
         <div class="form-group">
             <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
@@ -80,9 +106,7 @@
                             @l.Key
                         </td>
                         <td>
-                            <a href="#" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_editCultureValue_pop" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">
-                                @l.Value
-                            </a>
+                            <a href="#" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_editCultureValue_pop" data-type="textarea" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">@l.Value</a>
                         </td>
                         <td>
                             <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteCulture_pop" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
@@ -115,14 +139,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="value-input">@Localizer["LocalizedValue"]</label>
-                                        <input id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
+                                        <textarea rows="10" id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-sm">
                                            @Localizer["Confirm"]
                                         </button>
                                         <button id="@(local.Key.Replace(" ",String.Empty))_cancelAddCultureForm" type="button" class="btn btn-default btn-sm">
-                                           @Localizer["Cancel"] 
+                                           @Localizer["Cancel"]
                                         </button>
                                     </div>
                                 </form>'>
@@ -143,8 +167,11 @@
             page-first-icon="@Localizer["FirstPage"].Value"
             page-last-icon="@Localizer["LastPage"].Value"
             page-previous-icon="@Localizer["PreviousPage"].Value"
-            page-next-icon="@Localizer["NextPage"].Value">
-
+            page-next-icon="@Localizer["NextPage"].Value"
+            page-query-options="{
+                SearchItem:'@Model.SearchItem',
+                SearchType:'@Model.SearchType'
+            }">
 </pagination>
 
 @section Scripts{
