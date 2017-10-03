@@ -4,11 +4,11 @@
 @inject IViewLocalizer Localizer
 
 <br />
-<button type="button" id="addNewKeyName" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
+<button type="button" id="addKeyName_pop" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
         data-content='
-        <div id="addNewKeyName_validation" class="text-danger"></div>
-       <form id="addNewKeyName_form">
+        <div id="addKeyName_validation" class="text-danger"></div>
+       <form id="addKeyName_form">
         <div class="form-group">
             <label for="addKeyName">@Localizer["KeyName"]</label>
             <input id="addKeyName" name="pk"type="text" class="form-control" />
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
-            <button id="addNewKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
+            <button id="addKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
         </div>
     </form>
    '>
@@ -51,21 +51,21 @@
             @foreach (var local in Model.Items)
             {
                 <tr>
-                    <td id="@(local.Key)_td" rowspan="@((int)local.Value.Count() + 2)">
+                    <td rowspan="@((int)local.Value.Count() + 2)">
                         <div>
-                            <a href="#" id="@local.Key.Replace(" ", String.Empty)" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="@Localizer["EditKeyName"]">
+                            <a href="#" id="@(local.Key.Replace(" ", String.Empty))_editKeyName_pop" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="@Localizer["EditKeyName"]">
                                 @local.Key
                             </a>
                         </div>
                         <br />
-                        <button class="btn btn-danger" id="@(local.Key.Replace(" ", String.Empty))_delete" data-container="body" data-toggle="popover" data-title="@Localizer["AreYouSure"]"
+                        <button class="btn btn-danger" id="@(local.Key.Replace(" ", String.Empty))_deleteKeyName_pop" data-container="body" data-toggle="popover" data-title="@Localizer["AreYouSure"]"
                                 data-html="true"
                                 data-content='
-                                    <form id="@(local.Key.Replace(" ",String.Empty))_deleteForm">
+                                    <form id="@(local.Key.Replace(" ",String.Empty))_deleteKeyNameForm">
                                         <div class="form-group">
                                             <input type="hidden" name="pk" value="@local.Key"/>
                                             <button type="submit" class="btn btn-sm btn-primary">@Localizer["Confirm"]</button>
-                                            <button id="@(local.Key)_delete_cancel"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
+                                            <button id="@(local.Key.Replace(" ",String.Empty))_cancelKeyNameForm"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
                                         </div>
                                     </form>
                                 '>@Localizer["Delete"]</button>
@@ -79,20 +79,20 @@
                             @l.Key
                         </td>
                         <td>
-                            <a href="#" id="@local.Key.Replace(" ",String.Empty)_@(l.Key)" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">
+                            <a href="#" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_editCultureValue_pop" data-type="text" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">
                                 @l.Value
                             </a>
                         </td>
                         <td>
-                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
+                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteCulture_pop" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
                                     data-html="true"
                                     data-content='
                              <div class="text-danger"id="validation-message"></div>
-                             <form id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm">
+                             <form id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteCultureForm">
                                  <div class="form-group">
                                      <input type="hidden" value="@local.Key.Replace(" ",String.Empty)" name="@l.Key" class="btn btn-danger" />
                                      <button type="submit"class="btn btn-sm btn-primary" >@Localizer["Confirm"]</button>
-                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete">@Localizer["Cancel"]</button>
+                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDeleteCultureForm">@Localizer["Cancel"]</button>
                                  </div>
                              </form>
                             '>
@@ -103,11 +103,11 @@
                 }
                 <tr>
                     <td>
-                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_new" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" data-placement="left" title="@Localizer["AddNewCulture"]"
+                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_addCulture_pop" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" data-placement="left" title="@Localizer["AddNewCulture"]"
                                 data-html="true"
                                 data-content='
                                 <div class="text-danger"id="addnewculture-validation-message"></div>
-                                <form id="@(local.Key.Replace(" ",String.Empty))_form">
+                                <form id="@(local.Key.Replace(" ",String.Empty))_addCultureForm">
                                     <div class="form-group">
                                         <label for="culture-input">@Localizer["Culture"]</label>
                                         <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
@@ -120,7 +120,7 @@
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             <i class="glyphicon glyphicon-ok"></i>
                                         </button>
-                                        <button id="@(local.Key)_cancel" type="button" class="btn btn-default btn-sm">
+                                        <button id="@(local.Key.Replace(" ",String.Empty))_cancelAddCultureForm" type="button" class="btn btn-default btn-sm">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </button>
                                     </div>
@@ -148,160 +148,32 @@
 
 @section Scripts{
     <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script src="~/js/localization-index.js"></script>
+
     <script>
         $(function () {
-            $('#addNewKeyName').popover();
-
-            $(document).on('click', '#addNewKeyName_cancel', function (e) {
-                e.preventDefault();
-
-                $('body').on('hidden.bs.popover', function (e) {
-                    $(e.target).data("bs.popover").inState.click = false;
-                });
-
-                $('#addNewKeyName').popover('hide');
-            });
-
-
-
-            $('body').on('mousedown', function (e) {
-                $('#addNewKeyName').each(function () {
-                    //Check if the popover is active / contain an aria-describedby with a value
-                    if ($(this).attr('aria-describedby') != null) {
-                        //Put the value in a variable
-                        var id = $(this).attr('aria-describedby');
-                        if (!$(e.target).closest(".popover-content").length &&
-                            $(e.target).attr("aria-describedby") != id &&
-                            //Look if the click is a child of the popover box or if it's the button itself or a child of the button
-                            !$(e.target).closest('[aria-describedby="' + id + '"').length) {
-                            //trigger a click as if you clicked the button
-                            $('[aria-describedby="' + id + '"]').trigger("click");
-                        }
-                    }
-                });
-            });
-
-            $(document).on('submit', '#addNewKeyName_form', function (e) {
-                e.preventDefault();
-
-                formData = $(this).serialize();
-
-                $.ajax({
-                    url: "api/addNewKeyName",
-                    type: "POST",
-                    data: formData
-                }).done(function (data) {
-                    location.reload();
-                }).fail(function (xhr, textStatus, errorThrown) {
-                    console.log(xhr.responseJSON);
-                    console.log(textStatus);
-                    console.log(errorThrown);
-                    if (xhr.responseJSON.keyname != null && xhr.responseJSON.notempty != null) {
-                        $('#addNewKeyName_validation').html(xhr.responseJSON.keyname.value + " " + xhr.responseJSON.notempty.value);
-                    }
-                    $('#addNewKeyName_validation').html(xhr.responseJSON.value);
-                    
-                    console.log("failed");
-                });
-            });
-
+            addPopover('#addKeyName_cancel', '#addKeyName_pop', 'popover');
+            addNewKeyName_ajax('#addKeyName_form', '#addKeyName_validation');
         });
     </script>
 
     @foreach (var local in Model.Items)
     {
         <script>
-            $.fn.editable.defaults.mode = "popup";
-
             $(function () {
+                var editableKeyName_id = "#@(local.Key.Replace(" ", String.Empty))_editKeyName_pop";
+                editable_ajax(editableKeyName_id);
 
-                $('#@local.Key.Replace(" ", String.Empty)_new').popover();
+                var deleteKeyName_pop_id = "#@(local.Key.Replace(" ", String.Empty))_deleteKeyName_pop";
+                var cancelDeleteKeyNameForm_id = "#@(local.Key.Replace(" ",String.Empty))_cancelKeyNameForm";
+                addPopover(cancelDeleteKeyNameForm_id, deleteKeyName_pop_id, "popup");
 
-                $(document).on('click', '#@(local.Key)_cancel', function (e) {
-                    e.preventDefault();
+                var deleteKeyName_form_id = "#@(local.Key.Replace(" ",String.Empty))_deleteKeyNameForm";
+                deleteKeyName_ajax(deleteKeyName_form_id);
+//----------------------------------------------------------
+               
 
-                    $('body').on('hidden.bs.popover', function (e) {
-                        $(e.target).data("bs.popover").inState.click = false;
-                    });
-
-                    $('#@local.Key.Replace(" ", String.Empty)_new').popover('hide');
-                });
-
-                 $('body').on('mousedown', function (e) {
-                        $('#@local.Key.Replace(" ", String.Empty)_new').each(function () {
-                            //Check if the popover is active / contain an aria-describedby with a value
-                            if ($(this).attr('aria-describedby') != null) {
-                                //Put the value in a variable
-                                var id = $(this).attr('aria-describedby');
-                                if (!$(e.target).closest(".popover-content").length &&
-                                    $(e.target).attr("aria-describedby") != id &&
-                                    //Look if the click is a child of the popover box or if it's the button itself or a child of the button
-                                    !$(e.target).closest('[aria-describedby="' + id + '"').length) {
-                                    //trigger a click as if you clicked the button
-                                    $('[aria-describedby="' + id + '"]').trigger("click");
-                                }
-                            }
-                        });
-                    });
-                 $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_form', function (e) {
-
-                        formData = $(this).serializeArray();
-                        console.log(formData);
-
-                        dataString = "pk=" + formData[0].name + "&culture=" + formData[0].value + "&value=" + formData[1].value;
-
-                        $.ajax({
-                            url: "api/addNewCulture",
-                            type: "POST",
-                            data: dataString
-                        }).done(function (data) {
-                            location.reload();
-                        }).fail(function (xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseJSON);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-                            if (xhr.responseJSON.culture != null &&
-                                xhr.responseJSON.notempty != null) {
-                                $('#addnewculture-validation-message').html(
-                                    xhr.responseJSON.culture.value + " " +
-                                    xhr.responseJSON.notempty.value);
-                            }
-                            if (xhr.responseJSON.culture != null &&
-                                xhr.responseJSON.alreadyhave != null) {
-                                $('#addnewculture-validation-message').html(
-                                    xhr.responseJSON.culture.value + " " +
-                                    xhr.responseJSON.alreadyhave.value);
-                            }
-                            if (xhr.responseJSON.culture != null &&
-                                xhr.responseJSON.formatnotright != null) {
-                                $('#addnewculture-validation-message').html(
-                                    xhr.responseJSON.culture.value + " " +
-                                    xhr.responseJSON.formatnotright.value);
-                            }
-                            
-                            console.log("failed");
-                        });
-                        e.preventDefault();
-                    });
-
-                    $('#@local.Key.Replace(" ", String.Empty)').editable({
-                        error: function (response, newValue) {
-                            console.log(response);
-
-                            if (response.status === 500) {
-                                return 'Service unavailable. Please try later.';
-                            } else {
-                                if (response.responseJSON.keyname != null &&
-                                    response.responseJSON.notempty != null) {
-                                    return response.responseJSON.keyname.value + " " + response.responseJSON.notempty.value;
-                                }
-                                return response.responseJSON.value;
-                            }
-                        }
-                    });
-
-
-                $('#@local.Key.Replace(" ", String.Empty)_delete').popover();
+                @*$('#@local.Key.Replace(" ", String.Empty)_delete').popover();
 
                 $(document).on('click', '#@(local.Key)_delete_cancel', function (e) {
                     e.preventDefault();
@@ -328,9 +200,9 @@
                                 }
                             }
                         });
-                    });
+                    });*@
 
-                 $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_deleteForm', function (e) {
+                 @*$(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_deleteForm', function (e) {
 
                      formData = $(this).serialize();
                      console.log(formData);
@@ -349,7 +221,7 @@
                             console.log("failed");
                         });
                         e.preventDefault();
-                    });
+                    });*@
             });
         </script>
     }
@@ -361,8 +233,17 @@
         {
             <script>
                 $(function () {
+                    var deleteCultureId = '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete';
+                    var deleteCultureCancelId = '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete';
+                    addPopover(deleteCultureCancelId,deleteCultureId);
 
-                    $('#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete').popover();
+                    var deleteCultureForm = '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm';
+                    deleteCulture_ajax(deleteCultureForm);
+
+                    var cultureEditableId = '#@local.Key.Replace(" ", String.Empty)_@(l.Key)'
+                    btnEditable(cultureEditableId);
+
+                    @*$('#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_btnDelete').popover();
 
                     $(document).on('click', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDelete', function (e) {
                         e.preventDefault();
@@ -389,9 +270,9 @@
                                 }
                             }
                         });
-                    });
+                    });*@
 
-                     $(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm', function (e) {
+                     @*$(document).on('submit', '#@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteForm', function (e) {
 
                         formData = $(this).serializeArray();
                         dataString = "culture=" + formData[0].name + "&value=" +formData[0].value;
@@ -408,10 +289,10 @@
                                 console.log(errorThrown);
                         });
                         e.preventDefault();
-                    });
+                    });*@
 
 
-                    $('#@local.Key.Replace(" ", String.Empty)_@(l.Key)').editable({
+                    @*$('#@local.Key.Replace(" ", String.Empty)_@(l.Key)').editable({
                         error: function (response, newValue) {
                             if (response.status === 500) {
                                 return 'Service unavailable. Please try later.';
@@ -419,7 +300,7 @@
                                 return response.responseJSON.value;
                             }
                         }
-                    });
+                    });*@
                 })
             </script>
         }}

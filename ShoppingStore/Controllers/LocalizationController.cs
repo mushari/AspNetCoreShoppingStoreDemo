@@ -51,6 +51,12 @@ namespace ShoppingStore.Controllers
                 });
             }
 
+            if (jsonLocalization.Any(l => l.Key.Equals(pk)))
+            {
+                return BadRequest(localizer["AlreadyHave"]);
+            }
+
+
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
 
             if (!regexItem.IsMatch(pk))
@@ -100,6 +106,11 @@ namespace ShoppingStore.Controllers
                     keyname = localizer["KeyName"],
                     notempty = localizer["CannotNullEmpty"]
                 });
+            }
+
+            if (jsonLocalization.Any(l => l.Key.Equals(value)))
+            {
+                return BadRequest(localizer["AlreadyHave"]);
             }
 
             if (String.IsNullOrWhiteSpace(pk))
