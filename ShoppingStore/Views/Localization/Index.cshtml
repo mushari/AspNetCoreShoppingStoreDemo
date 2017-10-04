@@ -66,64 +66,74 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var local in Model.Items)
+            @if (Model.Items.Count() == 0)
             {
                 <tr>
-                    <td rowspan="@((int)local.Value.Count() + 2)">
-                        <div>
-                            <a href="#" id="@(local.Key.Replace(" ", String.Empty))_editKeyName_pop" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="@Localizer["EditKeyName"]">
-                                @local.Key
-                            </a>
-                        </div>
-                        <br />
-                        <button class="btn btn-danger" id="@(local.Key.Replace(" ", String.Empty))_deleteKeyName_pop" data-container="body" data-toggle="popover" data-title="@Localizer["AreYouSure"]"
-                                data-html="true"
-                                data-content='
-                                    <form id="@(local.Key.Replace(" ",String.Empty))_deleteKeyNameForm">
+                    <td colspan="5" class="text-center text-danger">
+                        <span style="font-size:40px;">@Localizer["NoResultsMatch"]</span>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var local in Model.Items)
+                {
+                    <tr>
+                        <td rowspan="@((int)local.Value.Count() + 2)">
+                            <div>
+                                <a href="#" id="@(local.Key.Replace(" ", String.Empty))_editKeyName_pop" data-type="text" data-pk="@local.Key" data-url="/api/editkeyname" data-title="@Localizer["EditKeyName"]">
+                                    @local.Key
+                                </a>
+                            </div>
+                            <br />
+                            <button class="btn btn-danger" id="@(local.Key.Replace(" ", String.Empty))_deleteKeyName_pop" data-container="body" data-toggle="popover" data-title="@Localizer["AreYouSure"]"
+                                    data-html="true"
+                                    data-content='
+                                    <form id="@(local.Key.Replace(" ", String.Empty))_deleteKeyNameForm">
                                         <div class="form-group">
                                             <input type="hidden" name="pk" value="@local.Key"/>
                                             <button type="submit" class="btn btn-sm btn-primary">@Localizer["Confirm"]</button>
-                                            <button id="@(local.Key.Replace(" ",String.Empty))_cancelKeyNameForm"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
+                                            <button id="@(local.Key.Replace(" ", String.Empty))_cancelKeyNameForm"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
                                         </div>
                                     </form>
                                 '>@Localizer["Delete"]</button>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
 
-                @foreach (var l in local.Value)
-                {
-                    <tr>
-                        <td>
-                            @l.Key
-                        </td>
-                        <td>
-                            <a href="#" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_editCultureValue_pop" data-type="textarea" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">@l.Value</a>
-                        </td>
-                        <td>
-                            <button type="button" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteCulture_pop" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
-                                    data-html="true"
-                                    data-content='
+                    @foreach (var l in local.Value)
+                    {
+                        <tr>
+                            <td>
+                                @l.Key
+                            </td>
+                            <td>
+                                <a href="#" id="@(local.Key.Replace(" ", String.Empty))_@(l.Key)_editCultureValue_pop" data-type="textarea" data-pk="@local.Key" data-name="@l.Key" data-url="api/editvalue" data-title="@Localizer["EditLocalizedValue"]">@l.Value</a>
+                            </td>
+                            <td>
+                                <button type="button" id="@(local.Key.Replace(" ", String.Empty))_@(l.Key)_deleteCulture_pop" data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
+                                        data-html="true"
+                                        data-content='
                              <div class="text-danger"id="validation-message"></div>
-                             <form id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_deleteCultureForm">
+                             <form id="@(local.Key.Replace(" ", String.Empty))_@(l.Key)_deleteCultureForm">
                                  <div class="form-group">
-                                     <input type="hidden" value="@local.Key.Replace(" ",String.Empty)" name="@l.Key" class="btn btn-danger" />
+                                     <input type="hidden" value="@local.Key.Replace(" ", String.Empty)" name="@l.Key" class="btn btn-danger" />
                                      <button type="submit"class="btn btn-sm btn-primary" >@Localizer["Confirm"]</button>
-                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ",String.Empty))_@(l.Key)_cancelDeleteCultureForm">@Localizer["Cancel"]</button>
+                                     <button type="button" class="btn btn-default" id="@(local.Key.Replace(" ", String.Empty))_@(l.Key)_cancelDeleteCultureForm">@Localizer["Cancel"]</button>
                                  </div>
                              </form>
                             '>
                             @Localizer["Delete"]
                         </button>
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <td>
-                        <button type="button" id="@(local.Key.Replace(" ",String.Empty))_addCulture_pop" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" data-placement="left" title="@Localizer["AddNewCulture"]"
-                                data-html="true"
-                                data-content='
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <button type="button" id="@(local.Key.Replace(" ", String.Empty))_addCulture_pop" class="btn btn-sm btn-success" data-container="body" data-toggle="popover" data-placement="left" title="@Localizer["AddNewCulture"]"
+                                    data-html="true"
+                                    data-content='
                                 <div class="text-danger"id="addculture-validation-message"></div>
-                                <form id="@(local.Key.Replace(" ",String.Empty))_addCultureForm">
+                                <form id="@(local.Key.Replace(" ", String.Empty))_addCultureForm">
                                     <div class="form-group">
                                         <label for="culture-input">@Localizer["Culture"]</label>
                                         <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
@@ -136,15 +146,16 @@
                                         <button type="submit" class="btn btn-primary btn-sm">
                                            @Localizer["Confirm"]
                                         </button>
-                                        <button id="@(local.Key.Replace(" ",String.Empty))_cancelAddCultureForm" type="button" class="btn btn-default btn-sm">
+                                        <button id="@(local.Key.Replace(" ", String.Empty))_cancelAddCultureForm" type="button" class="btn btn-default btn-sm">
                                            @Localizer["Cancel"]
                                         </button>
                                     </div>
                                 </form>'>
                             @Localizer["AddNewCulture"]
                         </button>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -235,8 +246,8 @@
                             text = '@Localizer["Showing"] <strong>' + result.length + '</strong> @Localizer["KeywordMatch"]: "' + query + '"';
                         } else if (result.length===0){
                             text = '@Localizer["NoResultsMatch"] \"' + query + '"';
-                        } 
-                        
+                        }
+
                         $('#result-container').html(text).attr('class','text-danger');
 
                     },
