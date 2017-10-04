@@ -2,34 +2,27 @@
 @model LocalizedViewModel
 
 @inject IViewLocalizer Localizer
+<var id="result-container" class="result-container"></var>
+<var id="result-container" class="result-container"></var>
 
-<br />
-<div class="container">
-    <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
-            <form method="get" asp-action="Index" asp-controller="Localization" class="input-group">
-                @*<div class="input-group-btn search-panel">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span id="search_concept">Filter by</span> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#contains">Contains</a></li>
-                            <li><a href="#its_equal">It's equal</a></li>
-                            <li><a href="#greather_than">Greather than ></a></li>
-                            <li><a href="#less_than">Less than < </a></li>
-                            <li class="divider"></li>
-                            <li><a href="#all">Anything</a></li>
-                        </ul>
-                    </div>*@
-                <input type="hidden" name="searchType" value="Key" id="search_param">
-                <input type="text" class="form-control" name="searchItem" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                </span>
-            </form>
+<br/>
+<form method="get" asp-action="Index" asp>
+    <div class="typeahead__container">
+        <div class="typeahead__field">
+
+            <span class="typeahead__query">
+                <input class="search-typeahead" name="searchItem" type="search" placeholder="Search" autocomplete="off">
+            </span>
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-danger">
+                    <i class="typeahead__search-icon"></i>
+                </button>
+            </span>
         </div>
     </div>
-</div>
+</form>
+<br />
+
 
 <button type="button" id="addKeyName_pop" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
@@ -45,7 +38,7 @@
             <input id="addCulture" name="culture"type="text" class="form-control" />
         </div>
         <div class="form-group">
-            <label for="addValue">@Localizer["LocalizedValue"]</label>
+            <label for="addValue">@Localizer["Localized_Value"]</label>
             <textarea  rows="10" class="form-control"></textarea>
         </div>
         <div class="form-group">
@@ -70,7 +63,7 @@
                 <th>
                     @Localizer["CultureCode"]
                 </th>
-                <th>@Localizer["LocalizedValue"]</th>
+                <th>@Localizer["Localized_Value"]</th>
                 <th>@Localizer["DeleteLanguage"]</th>
             </tr>
         </thead>
@@ -138,7 +131,7 @@
                                         <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="value-input">@Localizer["LocalizedValue"]</label>
+                                        <label for="value-input">@Localizer["Localized_Value"]</label>
                                         <textarea rows="10" id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
@@ -170,7 +163,6 @@
             page-next-icon="@Localizer["NextPage"].Value"
             page-query-options="{
                 SearchItem:'@Model.SearchItem',
-                SearchType:'@Model.SearchType'
             }">
 </pagination>
 
@@ -186,6 +178,70 @@
             // Add new key name
             addPopover('#addKeyName_cancel', '#addKeyName_pop');
             addNewKeyName_ajax('#addKeyName_form', '#addKeyName_validation');
+
+            $.typeahead({
+                input: ".search-typeahead",
+                minLength: 1,
+                maxLength:20,
+                hint:true,
+                order: "asc",
+                highlight:true,
+                template: "{{display}} <small style='color:#999;'>{{group}}</small>",
+                source: {
+                   @Localizer["KeyName"]: {
+                        // Ajax Request
+                        ajax: {
+                            type: "GET",
+                            url: "api/getKeyNamesData",
+                           
+                        }
+                    },
+                    @Localizer["LocalizedValue"]: {
+                        ajax: {
+                            type: "GET",
+                            url: "api/getLocalizedValuesData",
+                        }
+
+                    }
+                },
+                callback: {
+                    onNavigateAfter: function (node, lis, a, item, query, event) {
+                        if (~[38, 40].indexOf(event.keyCode)) {
+                            var resultList = node.closest("form").find("ul.typeahead__list"),
+                                activeLi = lis.filter("li.active"),
+                                offsetTop = activeLi[0] && activeLi[0].offsetTop - (resultList.height() / 2) || 0;
+                            resultList.scrollTop(offsetTop);
+                        }
+
+                    },
+                    onResult: function (node, query, result, resultCount) {
+                        if (query === "") return;
+
+                        var text = "";
+                        if (result.length > 0 && result.length < resultCount) {
+                            text = "Showing <strong>" + result.length + "</strong> of <strong>" + resultCount + '</strong> elements matching "' + query + '"';
+                        } else if (result.length > 0) {
+                            text = 'Showing <strong>' + result.length + '</strong> elements matching "' + query + '"';
+                        } else {
+                            text = 'No results matching "' + query + '"';
+                        }
+                        $('#result-container').html(text);
+
+                    },
+                    onMouseEnter: function (node, a, item, event) {
+
+                        if (item.group === "country") {
+                            $(a).append('<span class="flag-chart flag-' + item.display.replace(' ', '-').toLowerCase() + '"></span>')
+                        }
+
+                    },
+                    onMouseLeave: function (node, a, item, event) {
+
+                        $(a).find('.flag-chart').remove();
+
+                    }
+                }
+            });
         });
     </script>
 

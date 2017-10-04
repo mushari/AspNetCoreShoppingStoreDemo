@@ -121,8 +121,8 @@
   },
   {
     "Value": {
-      "en-GB": "Localized Value",
-      "en-US": "Localized Value",
+      "en-GB": "LocalizedValue",
+      "en-US": "LocalizedValue",
       "zh-TW": "區域化值"
     },
     "Key": "LocalizedValue"
@@ -293,5 +293,17 @@
       "en-US": "Add New Product"
     },
     "Key": "AddNewProduct"
+  },
+  {
+    "Value": {
+      "en-GB": "Localized Value",
+      "en-US": "Localized Value",
+      "zh-TW": "區域值"
+    },
+    "Key": "Localized_Value"
+  },
+  {
+    "Value": {},
+    "Key": "aa"
   }
 ]

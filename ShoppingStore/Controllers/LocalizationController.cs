@@ -25,23 +25,63 @@ namespace ShoppingStore.Controllers
         public IActionResult Index(LocalizedViewModel model)
         {
 
-            var localizationList = jsonLocalization.AsQueryable();
+            var dataList = new List<JsonLocalizationFormat>();
+            if (model.SearchItem != null)
+            {
+                dataList = jsonLocalization.Where(
+                    d => d.Key.Contains(model.SearchItem) ||
+                    d.Value.Values.Any(v => v.Equals(model.SearchItem, StringComparison.OrdinalIgnoreCase))).ToList();
+            }
+            else
+            {
+                dataList = jsonLocalization.ToList();
+            }
 
-            var searchLocalizationList = localizationList.ToSearchByList(model.SearchType, model.SearchItem);
-
-            localizationList =
-                searchLocalizationList.ToPageList(model.Page, model.ItemPerPage);
+            var pageList = dataList.ToPageList(model.Page, model.ItemPerPage);
 
             var jsonData = new LocalizedViewModel
             {
                 Page = model.Page,
                 ItemPerPage = model.ItemPerPage,
-                Items = localizationList,
-                TotalItems = searchLocalizationList.Count(),
-                SearchItem=model.SearchItem,
-                SearchType=model.SearchType
+                Items = pageList,
+                TotalItems = dataList.Count(),
+                SearchItem = model.SearchItem
             };
             return View(jsonData);
+        }
+
+
+        [HttpGet]
+        [Route("api/getKeyNamesData")]
+        public IActionResult GetKeyNamesData()
+        {
+            List<string> keyNames = new List<string>();
+            foreach (var item in jsonLocalization)
+            {
+                keyNames.Add(item.Key);
+            }
+
+            var KeyName = JsonConvert.SerializeObject(keyNames);
+
+            return Ok(KeyName);
+        }
+
+        [HttpGet]
+        [Route("api/getLocalizedValuesData")]
+        public IActionResult GetLocalizedValuesData()
+        {
+            List<string> values = new List<string>();
+            foreach (var item in jsonLocalization)
+            {
+                foreach (var value in item.Value.Values)
+                {
+                    values.Add(value);
+                }
+            }
+
+            var LocalizedValue = JsonConvert.SerializeObject(values);
+
+            return Ok(LocalizedValue);
         }
 
         [HttpPost]
@@ -63,12 +103,18 @@ namespace ShoppingStore.Controllers
             }
 
 
-            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            var regexItem = new Regex("^[a-zA-Z0-9_]*$");
 
             if (!regexItem.IsMatch(pk))
             {
                 return BadRequest(localizer["LettersNumbersOnly"]);
             }
+
+            //var noSpaceItem= new Regex("^[\\s]*$");
+            //if (noSpaceItem.IsMatch(pk))
+            //{
+            //    return BadRequest(localizer["NotAllowSpac"]);
+            //}
 
             if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(value))
             {
