@@ -2,16 +2,14 @@
 @model LocalizedViewModel
 
 @inject IViewLocalizer Localizer
+<br />
+<br />
 <var id="result-container" class="result-container"></var>
-<var id="result-container" class="result-container"></var>
-
-<br/>
-<form method="get" asp-action="Index" asp>
+<form method="get" asp-action="Index" asp-controller="Localization">
     <div class="typeahead__container">
         <div class="typeahead__field">
-
             <span class="typeahead__query">
-                <input class="search-typeahead" name="searchItem" type="search" placeholder="Search" autocomplete="off">
+                <input class="search-typeahead" name="searchItem" type="search" placeholder="Search" autocomplete="on">
             </span>
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-danger">
@@ -53,7 +51,7 @@
 <br />
 <div class="panel panel-success">
     <div class="panel panel-heading">
-        @Localizer["LocalizationTable"]
+        @Localizer["LocalizedTable"]
     </div>
 
     <table class="table table-bordered table-hover">
@@ -182,10 +180,13 @@
             $.typeahead({
                 input: ".search-typeahead",
                 minLength: 1,
-                maxLength:20,
+                maxItem:10,
                 hint:true,
                 order: "asc",
                 highlight:true,
+                offset:true,
+                backdrop:true,
+                dropdownFilter:true,
                 template: "{{display}} <small style='color:#999;'>{{group}}</small>",
                 source: {
                    @Localizer["KeyName"]: {
@@ -193,7 +194,7 @@
                         ajax: {
                             type: "GET",
                             url: "api/getKeyNamesData",
-                           
+
                         }
                     },
                     @Localizer["LocalizedValue"]: {
@@ -214,18 +215,29 @@
                         }
 
                     },
+                    onClickAfter: function (node, a, item, event) {
+                        event.preventDefault();
+                        console.log(node);
+                        console.log(a);
+                        console.log(item);
+                        console.log(event);
+                        var text = "@Localizer["Keyword"]: " + "\""+item.display+"\"";
+                        $('#result-container').html(text);
+
+                    },
                     onResult: function (node, query, result, resultCount) {
                         if (query === "") return;
 
                         var text = "";
                         if (result.length > 0 && result.length < resultCount) {
-                            text = "@Localizer["Showing"] <strong>" + result.length + "</strong> @Localizer["ElementsAndTotal"] <strong>" + resultCount + "</strong> @Localizer["ElementsMatchingElement"] <strong>" + "\"" + query + "\"";
+                            text = "@Localizer["Showing"] <strong>" + result.length + "</strong> @Localizer["KeywordsAndTotal"] <strong>" + resultCount + "</strong> @Localizer["ElementsMatchingKeyword"]: <strong>" + "\"" + query + "\"";
                         } else if (result.length > 0) {
-                            text = '@Localizer["Showing"] <strong>' + result.length + '</strong> @Localizer["ElementMatch"] "' + query + '"';
-                        } else {
+                            text = '@Localizer["Showing"] <strong>' + result.length + '</strong> @Localizer["KeywordMatch"]: "' + query + '"';
+                        } else if (result.length===0){
                             text = '@Localizer["NoResultsMatch"] \"' + query + '"';
-                        }
-                        $('#result-container').html(text);
+                        } 
+                        
+                        $('#result-container').html(text).attr('class','text-danger');
 
                     },
                     onMouseEnter: function (node, a, item, event) {

@@ -1,7 +1,7 @@
 [
   {
     "Value": {
-      "en-GB": "Hello World",
+      "en-GB": "Hello",
       "en-US": "Hello",
       "zh-TW": "Hello"
     },
@@ -97,11 +97,11 @@
   },
   {
     "Value": {
-      "en-GB": "Localization Table",
-      "en-US": "Localization Table",
-      "zh-TW": "區域化表單"
+      "en-GB": "Localized Table",
+      "en-US": "Localized Table",
+      "zh-TW": "本地化表單"
     },
-    "Key": "LocalizationTable"
+    "Key": "LocalizedTable"
   },
   {
     "Value": {
@@ -123,7 +123,7 @@
     "Value": {
       "en-GB": "LocalizedValue",
       "en-US": "LocalizedValue",
-      "zh-TW": "區域化值"
+      "zh-TW": "本地化數值"
     },
     "Key": "LocalizedValue"
   },
@@ -202,7 +202,7 @@
     "Value": {
       "en-GB": "Edit Localized Value",
       "en-US": "Edit Localized Value",
-      "zh-TW": "編輯區域化值"
+      "zh-TW": "編輯本地化數值"
     },
     "Key": "EditLocalizedValue"
   },
@@ -298,15 +298,9 @@
     "Value": {
       "en-GB": "Localized Value",
       "en-US": "Localized Value",
-      "zh-TW": "區域值"
+      "zh-TW": "本地化數值"
     },
     "Key": "Localized_Value"
-  },
-  {
-    "Value": {
-      "ss": "s"
-    },
-    "Key": "sf"
   },
   {
     "Value": {
@@ -326,34 +320,34 @@
   },
   {
     "Value": {
-      "en-GB": "of",
-      "en-US": "of",
-      "zh-TW": "個,從"
+      "en-GB": "keyword matching",
+      "en-US": "keyword matching",
+      "zh-TW": "個關鍵字中符合"
     },
-    "Key": "OfInside"
+    "Key": "KeywordMatch"
   },
   {
     "Value": {
-      "en-GB": "element matching",
-      "en-US": "element matching",
-      "zh-TW": "個元素中符合"
+      "en-GB": "keywords and total",
+      "en-US": "keywords and total",
+      "zh-TW": "個關鍵字,總共"
     },
-    "Key": "ElementMatch"
+    "Key": "KeywordsAndTotal"
   },
   {
     "Value": {
-      "en-GB": "elements and total",
-      "en-US": "elements and total",
-      "zh-TW": "個元素和總共"
+      "en-GB": "elements matching keyword",
+      "en-US": "elements matching keyword",
+      "zh-TW": "個元素符合關鍵字"
     },
-    "Key": "ElementsAndTotal"
+    "Key": "ElementsMatchingKeyword"
   },
   {
     "Value": {
-      "en-GB": "elements matching element:",
-      "en-US": "elements matching element:",
-      "zh-TW": "個元素符合:"
+      "en-GB": "Key Word",
+      "en-US": "Key Word",
+      "zh-TW": "關鍵字"
     },
-    "Key": "ElementsMatchingElement"
+    "Key": "Keyword"
   }
 ]
