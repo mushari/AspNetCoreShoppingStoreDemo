@@ -44,7 +44,7 @@ var addNewKeyName_ajax = function(form_id,validation_id) {
         var formData = $(this).serialize();
 
         $.ajax({
-            url: "api/addNewKeyName",
+            url: "api/addKeyName",
             type: "POST",
             data: formData
         }).done(function(data) {

@@ -85,8 +85,8 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
-        [Route("api/addNewKeyName")]
-        public IActionResult AddNewKeyName(string pk, string culture, string value)
+        [Route("api/addKeyName")]
+        public IActionResult AddKeyName(string pk, string culture, string value)
         {
             if (String.IsNullOrWhiteSpace(pk))
             {
@@ -110,13 +110,8 @@ namespace ShoppingStore.Controllers
                 return BadRequest(localizer["LettersNumbersOnly"]);
             }
 
-            //var noSpaceItem= new Regex("^[\\s]*$");
-            //if (noSpaceItem.IsMatch(pk))
-            //{
-            //    return BadRequest(localizer["NotAllowSpac"]);
-            //}
 
-            if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(value))
+            if (String.IsNullOrWhiteSpace(culture))
             {
                 var onlyKeyName = new JsonLocalizationFormat
                 {
