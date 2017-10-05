@@ -777,5 +777,21 @@
       "zh-TW": "創建新帳戶"
     },
     "Key": "CreateNewAccountMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Passwords must have at least one uppercase ('A'-'Z').",
+      "en-US": "Passwords must have at least one uppercase ('A'-'Z').",
+      "zh-TW": "密碼至少要一個大寫('A'-'Z')."
+    },
+    "Key": "PasswordRequiresUpper"
+  },
+  {
+    "Value": {
+      "en-GB": "Passwords must have at least one digit ('0'-'9').",
+      "en-US": "Passwords must have at least one digit ('0'-'9').",
+      "zh-TW": "密碼至少要一個數字('0'-'9')."
+    },
+    "Key": "PasswordRequiresDigit"
   }
 ]

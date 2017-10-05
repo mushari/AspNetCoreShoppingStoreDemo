@@ -18,6 +18,7 @@ using Microsoft.Extensions.Options;
 using ShoppingStore.Data.Repositories;
 using AspNetCore.JsonLocalization;
 using Microsoft.AspNetCore.Routing.Constraints;
+using ShoppingStore.Models.LocalizedViewModels;
 
 namespace ShoppingStore
 {
@@ -38,7 +39,8 @@ namespace ShoppingStore
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
