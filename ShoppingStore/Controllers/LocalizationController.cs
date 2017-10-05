@@ -50,6 +50,29 @@ namespace ShoppingStore.Controllers
             return View(jsonData);
         }
 
+        [HttpGet]
+        [Route("api/getJsonData")]
+        public IActionResult GetJsonData()
+        {
+            List<string> keyName = new List<string>();
+            List<string> localizedValue = new List<string>();
+            foreach (var item in jsonLocalization)
+            {
+                keyName.Add(item.Key);
+                foreach (var value in item.Value)
+                {
+                    localizedValue.Add(value.Value);
+                }
+            }
+
+            Dictionary<string, List<string>> data = new Dictionary<string, List<string>>
+            {
+                ["keyname"] = keyName,
+                ["localizedValue"] = localizedValue
+            };
+
+            return Ok(data);
+        }
 
         [HttpGet]
         [Route("api/getKeyNamesData")]
@@ -60,10 +83,12 @@ namespace ShoppingStore.Controllers
             {
                 keyNames.Add(item.Key);
             }
-
-            var KeyName = JsonConvert.SerializeObject(keyNames);
-
-            return Ok(KeyName);
+            Dictionary<string, List<string>> data = new Dictionary<string, List<string>>
+            {
+                ["keyname"] = keyNames
+            };
+            var jsondata = JsonConvert.SerializeObject(data);
+            return Ok(jsondata);
         }
 
         [HttpGet]

@@ -105,8 +105,8 @@
   },
   {
     "Value": {
-      "en-GB": "KeyName",
-      "en-US": "KeyName",
+      "en-GB": "Key Name",
+      "en-US": "Key Name",
       "zh-TW": "關鍵詞"
     },
     "Key": "KeyName"
@@ -121,8 +121,8 @@
   },
   {
     "Value": {
-      "en-GB": "LocalizedValue",
-      "en-US": "LocalizedValue",
+      "en-GB": "Localized Value",
+      "en-US": "Localized Value",
       "zh-TW": "本地化數值"
     },
     "Key": "LocalizedValue"
@@ -296,14 +296,6 @@
   },
   {
     "Value": {
-      "en-GB": "Localized Value",
-      "en-US": "Localized Value",
-      "zh-TW": "本地化數值"
-    },
-    "Key": "Localized_Value"
-  },
-  {
-    "Value": {
       "en-GB": "No results matching",
       "en-US": "No results matching",
       "zh-TW": "無符合結果"
@@ -349,5 +341,67 @@
       "zh-TW": "關鍵字"
     },
     "Key": "Keyword"
+  },
+  {
+    "Value": {
+      "zh-TW": "全部"
+    },
+    "Key": "All"
+  },
+  {
+    "Value": {
+      "en-GB": "Log In",
+      "en-US": "Log In",
+      "zh-TW": "登入"
+    },
+    "Key": "LogIn"
+  },
+  {
+    "Value": {
+      "en-GB": "Use a local account to log in.",
+      "en-US": "Use a local account to log in.",
+      "zh-TW": "登入本站帳戶"
+    },
+    "Key": "UseLocalAccountLogIn"
+  },
+  {
+    "Value": {
+      "en-GB": "Email",
+      "en-US": "Email",
+      "zh-TW": "電子郵件"
+    },
+    "Key": "Email"
+  },
+  {
+    "Value": {
+      "en-GB": "Password",
+      "en-US": "Password",
+      "zh-TW": "密碼"
+    },
+    "Key": "Password"
+  },
+  {
+    "Value": {
+      "en-GB": "Remember me?",
+      "en-US": "Remember me?",
+      "zh-TW": "記住我?"
+    },
+    "Key": "RememberMe"
+  },
+  {
+    "Value": {
+      "en-GB": "Forgot your password?",
+      "en-US": "Forgot your password?",
+      "zh-TW": "忘記您的密碼?"
+    },
+    "Key": "ForgotYourPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "Register as a new user?",
+      "zh-TW": "註冊新用戶?",
+      "en-US": "Register as a new user?"
+    },
+    "Key": "RegisterNewUser"
   }
 ]

@@ -197,23 +197,29 @@
                 highlight:true,
                 offset:true,
                 backdrop:true,
+                group: {
+                    template: function (item) {
+                        return item.group.replace(/_/g, ' ');
+                    }
+                },
                 dropdownFilter:true,
+                dropdownFilter:"@Localizer["All"]",
                 template: "{{display}} <small style='color:#999;'>{{group}}</small>",
                 source: {
-                   @Localizer["KeyName"]: {
-                        // Ajax Request
+                    "@Localizer["KeyName"]": {
                         ajax: {
                             type: "GET",
-                            url: "api/getKeyNamesData",
+                            url: "api/getJsonData",
+                            path: "keyname"
 
                         }
                     },
-                    @Localizer["LocalizedValue"]: {
+                    "@Localizer["LocalizedValue"]": {
                         ajax: {
                             type: "GET",
-                            url: "api/getLocalizedValuesData",
+                            url: "api/getJsonData",
+                            path:"localizedValue"
                         }
-
                     }
                 },
                 callback: {
