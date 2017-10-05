@@ -518,7 +518,7 @@
     "Value": {
       "en-GB": "The {0} field is not a valid e-mail address.",
       "en-US": "The {0} field is not a valid e-mail address.",
-      "zh-TW": "{0}為不正確電子郵件地址"
+      "zh-TW": "{0}格式不合法"
     },
     "Key": "EmailAddressError"
   },
@@ -793,5 +793,189 @@
       "zh-TW": "密碼至少要一個數字('0'-'9')."
     },
     "Key": "PasswordRequiresDigit"
+  },
+  {
+    "Value": {
+      "en-GB": "Incorrect password.",
+      "en-US": "Incorrect password.",
+      "zh-TW": "密碼不正確"
+    },
+    "Key": "PasswordMismatch"
+  },
+  {
+    "Value": {
+      "en-GB": "Passwords must have at least one lowercase ('a'-'z').",
+      "en-US": "Passwords must have at least one lowercase ('a'-'z').",
+      "zh-TW": "密碼必須至少一個小寫字母('a'-'z')."
+    },
+    "Key": "PasswordRequiresLower"
+  },
+  {
+    "Value": {
+      "en-GB": "Passwords must have at least one non alphanumeric character.",
+      "en-US": "Passwords must have at least one non alphanumeric character.",
+      "zh-TW": "密碼至少必須一個英文字母"
+    },
+    "Key": "PasswordRequiresNonAlphanumeric"
+  },
+  {
+    "Value": {
+      "en-GB": "Passwords must use at least {0} different characters.",
+      "en-US": "Passwords must use at least {0} different characters.",
+      "zh-TW": "密碼至少必須{0}個不同字元"
+    },
+    "Key": "PasswordRequiresUniqueChars"
+  },
+  {
+    "Value": {
+      "en-GB": "Optimistic concurrency failure, object has been modified.",
+      "en-US": "Optimistic concurrency failure, object has been modified.",
+      "zh-TW": "同步性優化失敗,物件已經被修改"
+    },
+    "Key": "ConcurrencyFailure"
+  },
+  {
+    "Value": {
+      "en-GB": "An unknown failure has occurred.",
+      "en-US": "An unknown failure has occurred.",
+      "zh-TW": "未知錯誤發生"
+    },
+    "Key": "DefaultError"
+  },
+  {
+    "Value": {
+      "en-GB": "Email '{0}' is already taken.",
+      "en-US": "Email '{0}' is already taken.",
+      "zh-TW": "電子郵件 '{0}' 重複"
+    },
+    "Key": "DuplicateEmail"
+  },
+  {
+    "Value": {
+      "en-GB": "Role name '{0}' is already taken.",
+      "en-US": "Role name '{0}' is already taken.",
+      "zh-TW": "權限名稱'{0}' 已經重複"
+    },
+    "Key": "DuplicateRoleName"
+  },
+  {
+    "Value": {
+      "en-GB": "User name '{0}' is already taken.",
+      "en-US": "User name '{0}' is already taken.",
+      "zh-TW": "使用者名稱'{0}' 已經重複"
+    },
+    "Key": "DuplicateUserName"
+  },
+  {
+    "Value": {
+      "en-GB": "Type {0} must derive from {1}<{2}>.",
+      "en-US": "Type {0} must derive from {1}<{2}>.",
+      "zh-TW": "類型 {0} 必須從 {1}<{2}> 得到."
+    },
+    "Key": "InvalidManagerType"
+  },
+  {
+    "Value": {
+      "en-GB": "Email '{0}' is invalid.",
+      "en-US": "Email '{0}' is invalid.",
+      "zh-TW": "電子郵件 '{0}' 不合法."
+    },
+    "Key": "InvalidEmail"
+  },
+  {
+    "Value": {
+      "en-GB": "The provided PasswordHasherCompatibilityMode is invalid.",
+      "en-US": "The provided PasswordHasherCompatibilityMode is invalid.",
+      "zh-TW": "提供的雜湊密碼相容模式不合法"
+    },
+    "Key": "InvalidPasswordHasherCompatibilityMode"
+  },
+  {
+    "Value": {
+      "en-GB": "Find one",
+      "en-US": "Find one",
+      "zh-TW": "找到一個"
+    },
+    "Key": "FindOne"
+  },
+  {
+    "Value": {
+      "en-GB": "The iteration count must be a positive integer.",
+      "en-US": "The iteration count must be a positive integer.",
+      "zh-TW": "疊代器計數必須為正整數"
+    },
+    "Key": "InvalidPasswordHasherIterationCount"
+  },
+  {
+    "Value": {
+      "en-GB": "Role name '{0}' is invalid.",
+      "en-US": "Role name '{0}' is invalid.",
+      "zh-TW": "權限名稱 '{0}' 不合法"
+    },
+    "Key": "InvalidRoleName"
+  },
+  {
+    "Value": {
+      "en-GB": "Invalid token.",
+      "en-US": "Invalid token.",
+      "zh-TW": "代幣(token)不合法"
+    },
+    "Key": "InvalidToken"
+  },
+  {
+    "Value": {
+      "en-GB": "User name '{0}' is invalid, can only contain letters or digits.",
+      "en-US": "User name '{0}' is invalid, can only contain letters or digits.",
+      "zh-TW": "使用者名稱 '{0}' 不合法, 只能包含字母或數字"
+    },
+    "Key": "InvalidUserName"
+  },
+  {
+    "Value": {
+      "en-GB": "A user with this login already exists.",
+      "en-US": "A user with this login already exists.",
+      "zh-TW": "使用者已經登入"
+    },
+    "Key": "LoginAlreadyAssociated"
+  },
+  {
+    "Value": {
+      "en-GB": "AddIdentity must be called on the service collection.",
+      "en-US": "AddIdentity must be called on the service collection.",
+      "zh-TW": "身分加入必須在集合服務被呼叫"
+    },
+    "Key": "MustCallAddIdentity"
+  },
+  {
+    "Value": {
+      "en-GB": "No RoleType was specified, try AddRoles<TRole>().",
+      "en-US": "No RoleType was specified, try AddRoles<TRole>().",
+      "zh-TW": "沒有具體的權限類型,試加入AddRoles<TRole>()."
+    },
+    "Key": "NoRoleType"
+  },
+  {
+    "Value": {
+      "en-GB": "No IUserTokenProvider named '{0}' is registered.",
+      "en-US": "No IUserTokenProvider named '{0}' is registered.",
+      "zh-TW": "沒有 IUserTokenProvider 名稱 '{0}' 已經被註冊"
+    },
+    "Key": "NoTokenProvider"
+  },
+  {
+    "Value": {
+      "en-GB": "User security stamp cannot be null.",
+      "en-US": "User security stamp cannot be null.",
+      "zh-TW": "使用者防護標籤(User security stamp)不能為空"
+    },
+    "Key": "NullSecurityStamp"
+  },
+  {
+    "Value": {
+      "en-Gb": "Log out",
+      "en-US": "Log out",
+      "zh-TW": "登出"
+    },
+    "Key": "LogOut"
   }
 ]
