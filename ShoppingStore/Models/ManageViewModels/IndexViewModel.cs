@@ -12,12 +12,12 @@ namespace ShoppingStore.Models.ManageViewModels
 
         public bool IsEmailConfirmed { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "RequiredError")]
+        [EmailAddress(ErrorMessage = "EmailAddressError")]
         public string Email { get; set; }
 
         [Phone]
-        [Display(Name = "Phone number")]
+        [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }

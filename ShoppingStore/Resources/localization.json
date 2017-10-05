@@ -115,7 +115,7 @@
     "Value": {
       "en-GB": "Culture Code",
       "en-US": "Culture Code",
-      "zh-TW": "語言代碼"
+      "zh-TW": "語系代碼"
     },
     "Key": "CultureCode"
   },
@@ -403,5 +403,379 @@
       "en-US": "Register as a new user?"
     },
     "Key": "RegisterNewUser"
+  },
+  {
+    "Value": {
+      "en-GB": "The {0} field is required.",
+      "en-US": "The {0} field is required.",
+      "zh-TW": "{0}為必須填"
+    },
+    "Key": "RequiredError"
+  },
+  {
+    "Value": {
+      "en-GB": "The {0} must be at least {2} and at max {1} characters long.",
+      "en-US": "The {0} must be at least {2} and at max {1} characters long.",
+      "zh-TW": "{0} 長度最少要介於{2}和{1}個字元長度"
+    },
+    "Key": "StringLengthError"
+  },
+  {
+    "Value": {
+      "en-GB": "Confirm password",
+      "en-US": "Confirm password",
+      "zh-TW": "密碼再確認"
+    },
+    "Key": "ConfirmPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "The password and confirmation password do not match."
+    },
+    "Key": "PasswordConfirmError"
+  },
+  {
+    "Value": {
+      "en-GB": "The password and confirmation password do not match.",
+      "en-US": "The password and confirmation password do not match.",
+      "zh-TW": "密碼再確認不相符"
+    },
+    "Key": "ConfirmPasswordError"
+  },
+  {
+    "Value": {
+      "en-GB": "Recovery Code",
+      "en-US": "Recovery Code",
+      "zh-TW": "復原密碼"
+    },
+    "Key": "RecoveryCode"
+  },
+  {
+    "Value": {
+      "en-GB": "Authenticator code",
+      "en-US": "Authenticator code",
+      "zh-TW": "授權碼"
+    },
+    "Key": "AuthenticatorCode"
+  },
+  {
+    "Value": {
+      "en-GB": "Remember this machine",
+      "en-US": "Remember this machine",
+      "zh-TW": "記住這台機器"
+    },
+    "Key": "RememberThisMachine"
+  },
+  {
+    "Value": {
+      "en-GB": "Current password",
+      "en-US": "Current password",
+      "zh-TW": "目前密碼"
+    },
+    "Key": "CurrentPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "New password",
+      "en-US": "New password",
+      "zh-TW": "新密碼"
+    },
+    "Key": "NewPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "Confirm new password",
+      "en-US": "Confirm new password",
+      "zh-TW": "確認新密碼"
+    },
+    "Key": "ConfirmNewPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "The new password and confirmation password do not match.",
+      "en-US": "The new password and confirmation password do not match.",
+      "zh-TW": "新密碼和密碼再確認不相符"
+    },
+    "Key": "ConfirmNewPasswordError"
+  },
+  {
+    "Value": {
+      "en-GB": "Verification Code",
+      "en-US": "Verification Code",
+      "zh-TW": "確認碼"
+    },
+    "Key": "VerificationCode"
+  },
+  {
+    "Value": {
+      "en-GB": "Phone number",
+      "en-US": "Phone Number",
+      "zh-TW": "電話號碼"
+    },
+    "Key": "PhoneNumber"
+  },
+  {
+    "Value": {
+      "en-GB": "The {0} field is not a valid e-mail address.",
+      "en-US": "The {0} field is not a valid e-mail address.",
+      "zh-TW": "{0}為不正確電子郵件地址"
+    },
+    "Key": "EmailAddressError"
+  },
+  {
+    "Value": {
+      "en-GB": "Access denied",
+      "en-US": "Access denied",
+      "zh-TW": "存取拒絕"
+    },
+    "Key": "AccessDenied"
+  },
+  {
+    "Value": {
+      "en-GB": "You do not have access to this resource.",
+      "en-US": "You do not have access to this resource.",
+      "zh-TW": "您不被允許存取這個資源"
+    },
+    "Key": "AccessDeniedMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Confirm email",
+      "en-US": "Confirm email",
+      "zh-TW": "電子郵件確認"
+    },
+    "Key": "ConfirmEmail"
+  },
+  {
+    "Value": {
+      "en-GB": "Thank you for confirming your email",
+      "en-US": "Thank you for confirming your email",
+      "zh-TW": "感謝您確認電子郵件"
+    },
+    "Key": "ConfirmEmailMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Associate your",
+      "en-US": "Associate your",
+      "zh-TW": "聯繫你的"
+    },
+    "Key": "AssociateYour"
+  },
+  {
+    "Value": {
+      "en-GB": "account",
+      "en-US": "account",
+      "zh-TW": "帳戶"
+    },
+    "Key": "account"
+  },
+  {
+    "Value": {
+      "en-GB": "You've successfully authenticated with",
+      "en-US": "You've successfully authenticated with",
+      "zh-TW": "您已經成功通過授權"
+    },
+    "Key": "YouSuccessfullyAuthenticatedWith"
+  },
+  {
+    "Value": {
+      "en-GB": "Please enter an email address for this site below and click the Register button to finish logging in.",
+      "en-US": "Please enter an email address for this site below and click the Register button to finish logging in.",
+      "zh-TW": "請點擊下面的電子郵件連結來完成註冊認證"
+    },
+    "Key": "EnterEmailLinkMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Enter your email?",
+      "en-US": "Enter your email?",
+      "zh-TW": "輸入您的密碼?"
+    },
+    "Key": "EnterYourEmail"
+  },
+  {
+    "Value": {
+      "en-GB": "Submit",
+      "en-US": "Submit",
+      "zh-TW": "送出"
+    },
+    "Key": "Submit"
+  },
+  {
+    "Value": {
+      "en-GB": "Forgot password confirmation",
+      "en-US": "Forgot password confirmation",
+      "zh-TW": "忘記密碼確認"
+    },
+    "Key": "ForgotPasswordConfirmation"
+  },
+  {
+    "Value": {
+      "en-GB": "Please check your email to reset your password.",
+      "en-US": "Please check your email to reset your password",
+      "zh-TW": "請檢查您的電子郵件來重設您密碼"
+    },
+    "Key": "ForgotPasswordConfirmationMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Locked out",
+      "en-US": "Locked out",
+      "zh-TW": "封鎖"
+    },
+    "Key": "LockedOut"
+  },
+  {
+    "Value": {
+      "en-GB": "This account has been locked out, please try again later.",
+      "en-US": "This account has been locked out, please try again later.",
+      "zh-TW": "這個帳戶已經被暫時封鎖了,請過幾分鐘在試"
+    },
+    "Key": "LockedOutMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Use another service to log in.",
+      "en-US": "Use another service to log in.",
+      "zh-TW": "使用外部帳戶登入"
+    },
+    "Key": "LogInExternalMessage"
+  },
+  {
+    "Value": {
+      "en-GB": " There are no external authentication services configured. See <a href=\"https://go.microsoft.com/fwlink/?LinkID=532715\">this article</a>\r\n                            for details on setting up this ASP.NET application to support logging in via external services.",
+      "en-US": " There are no external authentication services configured. See <a href=\"https://go.microsoft.com/fwlink/?LinkID=532715\">this article</a>\r\n                            for details on setting up this ASP.NET application to support logging in via external services.",
+      "zh-TW": "沒有外部帳戶連結設定"
+    },
+    "Key": "NoSettingExternalLogIn"
+  },
+  {
+    "Value": {
+      "en-GB": "Log in using your",
+      "en-US": "Log in using your",
+      "zh-TW": "使用外部登入"
+    },
+    "Key": "LogInUsingYour"
+  },
+  {
+    "Value": {
+      "en-GB": "Two-factor authentication",
+      "en-US": "Two-factor authentication",
+      "zh-TW": "雙公因驗證"
+    },
+    "Key": "TwoFactorAuthentication"
+  },
+  {
+    "Value": {
+      "en-GB": "Your login is protected with an authenticator app. Enter your authenticator code below.",
+      "en-US": "Your login is protected with an authenticator app. Enter your authenticator code below.",
+      "zh-TW": "您的帳戶已經被應用程式保護,請在下面輸入您的授權碼"
+    },
+    "Key": "TwoFactorAuthenticationMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Don't have access to your authenticator device? You can ",
+      "en-US": "Don't have access to your authenticator device? You can ",
+      "zh-TW": "無法存取您的應用程式?你可以"
+    },
+    "Key": "DoNotHaveAccessDivice"
+  },
+  {
+    "Value": {
+      "en-GB": "log in with a recovery code",
+      "en-US": "log in with a recovery code",
+      "zh-TW": "使用回復碼登入"
+    },
+    "Key": "LogInWithRecoveryCode"
+  },
+  {
+    "Value": {
+      "en-GB": "Recovery code verification",
+      "en-US": "Recovery code verification",
+      "zh-TW": "回復碼確認"
+    },
+    "Key": "RecoveryCodeVerification"
+  },
+  {
+    "Value": {
+      "en-GB": "You have requested to login with a recovery code. This login will not be remembered until you provide an authenticator app code at login or disable 2FA and login again.",
+      "en-US": "You have requested to login with a recovery code. This login will not be remembered until you provide an authenticator app code at login or disable 2FA and login again.",
+      "zh-TW": "您必須使用回復碼登入.這個登入部會被記住,直到您提供授權碼登入或是關閉雙公因驗證然後再次登入"
+    },
+    "Key": "RecoveryCodeVerificationMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Reset password",
+      "en-US": "Reset password",
+      "zh-TW": "重設密碼"
+    },
+    "Key": "ResetPassword"
+  },
+  {
+    "Value": {
+      "en-GB": "Reset your password.",
+      "en-US": "Reset your password.",
+      "zh-TW": "重設您的密碼"
+    },
+    "Key": "ResetPasswordMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Reset",
+      "en-US": "Reset",
+      "zh-TW": "重設"
+    },
+    "Key": "Reset"
+  },
+  {
+    "Value": {
+      "en-GB": "Your password has been reset. Please ",
+      "en-US": "Your password has been reset. Please ",
+      "zh-TW": "您的密碼已經被重設了,請"
+    },
+    "Key": "YourPasswordResetMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "click here to log in",
+      "en-US": "click here to log in",
+      "zh-TW": "點擊這裡登入"
+    },
+    "Key": "ClickLogInMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Signed out",
+      "en-US": "Signed out",
+      "zh-TW": "登出"
+    },
+    "Key": "SignedOut"
+  },
+  {
+    "Value": {
+      "en-GB": "You have successfully signed out",
+      "en-US": "You have successfully signed out",
+      "zh-TW": "您已經成功登出"
+    },
+    "Key": "SignedOutMessage"
+  },
+  {
+    "Value": {
+      "en-GB": "Register",
+      "en-US": "Register",
+      "zh-TW": "註冊"
+    },
+    "Key": "Register"
+  },
+  {
+    "Value": {
+      "en-GB": "Create a new account.",
+      "en-US": "Create a new account.",
+      "zh-TW": "創建新帳戶"
+    },
+    "Key": "CreateNewAccountMessage"
   }
 ]

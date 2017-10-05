@@ -8,8 +8,8 @@ namespace ShoppingStore.Models.AccountViewModels
 {
     public class ExternalLoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="RequiredError")]
+        [EmailAddress(ErrorMessage ="EmailAddressError")]
         public string Email { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using ShoppingStore.Views.Manage
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IViewLocalizer Localizer
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

@@ -52,7 +52,7 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h4>Use another service to log in.</h4>
+            <h4>@Localizer["LogInExternalMessage"]</h4>
             <hr />
             @{
                 var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -60,8 +60,7 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
+                            @Localizer["NoSettingExternalLogIn"]
                         </p>
                     </div>
                 }
@@ -72,7 +71,7 @@
                             <p>
                                 @foreach (var provider in loginProviders)
                                 {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="@Localizer["LogInUsingYour"] @provider.DisplayName @Localizer["account"] ">@provider.Name</button>
                                 }
                             </p>
                         </div>

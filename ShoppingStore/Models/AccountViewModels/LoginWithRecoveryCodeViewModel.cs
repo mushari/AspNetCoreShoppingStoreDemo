@@ -8,9 +8,9 @@ namespace ShoppingStore.Models.AccountViewModels
 {
     public class LoginWithRecoveryCodeViewModel
     {
-            [Required]
+            [Required(ErrorMessage ="RequiredError")]
             [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
+            [Display(Name = "RecoveryCode")]
             public string RecoveryCode { get; set; }
     }
 }

@@ -21,34 +21,35 @@
 </form>
 <br />
 
-
 <button type="button" id="addKeyName_pop" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
         data-content='
-        <div id="addKeyName_validation" class="text-danger"></div>
-       <form id="addKeyName_form">
-        <div class="form-group">
-            <label for="addKeyName">@Localizer["KeyName"]</label>
-            <input id="addKeyName" name="pk"type="text" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="addCulture">@Localizer["Culture"]</label>
-            <input id="addCulture" name="culture"type="text" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="addValue">@Localizer["Localized_Value"]</label>
-            <textarea  name="value" rows="10" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
-            <button id="addKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
-        </div>
-    </form>
-   '>
-    @Localizer["AddNewKeyName"]
-</button>
-<br />
-<br />
+                    <div id="addKeyName_validation" class="text-danger"></div>
+                    <form id="addKeyName_form">
+                    <div class="form-group">
+                        <label for="addKeyName">@Localizer["KeyName"]</label>
+                        <input id="addKeyName" name="pk"type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addCulture">@Localizer["Culture"]</label>
+                        <input id="addCulture" name="culture"type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addValue">@Localizer["LocalizedValue"]</label>
+                        <textarea  name="value" rows="10" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
+                        <button id="addKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
+                    </div>
+                </form>'>
+                    @Localizer["AddNewKeyName"]
+                </button>
+
+<br/>
+<br/>
+
+
 <div class="panel panel-success">
     <div class="panel panel-heading">
         @Localizer["LocalizedTable"]
@@ -61,7 +62,7 @@
                 <th>
                     @Localizer["CultureCode"]
                 </th>
-                <th>@Localizer["Localized_Value"]</th>
+                <th>@Localizer["LocalizedValue"]</th>
                 <th>@Localizer["DeleteLanguage"]</th>
             </tr>
         </thead>
@@ -139,7 +140,7 @@
                                         <input id="culture-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="value-input">@Localizer["Localized_Value"]</label>
+                                        <label for="value-input">@Localizer["LocalizedValue"]</label>
                                         <textarea rows="10" id="value-input" name="@local.Key" type="text" class="form-control input-sm" />
                                     </div>
                                     <div class="form-group">
@@ -196,7 +197,6 @@
                 order: "asc",
                 highlight:true,
                 offset:true,
-                backdrop:true,
                 group: {
                     template: function (item) {
                         return item.group.replace(/_/g, ' ');
@@ -234,10 +234,7 @@
                     },
                     onClickAfter: function (node, a, item, event) {
                         event.preventDefault();
-                        console.log(node);
-                        console.log(a);
-                        console.log(item);
-                        console.log(event);
+
                         var text = "@Localizer["Keyword"]: " + "\""+item.display+"\"";
                         $('#result-container').html(text);
 

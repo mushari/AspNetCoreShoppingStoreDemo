@@ -8,12 +8,12 @@ namespace ShoppingStore.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="RequiredError")]
+        [EmailAddress(ErrorMessage = "EmailAddressError")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="RequiredError")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

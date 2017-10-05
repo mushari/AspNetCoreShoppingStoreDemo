@@ -8,8 +8,8 @@ namespace ShoppingStore.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="RequiredError")]
+        [EmailAddress(ErrorMessage = "EmailAddressError")]
         public string Email { get; set; }
     }
 }
