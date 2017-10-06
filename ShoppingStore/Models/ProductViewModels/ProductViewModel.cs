@@ -14,5 +14,7 @@ namespace ShoppingStore.Models.ProductViewModels
 
         public IEnumerable<Product> Items { get; set; }
 
+        public Product Product { get; set; }
+
     }
 }

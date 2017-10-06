@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ShoppingStore.Models;
 using ShoppingStore.Models.AccountViewModels;
 using ShoppingStore.Services;
+using Microsoft.Extensions.Localization;
 
 namespace ShoppingStore.Controllers
 {
@@ -24,17 +25,20 @@ namespace ShoppingStore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IStringLocalizer<AccountController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [TempData]
@@ -78,7 +82,7 @@ namespace ShoppingStore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty,_localizer["InvalidLoginAttempt"]);
                     return View(model);
                 }
             }

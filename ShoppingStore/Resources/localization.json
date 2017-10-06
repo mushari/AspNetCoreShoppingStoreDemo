@@ -1,14 +1,6 @@
 [
   {
     "Value": {
-      "en-GB": "Hello",
-      "en-US": "Hello",
-      "zh-TW": "Hello"
-    },
-    "Key": "Hello"
-  },
-  {
-    "Value": {
       "en-GB": "Language",
       "en-US": "Language",
       "zh-TW": "語言"
@@ -113,11 +105,11 @@
   },
   {
     "Value": {
-      "en-GB": "Culture Code",
-      "en-US": "Culture Code",
+      "en-GB": "Language Code",
+      "en-US": "Language Code",
       "zh-TW": "語系代碼"
     },
-    "Key": "CultureCode"
+    "Key": "LanguageCode"
   },
   {
     "Value": {
@@ -977,5 +969,13 @@
       "zh-TW": "登出"
     },
     "Key": "LogOut"
+  },
+  {
+    "Value": {
+      "en-GB": "Invalid login attempt.",
+      "en-US": "Invalid login attempt.",
+      "zh-TW": "登入密碼或帳戶錯誤"
+    },
+    "Key": "InvalidLoginAttempt"
   }
 ]

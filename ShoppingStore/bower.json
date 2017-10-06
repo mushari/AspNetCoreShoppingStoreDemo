@@ -2,11 +2,15 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.7",
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "x-editable": "1.5.1",
-    "jquery-typeahead": "2.10.1"
+    "jquery-typeahead": "2.10.1",
+    "ckeditor": "#standard/4.7.3",
+    "bootstrap": "v3.3.7"
+  },
+  "resolutions": {
+    "bootstrap": "v4.0.0-beta"
   }
 }

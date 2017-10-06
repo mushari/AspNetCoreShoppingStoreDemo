@@ -51,7 +51,34 @@
         </div>
     </div>
 }
-<a href="@Url.Action("AddProduct","Product")" class="btn btn-primary">@Localizer["AddNewProduct"]</a>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewProductModal" data-whatever="mdo">@Localizer["AddNewProduct"]</button>
+
+<div class="modal fade" id="addNewProductModal" tabindex="-1" role="dialog" aria-labelledby="newProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="newProductModalLabel">@Localizer["AddNewProduct"]</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm" asp-antiforgery="true" generic form-model="@Model.Product"
+                      attrs-tag="{
+                        input:{class:'form-control'}
+                      }">
+                    <br />
+                    <div class="modal-footer">
+                        <button id="addProductCancel" type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Cancel"]</button>
+                        <button type="submit" class="btn btn-primary">@Localizer["Submit"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <pagination item-per-page="Model.ItemPerPage"
             current-page="Model.Page"
@@ -64,3 +91,8 @@
             page-next-icon="@Localizer["NextPage"].Value">
 </pagination>
 
+@section Scripts{
+    <script>
+        CKEDITOR.replace("Description");
+    </script>
+}

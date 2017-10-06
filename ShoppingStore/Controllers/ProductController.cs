@@ -41,5 +41,7 @@ namespace ShoppingStore.Controllers
             return View("~/Views/Product/Index.cshtml", productViewModel);
         }
 
+
+       
     }
 }

@@ -100,6 +100,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             };
         }
 
+
         public override IdentityError InvalidEmail(string email)
         {
             return new IdentityError
