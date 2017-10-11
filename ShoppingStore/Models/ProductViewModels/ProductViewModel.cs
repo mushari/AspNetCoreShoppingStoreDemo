@@ -16,5 +16,7 @@ namespace ShoppingStore.Models.ProductViewModels
 
         public Product Product { get; set; }
 
+        public Photo Photo { get; set; }
+
     }
 }

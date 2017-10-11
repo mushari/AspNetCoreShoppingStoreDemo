@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingStore.Models.ProductViewModels;
 using ShoppingStore.Data.Repositories;
 using PaginationTagHelper.Extensions;
+using ShoppingStore.Models.Dto;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,7 +42,11 @@ namespace ShoppingStore.Controllers
             return View("~/Views/Product/Index.cshtml", productViewModel);
         }
 
+        [HttpPost]
+        public IActionResult AddProduct(ProductDto productDto)
+        {
+            return Ok();
+        }
 
-       
     }
 }
