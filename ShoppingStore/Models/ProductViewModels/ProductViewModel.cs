@@ -1,4 +1,5 @@
 ﻿using PaginationTagHelper.Pagination;
+using ShoppingStore.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace ShoppingStore.Models.ProductViewModels
 
         public Product Product { get; set; }
 
-        public Photo Photo { get; set; }
+        public PhotoDto PhotoDto { get; set; }
 
     }
 }

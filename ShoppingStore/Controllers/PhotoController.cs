@@ -28,21 +28,21 @@ namespace ShoppingStore.Controllers
 
         [HttpPost]
         [Route("api/upload")]
-        public async Task<IActionResult> Upload(PhotoDto photoDto)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             var photos = dbContext.Photos.ToList();
 
-            if (photoDto.File == null)
+            if (file == null)
             {
                 return BadRequest("No upload image file");
             }
 
-            if (photoDto.File.Length == 0)
+            if (file.Length == 0)
             {
                 return BadRequest("Empty file");
             }
 
-            if (photoDto.File.Length > 10 * 1024 * 1024)
+            if (file.Length > 10 * 1024 * 1024)
             {
                 return BadRequest("Max file size exceeded");
             }
@@ -50,7 +50,7 @@ namespace ShoppingStore.Controllers
             // Check  repeated filename
             foreach (var p in photos)
             {
-                if (p.FileName.Contains(photoDto.FileName))
+                if (p.FileName.Contains(file.FileName))
                 {
                     return BadRequest("Your photo name has repeated");
                 }
@@ -62,12 +62,12 @@ namespace ShoppingStore.Controllers
                 Directory.CreateDirectory(uploadFolderPath);
             }
 
-            var fileName = photoDto.FileName + Path.GetExtension(photoDto.File.FileName);
+            var fileName = file.FileName + Path.GetExtension(file.FileName);
             var filePath = Path.Combine(uploadFolderPath, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await photoDto.File.CopyToAsync(stream);
+                await file.CopyToAsync(stream);
             }
             var photo = new Photo
             {
