@@ -8,8 +8,9 @@ namespace ShoppingStore.Models
 {
     public class Category
     {
-        public int CategoryID { get; set; }
+        public string CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string Culture { get; set; }
 
         public ICollection<SubCategory> SubCategories { get; set; }
         public Category()

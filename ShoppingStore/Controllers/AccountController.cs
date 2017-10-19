@@ -14,6 +14,7 @@ using ShoppingStore.Models;
 using ShoppingStore.Models.AccountViewModels;
 using ShoppingStore.Services;
 using Microsoft.Extensions.Localization;
+using ShoppingStore.Infrastructure.Extensions;
 
 namespace ShoppingStore.Controllers
 {

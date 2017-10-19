@@ -53,41 +53,73 @@
 }
 
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewProductModal" data-whatever="mdo">@Localizer["AddNewProduct"]</button>
+<a asp-action="AddProduct" asp-controller="Product"  class="btn btn-primary">@Localizer["AddNewProduct"]</a>
 
-<div class="modal fade" id="addNewProductModal" tabindex="-1" role="dialog" aria-labelledby="newProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#addProduct" data-toggle="tab">@Localizer["AddNewProduct"]</a></li>
-                <li><a href="#addPhoto" data-toggle="tab">Upload Photo</a></li>
-                <li><a href="#showPhotos" data-toggle="tab">Show Photos</a></li>
-            </ul>
-
-            <div class="tab-content">
-                <div class="tab-pane active" id="addProduct">
-
-                    <div class="modal-body">
-
-                    </div>
+@*<div class="modal fade" id="addNewProductModal" tabindex="-1" role="dialog" aria-labelledby="newProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#addProduct" data-toggle="tab">@Localizer["AddNewProduct"]</a></li>
+                    <li><a href="#addPhoto" data-toggle="tab">Upload Photo</a></li>
+                </ul>
 
-                <div class="tab-pane" id="addPhoto">
-                    <div class="modal-body">
-                        <form id="fileupload" method="POST" enctype="multipart/form-data">
-                            <div class="row fileupload-buttonbar">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="addProduct">
+                        <form>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="productName">Name</label>
+                                    <input id="productName" name="productName" class="form-control" />
+                                    <span id="productName-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productDescription">Description</label>
+                                    <textarea id="productDescription" name="productDescription" class="form-control"></textarea>
+                                    <span id="productDescription-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productDescription">Description</label>
+                                    <textarea id="productDescription" name="productDescription" class="form-control"></textarea>
+                                    <span id="productDescription-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+
+                                    <select id="CategoryID" class="form-control">
+                                        @if (Model.Cagegories == null)
+                                        {
+                                            @foreach (var category in Model.Cagegories)
+                                            {
+                                                <option value="@category.CategoryID">@category.CategoryName</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="None">None</option>
+                                        }
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" >Add</button>
+                                <button type="button" class="btn btn-warning">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="addPhoto">
+                        <div class="modal-body">
+
+                            <div id="actions" class="row">
                                 <div class="col-lg-7">
                                     <!-- The fileinput-button span is used to style the file input field as button -->
-                                    <label class="btn btn-success">
+                                    <span class="btn btn-success fileinput-button dz-clickable">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         <span>Add files...</span>
-                                        <input id="file" name="file" type="file" class="form-control" style="display:none;" multiple />
-                                    </label>
+                                    </span>
                                     <button type="submit" class="btn btn-primary start">
                                         <i class="glyphicon glyphicon-upload"></i>
                                         <span>Start upload</span>
@@ -96,47 +128,63 @@
                                         <i class="glyphicon glyphicon-ban-circle"></i>
                                         <span>Cancel upload</span>
                                     </button>
-                                    <button type="button" class="btn btn-danger delete">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                    <input type="checkbox" class="toggle">
-                                    <!-- The global file processing state -->
-                                    <span class="fileupload-process"></span>
                                 </div>
-                                <!-- The global progress state -->
-                                <div class="col-lg-5 fileupload-progress fade">
-                                    <!-- The global progress bar -->
-                                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                                    </div>
-                                    <!-- The extended global progress state -->
-                                    <div class="progress-extended">&nbsp;</div>
+
+                                <div class="col-lg-5">
+                                    <!-- The global file processing state -->
+                                    <span class="fileupload-process">
+                                        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="opacity: 0;">
+                                            <div class="progress-bar progress-bar-success" style="width: 100%;" data-dz-uploadprogress=""></div>
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
-                            <!-- The table listing the files available for upload/download -->
-                            <table role="presentation" class="table table-striped">
-                                <tbody id="upload_list">
-                                  
-                                </tbody>
-                            </table>
-                        </form>
 
+                            <!--Upload preview-->
+                            <!-- HTML heavily inspired by http://blueimp.github.io/jQuery-File-Upload/ -->
+                            <div class="table table-striped" id="previews">
+                                <div id="template" class="file-row">
+                                    <!-- This is used as the file preview template -->
+                                    <div>
+                                        <span class="preview"><img data-dz-thumbnail /></span>
+                                    </div>
+                                    <div>
+                                        <p class="name" data-dz-name></p>
+                                        <strong class="error text-danger" data-dz-errormessage></strong>
+                                    </div>
+                                    <div>
+                                        <p class="size" data-dz-size></p>
+                                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary start">
+                                            <i class="glyphicon glyphicon-upload"></i>
+                                            <span>Start</span>
+                                        </button>
+                                        <button data-dz-remove class="btn btn-warning cancel">
+                                            <i class="glyphicon glyphicon-ban-circle"></i>
+                                            <span>Cancel</span>
+                                        </button>
+                                        <button data-dz-remove class="btn btn-danger delete" style="display:none;">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
 
-                <div class="tab-content" id="showPhotos">
-                    <div class="modal-body">
 
-                    </div>
-                </div>
+                </div><!-- tab content end-->
+            </div><!-- modal-content end-->
+        </div><!-- modal-dialog end-->
+    </div><!-- modal fade end -->*@
 
-            </div>
 
-        </div>
-    </div>
-</div>
 
 <pagination item-per-page="Model.ItemPerPage"
             current-page="Model.Page"
@@ -149,53 +197,3 @@
             page-next-icon="@Localizer["NextPage"].Value">
 </pagination>
 
-@section Scripts{
-    <script>
-
-        function readURL(input) {
-            for (var i = 0; i < input.files.length; i++) {
-                if (input.files[i]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        var tbody = $('#upload_list');
-                        tbody.append(
-                            '<tr><td><img src="' + e.target.result + '" width="100" height="100"/></td></tr>');
-                    }
-                    reader.readAsDataURL(input.files[i]);
-                }
-            }
-        }
-
-        $(function () {
-
-            var files = document.getElementById('file');    
-
-            files.onchange = function () {
-                readURL(this);
-            }
-        
-
-            $('#uploadForm').submit(function (e) {
-                var file = $('#file')[0];
-                var formData = new FormData();
-
-                formData.append('file', file.files[0]);
-                console.log(formData);
-
-                $.ajax({
-                    url: 'api/upload',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    type: 'POST',
-                    success: function (data) {
-                        alert("upload success");
-                    }
-                });
-                e.preventDefault();
-            });
-        });
-
-    </script>
-}

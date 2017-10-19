@@ -7,10 +7,12 @@ namespace ShoppingStore.Models
 {
     public class SubCategory
     {
-        public int SubCategoryID { get; set; }
+        public string SubCategoryID { get; set; }
         public string SubCategoryName { get; set; }
 
-        public int CategoryID { get; set; }
+        public string Culture { get; set; }
+
+        public string CategoryID { get; set; }
         public Category Category { get; set; }
     }
 }

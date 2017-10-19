@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ShoppingStore.Models;
 using ShoppingStore.Models.ManageViewModels;
 using ShoppingStore.Services;
+using ShoppingStore.Infrastructure.Extensions;
 
 namespace ShoppingStore.Controllers
 {

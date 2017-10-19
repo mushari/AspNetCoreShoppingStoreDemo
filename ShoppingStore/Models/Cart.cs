@@ -13,7 +13,7 @@ namespace ShoppingStore.Models
         {
             // Check list already have product
             CartLine line = lineList
-                .Where(p => p.Product.ProductID == product.ProductID)
+                .Where(p => p.Product.ProductId == product.ProductId)
                 .FirstOrDefault();
 
             if (line == null)
@@ -30,19 +30,18 @@ namespace ShoppingStore.Models
             }
         }
         public virtual void RemoveLine(Product product) =>
-            lineList.RemoveAll(l => l.Product.ProductID == product.ProductID);
+            lineList.RemoveAll(l => l.Product.ProductId == product.ProductId);
 
 
-        public virtual decimal ComputeTotalValue() =>
-            lineList.Sum(e => e.Product.Price * e.Quantity);
+        public virtual decimal ComputeTotalValue(string culture) =>
+            lineList.Where(
+                l => l.Product.ProductId.EndsWith("_" + culture)).Sum(e =>
+                e.Product.Price * e.Quantity);
 
         public virtual void Clear() =>
             lineList.Clear();
 
         public virtual IEnumerable<CartLine> GetCartLines =>
             lineList;
-
-
-
     }
 }

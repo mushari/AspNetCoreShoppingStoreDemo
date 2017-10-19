@@ -48,6 +48,9 @@ namespace ShoppingStore
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IPhotoRepository, PhotoRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddJsonLocalization();
 

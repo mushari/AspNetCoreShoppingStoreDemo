@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +12,8 @@ namespace ShoppingStore.Models
     public class Product
     {
         [Required]
-        [Display(Name = "ProductID")]
-        public int ProductID { get; set; }
-
-        public Photo Photo { get; set; }
-        public string PhotoId { get; set; }
+        [Display(Name = "ProductId")]
+        public string ProductId { get; set; }
 
         [Required]
         [Display(Name = "ProductName")]
@@ -37,7 +35,11 @@ namespace ShoppingStore.Models
         [Display(Name = "ProductCatetory")]
         public int CategoryID { get; set; }
 
-        public Category Category { get; set; }
+        public Photo Photo { get; set; }
+        public int PhotoId { get; set; }
+
+        public int ProductCategoryId { get; set; }
+        public SubCategory ProductCategory { get; set; }
 
         public decimal RatingStar { get; set; }
 

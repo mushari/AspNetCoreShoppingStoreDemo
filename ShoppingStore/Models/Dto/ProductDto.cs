@@ -9,7 +9,12 @@ namespace ShoppingStore.Models.Dto
     {
         public int ProductID { get; set; }
 
+        public int TranslationId { get; set; }
+
+        public string Culture { get; set; }
+
         public string PhotoId { get; set; }
+        public IEnumerable<Photo> Photos { get; set; }
 
         public string Name { get; set; }
 
@@ -20,9 +25,8 @@ namespace ShoppingStore.Models.Dto
         public decimal Price { get; set; }
 
         public int CategoryID { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
 
         public decimal RatingStar { get; set; }
-
-        public string Culture { get; set; }
     }
 }

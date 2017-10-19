@@ -8,16 +8,17 @@ namespace ShoppingStore.Data.Repositories
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> Products { get; }
+        IEnumerable<Product> GetProducts();
+        Product GetProduct(string id,string culture);
 
         void AddProduct(Product product);
         Task AddProductAsync(Product product);
-        void RemoveProduct(string id);
+        void RemoveProduct(Product product);
 
 
         void AddProducts(IEnumerable<Product> products);
         Task AddProductsAsync(IEnumerable<Product> products);
-        void RemoveProducts(IEnumerable<string> ids);
+        void RemoveProducts(IEnumerable<Product> products);
 
     }
 }

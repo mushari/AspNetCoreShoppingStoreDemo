@@ -46,10 +46,14 @@ namespace ShoppingStore.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Product>()
+                .HasKey(p => p.ProductId);
+
+            builder.Entity<Category>()
+                .HasMany(c => c.SubCategories)
+                .WithOne(sc => sc.Category);
+
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }

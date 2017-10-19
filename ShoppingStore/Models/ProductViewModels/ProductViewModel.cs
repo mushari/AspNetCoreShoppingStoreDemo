@@ -14,10 +14,5 @@ namespace ShoppingStore.Models.ProductViewModels
         public int TotalItems { get; set; }
 
         public IEnumerable<Product> Items { get; set; }
-
-        public Product Product { get; set; }
-
-        public PhotoDto PhotoDto { get; set; }
-
     }
 }

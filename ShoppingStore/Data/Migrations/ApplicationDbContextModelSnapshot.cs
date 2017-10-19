@@ -181,20 +181,25 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryID")
+                    b.Property<string>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CategoryName");
 
-                    b.HasKey("CategoryID");
+                    b.Property<string>("Culture");
+
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.Photo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FileAddress")
+                        .IsRequired();
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -207,7 +212,7 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
-                    b.Property<int>("ProductID")
+                    b.Property<string>("ProductId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategoryID");
@@ -220,31 +225,35 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhotoId");
-
-                    b.Property<Guid?>("PhotoId1");
+                    b.Property<int>("PhotoId");
 
                     b.Property<decimal>("Price");
+
+                    b.Property<int>("ProductCategoryId");
+
+                    b.Property<string>("ProductCategorySubCategoryID");
 
                     b.Property<DateTime>("PublishedDate");
 
                     b.Property<decimal>("RatingStar");
 
-                    b.HasKey("ProductID");
+                    b.HasKey("ProductId");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("PhotoId");
 
-                    b.HasIndex("PhotoId1");
+                    b.HasIndex("ProductCategorySubCategoryID");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.SubCategory", b =>
                 {
-                    b.Property<int>("SubCategoryID")
+                    b.Property<string>("SubCategoryID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CategoryID");
+                    b.Property<string>("CategoryID");
+
+                    b.Property<string>("Culture");
 
                     b.Property<string>("SubCategoryName");
 
@@ -302,22 +311,21 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
-                    b.HasOne("ShoppingStore.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ShoppingStore.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("PhotoId1");
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ShoppingStore.Models.SubCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategorySubCategoryID");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.SubCategory", b =>
                 {
                     b.HasOne("ShoppingStore.Models.Category", "Category")
                         .WithMany("SubCategories")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CategoryID");
                 });
 #pragma warning restore 612, 618
         }
