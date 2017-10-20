@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ShoppingStore.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,18 +23,21 @@ namespace ShoppingStore.Controllers
         private IProductRepository productRepository;
         private IPhotoRepository photoRepository;
         private ICategoryRepository categoryRepository;
+        private IOptions<RequestLocalizationOptions> options;
         private IMapper mapper;
         private IUnitOfWork uow;
         public ProductController(
             IProductRepository productRepository,
             IPhotoRepository photoRepository,
             ICategoryRepository categoryRepository,
+            IOptions<RequestLocalizationOptions> options,
             IMapper mapper,
             IUnitOfWork uow)
         {
             this.productRepository = productRepository;
             this.photoRepository = photoRepository;
             this.categoryRepository = categoryRepository;
+            this.options = options;
             this.mapper = mapper;
             this.uow = uow;
         }
@@ -53,7 +58,7 @@ namespace ShoppingStore.Controllers
 
             var productsWithPaging = products
                 .ToPageList(model.Page, model.ItemPerPage);
-                
+
 
             ProductViewModel productViewModel = new ProductViewModel
             {
@@ -69,28 +74,49 @@ namespace ShoppingStore.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
+
+            var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentCulture = requestFeature.RequestCulture.Culture.Name;
+
+            var categories = categoryRepository.GetCategories()
+                .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+                .ToList();
+
+
             var product = new ProductDto
             {
                 Photos = photoRepository.GetPhotos().ToList(),
-                Categories= categoryRepository.GetCategories().ToList()
+                Categories = categories
             };
+
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult AddProduct(ProductDto productDto)
+        public async Task<IActionResult> AddProduct(ProductDto productDto)
         {
             var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
             productDto.Culture = currentCulture;
 
-            var product = mapper.Map<ProductDto, Product>(productDto);
-
-            if (product != null)
+            var cultures = options.Value.SupportedCultures;
+            foreach (var culture in cultures)
             {
-                productRepository.AddProduct(product);
+                Product newproduct = new Product
+                {
+                    ProductId = productDto.ProductId + "_" + culture.Name,
+                    CategoryId = productDto.ProductCategoryId + "_" + culture.Name,
+                    PhotoId = productDto.PhotoId,
+                    Name = productDto.Name,
+                    Description = productDto.Description,
+                    Price = productDto.Price,
+                    RatingStar = 0,
+                };
+                productRepository.AddProduct(newproduct);
             }
+
+            await uow.CompleteAsync();
 
             return Ok(productDto);
         }
@@ -101,7 +127,7 @@ namespace ShoppingStore.Controllers
             var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
-            var product = productRepository.GetProduct(productId,currentCulture);
+            var product = productRepository.GetProduct(productId, currentCulture);
 
             productRepository.RemoveProduct(product);
 

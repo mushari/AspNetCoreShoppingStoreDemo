@@ -33,17 +33,16 @@ namespace ShoppingStore.Models
 
         [Required]
         [Display(Name = "ProductCatetory")]
-        public int CategoryID { get; set; }
+        public string CategoryId { get; set; }
 
         public Photo Photo { get; set; }
         public int PhotoId { get; set; }
 
-        public int ProductCategoryId { get; set; }
-        public SubCategory ProductCategory { get; set; }
+        [Required]
+        public string ProductCategoryId { get; set; }
+        public Category ProductCategory { get; set; }
 
         public decimal RatingStar { get; set; }
-
-        public string Culture { get; set; }
 
     }
 }

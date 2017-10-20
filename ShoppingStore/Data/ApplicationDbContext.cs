@@ -14,7 +14,6 @@ namespace ShoppingStore.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Photo> Photos { get; set; }
 
         public ApplicationDbContext()
@@ -49,9 +48,6 @@ namespace ShoppingStore.Data
             builder.Entity<Product>()
                 .HasKey(p => p.ProductId);
 
-            builder.Entity<Category>()
-                .HasMany(c => c.SubCategories)
-                .WithOne(sc => sc.Category);
 
             base.OnModelCreating(builder);
         }

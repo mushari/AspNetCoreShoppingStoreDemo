@@ -4,7 +4,8 @@
 @inject IViewLocalizer Localizer
 
 @{
-    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>
+    ();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
 }
 
@@ -18,6 +19,11 @@
 <div class="tab-content">
     <div class="tab-pane active" id="addProduct">
         <form asp-action="AddProduct" asp-controller="Product" asp-antiforgery="true">
+            <div class="form-group">
+                <label asp-for="ProductId"></label>
+                <input asp-for="ProductId" class="form-control" />
+                <span asp-validation-for="ProductId"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
@@ -66,34 +72,8 @@
 
             </div>
             <div class="form-group">
-                <label asp-for="CategoryID"></label>
-
-                <button type="button" id="addNewCategory" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewCategory"]"
-                        data-html="true"
-                        data-content='
-                    <div id="addNewCategory_validation" class="text-danger"></div>
-                    <form id="addNewCategory_form">
-                    <div class="form-group">
-                        <label for="addKeyName">@Localizer["KeyName"]</label>
-                        <input id="addKeyName" name="pk"type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="addCulture">@Localizer["Culture"]</label>
-                        <input id="addCulture" name="culture"type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="addValue">@Localizer["LocalizedValue"]</label>
-                        <textarea  name="value" rows="10" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
-                        <button id="addKeyName_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
-                    </div>
-                </form>'>
-                    @Localizer["AddNewKeyName"]
-                </button>
-
-                <select>
+                <label asp-for="CategoryId"></label>
+                <select class="form-control">
                     @if (Model.Categories.Count() != 0)
                     {
                         @foreach (var category in Model.Categories)
@@ -107,7 +87,34 @@
                     }
                 </select>
             </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-danger" id="addCategoryBtn" data-container="body" data-toggle="popover" data-title="@Localizer[" AreYouSure"]"
+                        data-html="true"
+                        data-content='
+                                    <form id="addCategoryForm">
+                                        <div class="form-group">
+                                            <label>CategoryId</label>
+                                            <input type="text" name="CategoryId" class="form-control" />
+                                            <span id="categoryId-validation" ></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>CategoryName</label>
+                                            <input type="text" name="CategoryName" class="form-control" />
+                                            <span id="categoryName-validation"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Add"]</button>
+                                            <button id="categoryCancelBtn"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
+                                        </div>
+                                    </form>
+                                '>@Localizer["AddNewCategory"]</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">@Localizer["Submit"]</button>
+                <a asp-action="Index" asp-controller="Product" class="btn btn-warning">Cancel</a>
+            </div>
         </form>
+
     </div>
 
     <div class="tab-pane" id="addPhoto">
@@ -179,6 +186,8 @@
 
 
 @section Scripts{
+    <script src="~/js/product-add.js"></script>
+
     <script>
         $('#photo-select').imagepicker({
         });
@@ -190,6 +199,9 @@
             $('#PhotoId').attr("value", selectedValue);
             $("#addPhotoModal").modal('toggle');
         });
+
+        addPopover("#categoryCancelBtn","#addCategoryBtn");
+       
 
         // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
         var previewNode = document.querySelector("#template");

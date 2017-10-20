@@ -184,9 +184,8 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("CategoryId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CategoryName");
-
-                    b.Property<string>("Culture");
+                    b.Property<string>("CategoryName")
+                        .IsRequired();
 
                     b.HasKey("CategoryId");
 
@@ -215,9 +214,8 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("ProductId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CategoryID");
-
-                    b.Property<string>("Culture");
+                    b.Property<string>("CategoryId")
+                        .IsRequired();
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -229,9 +227,8 @@ namespace ShoppingStore.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<int>("ProductCategoryId");
-
-                    b.Property<string>("ProductCategorySubCategoryID");
+                    b.Property<string>("ProductCategoryId")
+                        .IsRequired();
 
                     b.Property<DateTime>("PublishedDate");
 
@@ -241,27 +238,9 @@ namespace ShoppingStore.Data.Migrations
 
                     b.HasIndex("PhotoId");
 
-                    b.HasIndex("ProductCategorySubCategoryID");
+                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ShoppingStore.Models.SubCategory", b =>
-                {
-                    b.Property<string>("SubCategoryID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CategoryID");
-
-                    b.Property<string>("Culture");
-
-                    b.Property<string>("SubCategoryName");
-
-                    b.HasKey("SubCategoryID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -316,16 +295,10 @@ namespace ShoppingStore.Data.Migrations
                         .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ShoppingStore.Models.SubCategory", "ProductCategory")
+                    b.HasOne("ShoppingStore.Models.Category", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductCategorySubCategoryID");
-                });
-
-            modelBuilder.Entity("ShoppingStore.Models.SubCategory", b =>
-                {
-                    b.HasOne("ShoppingStore.Models.Category", "Category")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("CategoryID");
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

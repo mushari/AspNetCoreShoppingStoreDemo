@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShoppingStore.Models
+namespace ShoppingStore.Models.Dto
 {
-    public class Category
+    public class CategoryDto
     {
-        [Required]
         public string CategoryId { get; set; }
-        [Required]
         public string CategoryName { get; set; }
     }
 }

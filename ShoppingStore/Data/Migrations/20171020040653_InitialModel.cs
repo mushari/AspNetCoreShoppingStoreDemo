@@ -53,8 +53,7 @@ namespace ShoppingStore.Data.Migrations
                 columns: table => new
                 {
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Culture = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,38 +181,16 @@ namespace ShoppingStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubCategories",
-                columns: table => new
-                {
-                    SubCategoryID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryID = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Culture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryID);
-                    table.ForeignKey(
-                        name: "FK_SubCategories_Categories_CategoryID",
-                        column: x => x.CategoryID,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
-                    Culture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhotoId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    ProductCategoryId = table.Column<int>(type: "int", nullable: false),
-                    ProductCategorySubCategoryID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProductCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RatingStar = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
@@ -227,11 +204,11 @@ namespace ShoppingStore.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_SubCategories_ProductCategorySubCategoryID",
-                        column: x => x.ProductCategorySubCategoryID,
-                        principalTable: "SubCategories",
-                        principalColumn: "SubCategoryID",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Products_Categories_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -279,14 +256,9 @@ namespace ShoppingStore.Data.Migrations
                 column: "PhotoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductCategorySubCategoryID",
+                name: "IX_Products_ProductCategoryId",
                 table: "Products",
-                column: "ProductCategorySubCategoryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubCategories_CategoryID",
-                table: "SubCategories",
-                column: "CategoryID");
+                column: "ProductCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -317,9 +289,6 @@ namespace ShoppingStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
-
-            migrationBuilder.DropTable(
-                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");
