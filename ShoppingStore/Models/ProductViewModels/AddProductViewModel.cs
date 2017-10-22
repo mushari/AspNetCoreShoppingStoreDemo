@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingStore.Models
 {
-    public class Product
+    public class AddProductViewModel
     {
+
         [Required]
         [Display(Name = "ProductId")]
         public string ProductId { get; set; }
@@ -27,12 +25,15 @@ namespace ShoppingStore.Models
         [Display(Name = "ProductPrice")]
         public decimal Price { get; set; }
 
-        public Photo Photo { get; set; }
+        public IEnumerable<Photo> Photos { get; set; }
         public string PhotoId { get; set; }
 
         [Required]
+        [Display(Name = "ProductCategoryId")]
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
+
+
 
     }
 }

@@ -8,13 +8,12 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using ShoppingStore.Data;
 using System;
 
-namespace ShoppingStore.Data.Migrations
+namespace ShoppingStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171020040653_InitialModel")]
-    partial class InitialModel
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,6 +187,8 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired();
 
+                    b.Property<string>("ProductId");
+
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
@@ -195,7 +196,7 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Photo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FileAddress")
@@ -224,22 +225,15 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("PhotoId");
+                    b.Property<string>("PhotoId");
 
                     b.Property<decimal>("Price");
 
-                    b.Property<string>("ProductCategoryId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("PublishedDate");
-
-                    b.Property<decimal>("RatingStar");
-
                     b.HasKey("ProductId");
 
-                    b.HasIndex("PhotoId");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductCategoryId");
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Products");
                 });
@@ -291,15 +285,14 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
-                    b.HasOne("ShoppingStore.Models.Photo", "Photo")
-                        .WithMany()
-                        .HasForeignKey("PhotoId")
+                    b.HasOne("ShoppingStore.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ShoppingStore.Models.Category", "ProductCategory")
+                    b.HasOne("ShoppingStore.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PhotoId");
                 });
 #pragma warning restore 612, 618
         }

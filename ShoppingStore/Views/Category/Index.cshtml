@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Category>
+@inject IViewLocalizer Localizer
+
+
+<br/>
+
+<button type="button" id="add_category_popover" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
+        data-html="true"
+        data-content='
+                    <div id="add_category_validation" class="text-danger"></div>
+                    <form id="add_category_form">
+                    <div class="form-group">
+                        <label for="input_category_id">@Localizer["CategoryId"]</label>
+                        <input id="input_category_id" name="pk"type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="input_category_name">@Localizer["CategoryName"]</label>
+                        <input id="input_category_name" name="name"type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
+                        <button id="add_category_cancel"class="btn btn-default">@Localizer["Cancel"]</button>
+                    </div>
+                </form>'>
+                    @Localizer["AddNewCategory"]
+                </button>
+<br/>
+<br/>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <td>CategoryId</td>
+            <td>CategoryName</td>
+            <td>Delete</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>
+                    <a href="#" id="@(category.CategoryId)_edit_category_popover"
+                       data-type="text" data-url="/api/editCategory"
+                       data-pk="@category.CategoryId"
+                       data-title="Edit Category Name">
+                        @category.CategoryName
+                    </a>
+                </td>
+                <td>
+                    <button type="button" id="@(category.CategoryId)_delete_category_popover" 
+                            data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
+                            data-html="true"
+                            data-content='
+                             <div class="text-danger"id="@(category.CategoryId)_delete_category_validation"></div>
+                             <form id="@(category.CategoryId)_delete_category_form">
+                                 <div class="form-group">
+                                     <input type="hidden" value="@category.CategoryId" name="pk" class="btn btn-danger" />
+                                     <button type="submit"class="btn btn-sm btn-primary" >@Localizer["Confirm"]</button>
+                                     <button type="button" class="btn btn-default" id="@(category.CategoryId)_delete_category_cancel">@Localizer["Cancel"]</button>
+                                 </div>
+                             </form>
+                            '>
+                            @Localizer["Delete"]
+                        </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script src="~/js/popover.js"></script>
+    <script>
+        add_popover("#add_category_cancel", "#add_category_popover");
+    </script>
+    @foreach (var category in Model)
+    {
+        <script>
+            add_popover("#@(category.CategoryId)_delete_category_cancel", "#@(category.CategoryId)_delete_category_popover");
+
+            popover_ajax({
+                form_id: "#@(category.CategoryId)_delete_category_form",
+                validation_id: "#@(category.CategoryId)_delete_category_validation",
+                url: "api/deleteCategory",
+                type: "DELETE",
+            });
+
+            xeditable_ajax("#@(category.CategoryId)_edit_category_popover");
+        </script>
+    }
+}

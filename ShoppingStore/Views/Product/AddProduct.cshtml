@@ -1,11 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Localization
-@model ShoppingStore.Models.Dto.ProductDto
+@model ShoppingStore.Models.AddProductViewModel
 
 @inject IViewLocalizer Localizer
 
 @{
-    var requestCulture = Context.Features.Get<IRequestCultureFeature>
-    ();
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
 }
 
@@ -18,6 +17,7 @@
 <br />
 <div class="tab-content">
     <div class="tab-pane active" id="addProduct">
+        <div asp-validation-summary="All"></div>
         <form asp-action="AddProduct" asp-controller="Product" asp-antiforgery="true">
             <div class="form-group">
                 <label asp-for="ProductId"></label>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="modal-body">
                                 <select id="photo-select">
-                                    @if (Model.Photos.Count() != 0)
+                                    @if (Model.Photos != null)
                                     {
                                         @foreach (var photo in Model.Photos)
                                         {
@@ -73,12 +73,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId"></label>
-                <select class="form-control">
-                    @if (Model.Categories.Count() != 0)
+                <select asp-for="CategoryId" class="form-control">
+                    @if (Model != null)
                     {
                         @foreach (var category in Model.Categories)
                         {
-                            <option value="@category.CategoryId">@category.CategoryName</option>
+                            <option value="@category.CategoryId.Split('_')[0]">@category.CategoryName</option>
+
                         }
                     }
                     else
@@ -88,26 +89,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-danger" id="addCategoryBtn" data-container="body" data-toggle="popover" data-title="@Localizer[" AreYouSure"]"
-                        data-html="true"
-                        data-content='
-                                    <form id="addCategoryForm">
-                                        <div class="form-group">
-                                            <label>CategoryId</label>
-                                            <input type="text" name="CategoryId" class="form-control" />
-                                            <span id="categoryId-validation" ></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>CategoryName</label>
-                                            <input type="text" name="CategoryName" class="form-control" />
-                                            <span id="categoryName-validation"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Add"]</button>
-                                            <button id="categoryCancelBtn"type="button" class="btn btn-sm btn-default">@Localizer["Cancel"]</button>
-                                        </div>
-                                    </form>
-                                '>@Localizer["AddNewCategory"]</button>
+                <a asp-action="Index" asp-controller="Category" class="btn btn-primary">Edit Category</a>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">@Localizer["Submit"]</button>
@@ -200,8 +182,42 @@
             $("#addPhotoModal").modal('toggle');
         });
 
-        addPopover("#categoryCancelBtn","#addCategoryBtn");
-       
+        addPopover("#categoryCancelBtn", "#addCategoryBtn");
+
+        addPopover("#editCategoryCancelBtn","#editCategoryBtn");
+
+        $(document).on('submit', "#addCategoryForm", function (e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: "/api/addCategory",
+                type: "POST",
+                data: formData
+            }).done(function (data) {
+                location.reload();
+            }).fail(function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.CategoryName) {
+                        $('#category-validation-sum').html(xhr.responseJSON.CategoryName[0]);
+                    }
+                    else if (xhr.responseJSON.CategoryId) {
+                        $('#category-validation-sum').html(xhr.responseJSON.CategoryId[0]);
+                    }
+                    else {
+                        $('#category-validation-sum').html(xhr.responseJSON.repeatedId);
+                    }
+                }
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log("failed");
+            });
+        });
+
+
 
         // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
         var previewNode = document.querySelector("#template");

@@ -96,7 +96,7 @@ namespace ShoppingStore.Controllers
 
         [HttpDelete]
         [Route("api/deletefile")]
-        public IActionResult DeletePhoto(int id)
+        public IActionResult DeletePhoto(string id)
         {
             var photo = photoRepository.GetPhotos().FirstOrDefault(p => p.Id == id);
             if (photo == null)

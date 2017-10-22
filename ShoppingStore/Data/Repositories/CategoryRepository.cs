@@ -27,5 +27,10 @@ namespace ShoppingStore.Data.Repositories
         {
             return context.Categories;
         }
+
+        public Category GetCategory(string categoryId)
+        {
+            return context.Categories.SingleOrDefault(c => c.CategoryId == categoryId);
+        }
     }
 }

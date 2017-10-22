@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingStore.Models.ProductViewModels;
 using ShoppingStore.Data.Repositories;
 using PaginationTagHelper.Extensions;
-using ShoppingStore.Models.Dto;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using ShoppingStore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
+using ShoppingStore.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -78,48 +77,73 @@ namespace ShoppingStore.Controllers
             var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
-            var categories = categoryRepository.GetCategories()
-                .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
-                .ToList();
+            //var categories = categoryRepository.GetCategories()
+            //    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+            //    .ToList();
 
 
-            var product = new ProductDto
-            {
-                Photos = photoRepository.GetPhotos().ToList(),
-                Categories = categories
-            };
+            //var product = new AddProductViewModel
+            //{
+            //    Photos = photoRepository.GetPhotos().ToList(),
+            //    Categories = categories
+            //};
 
-            return View(product);
+            return View(CategoriesAndPhotosList(currentCulture));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductDto productDto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProduct(AddProductViewModel productViewModel)
         {
+
             var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
-            productDto.Culture = currentCulture;
+            if (!ModelState.IsValid)
+            {
+                return View(CategoriesAndPhotosList(currentCulture));
+            }
+
+
+            var products = productRepository.GetProducts().Where(p=>p.ProductId.Contains(currentCulture)).ToList();
+            foreach (var product in products)
+            {
+                if (productViewModel.ProductId == product.ProductId.Split("_")[0])
+                {
+                    var categories = categoryRepository.GetCategories()
+                    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+                    .ToList();
+
+                    var product_error = new AddProductViewModel
+                    {
+                        Photos = photoRepository.GetPhotos().ToList(),
+                        Categories = categories
+                    };
+                    ModelState.AddModelError("", "Product Id has already had.");
+                    return View(product_error);
+                } 
+           }
 
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
             {
                 Product newproduct = new Product
                 {
-                    ProductId = productDto.ProductId + "_" + culture.Name,
-                    CategoryId = productDto.ProductCategoryId + "_" + culture.Name,
-                    PhotoId = productDto.PhotoId,
-                    Name = productDto.Name,
-                    Description = productDto.Description,
-                    Price = productDto.Price,
-                    RatingStar = 0,
+                    ProductId = productViewModel.ProductId + "_" + culture.Name,
+                    CategoryId = productViewModel.CategoryId + "_" + culture.Name,
+                    PhotoId = productViewModel.PhotoId,
+                    Name = productViewModel.Name,
+                    Description = productViewModel.Description,
+                    Price = productViewModel.Price,
                 };
                 productRepository.AddProduct(newproduct);
             }
 
             await uow.CompleteAsync();
 
-            return Ok(productDto);
+            return RedirectToAction("Index");
         }
+
 
         [HttpDelete]
         public IActionResult DeleteProduct(string productId)
@@ -132,6 +156,21 @@ namespace ShoppingStore.Controllers
             productRepository.RemoveProduct(product);
 
             return Ok("Delete Product" + product.ProductId + "Success");
+        }
+
+        private AddProductViewModel CategoriesAndPhotosList(string currentCulture)
+        {
+            var categories = categoryRepository.GetCategories()
+                    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+                    .ToList();
+
+            var product = new AddProductViewModel
+            {
+                Photos = photoRepository.GetPhotos().ToList(),
+                Categories = categories
+            };
+
+            return product;
         }
 
     }

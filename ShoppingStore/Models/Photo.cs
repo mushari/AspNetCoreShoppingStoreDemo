@@ -9,7 +9,7 @@ namespace ShoppingStore.Models
     public class Photo
     {
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
         [StringLength(255)]
         public string FileName { get; set; }

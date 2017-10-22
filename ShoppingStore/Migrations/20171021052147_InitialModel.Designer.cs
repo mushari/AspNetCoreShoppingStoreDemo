@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using ShoppingStore.Data;
 using System;
 
-namespace ShoppingStore.Data.Migrations
+namespace ShoppingStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171021052147_InitialModel")]
+    partial class InitialModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,7 +195,7 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Photo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FileAddress")
@@ -223,22 +224,15 @@ namespace ShoppingStore.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("PhotoId");
+                    b.Property<string>("PhotoId");
 
                     b.Property<decimal>("Price");
 
-                    b.Property<string>("ProductCategoryId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("PublishedDate");
-
-                    b.Property<decimal>("RatingStar");
-
                     b.HasKey("ProductId");
 
-                    b.HasIndex("PhotoId");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductCategoryId");
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Products");
                 });
@@ -290,15 +284,14 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
-                    b.HasOne("ShoppingStore.Models.Photo", "Photo")
+                    b.HasOne("ShoppingStore.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("PhotoId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ShoppingStore.Models.Category", "ProductCategory")
+                    b.HasOne("ShoppingStore.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PhotoId");
                 });
 #pragma warning restore 612, 618
         }

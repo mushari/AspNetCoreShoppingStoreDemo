@@ -11,5 +11,6 @@ namespace ShoppingStore.Data.Repositories
         IEnumerable<Category> GetCategories();
         Task AddCategory(Category category);
         void DeleteCategory(Category category);
+        Category GetCategory(string categoryId);
     }
 }

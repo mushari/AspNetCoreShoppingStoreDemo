@@ -29,6 +29,14 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpGet]
+        public IActionResult Index()
+        {
+            var categories = categoryRepository.GetCategories().ToList();
+
+            return View(categories);
+        }
+
+        [HttpGet]
         [Route("api/getCategories")]
         public IActionResult GetCategories()
         {
@@ -42,7 +50,7 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
-        [Route("api/addCategory")]
+        [Route("/api/addCategory")]
         public IActionResult AddCategory(CategoryDto categoryDto)
         {
 
@@ -52,12 +60,12 @@ namespace ShoppingStore.Controllers
             }
 
             var getCategories = categoryRepository.GetCategories().ToList();
-     
+
             foreach (var category in getCategories)
             {
                 if (category.CategoryId.Contains(categoryDto.CategoryId))
                 {
-                    return BadRequest("categoryId name already has");
+                    return BadRequest(new { repeatedId = "categoryId name already has" });
                 }
             }
 
@@ -74,6 +82,34 @@ namespace ShoppingStore.Controllers
             uow.Complete();
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/editCategory")]
+        public IActionResult EditCategory(string pk, string value)
+        {
+            var category = categoryRepository.GetCategory(pk);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            category.CategoryName = value;
+            uow.Complete();
+            return Ok("Edit Successful");
+        }
+
+        [HttpDelete]
+        [Route("api/deleteCategory")]
+        public IActionResult DeleteCategory(string pk)
+        {
+            var category = categoryRepository.GetCategory(pk);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            categoryRepository.DeleteCategory(category);
+            uow.Complete();
+            return Ok("Delete Successful");
         }
     }
 }
