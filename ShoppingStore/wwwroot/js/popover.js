@@ -39,26 +39,41 @@ var add_popover = function (cancel_btn_id, popover_btn_id) {
 
 
 var popover_ajax = function (form) {
-
-    $(document).on('submit', form, function (e) {
+    
+    $(document).on('submit', form.form_id, function (e) {
         e.preventDefault();
 
-        var formData =  $(form.form_id).serialize();
-        console.log(formData);
+        //var formData = form.form_id || $(form.form_id).serialize();
+        var formData =  $(form.form_id).serializeArray();
 
-        if (!form.done && !form.fail) {
+
+        if (form.done && form.fail) {
+            console.log("done and fail not null");
+            $.ajax({
+                url: form.url,
+                type: form.type,
+                data: formData,
+                contentType: form.contentType || "application/x-www-form-urlencoded"
+            }).done(form.done).fail(form.fail);
+        } else if (!form.done && !form.fail) {
             console.log("done and fail null");
             $.ajax({
                 url: form.url,
                 type: form.type,
-                data: formData
-            }).done(form.done).fail(form.fail);
+                data: formData,
+                contentType: form.contentType || "application/x-www-form-urlencoded"
+            }).done(function (data) {
+                location.reload();
+            }).fail(function (xhr, status, error) {
+                $(form.validation_id).html("error,something failed.");
+            });
         } else if (!form.done && form.fail) {
             console.log("done null");
             $.ajax({
                 url: form.url,
                 type: form.type,
-                data: formData
+                data: formData,
+                contentType: form.contentType || "application/x-www-form-urlencoded"
             }).done(function (data) {
                 location.reload();
             }).fail(form.fail);
@@ -67,9 +82,10 @@ var popover_ajax = function (form) {
             $.ajax({
                 url: form.url,
                 type: form.type,
-                data: formData
+                data: formData,
+                contentType: form.contentType || "application/x-www-form-urlencoded"
             }).done(form.done).fail(function (xhr, status, error) {
-                $(validation_id).html("error,something failed.");
+                $(form.validation_id).html("error,something failed.");
             });
         }
     });

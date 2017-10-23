@@ -2,7 +2,7 @@
 @inject IViewLocalizer Localizer
 
 
-<br/>
+<br />
 
 <button type="button" id="add_category_popover" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
@@ -11,11 +11,11 @@
                     <form id="add_category_form">
                     <div class="form-group">
                         <label for="input_category_id">@Localizer["CategoryId"]</label>
-                        <input id="input_category_id" name="pk"type="text" class="form-control" />
+                        <input id="input_category_id" name="CategoryId"type="text" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label for="input_category_name">@Localizer["CategoryName"]</label>
-                        <input id="input_category_name" name="name"type="text" class="form-control" />
+                        <input id="input_category_name" name="CategoryName"type="text" class="form-control" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit">@Localizer["Add"]</button>
@@ -24,14 +24,14 @@
                 </form>'>
                     @Localizer["AddNewCategory"]
                 </button>
-<br/>
-<br/>
+<br />
+<br />
 
 <table class="table table-bordered table-responsive">
     <thead>
         <tr>
-            <td>CategoryId</td>
-            <td>CategoryName</td>
+            <td>Category Id</td>
+            <td>Category Name</td>
             <td>Delete</td>
         </tr>
     </thead>
@@ -49,7 +49,7 @@
                     </a>
                 </td>
                 <td>
-                    <button type="button" id="@(category.CategoryId)_delete_category_popover" 
+                    <button type="button" id="@(category.CategoryId)_delete_category_popover"
                             data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
                             data-html="true"
                             data-content='
@@ -76,6 +76,25 @@
     <script src="~/js/popover.js"></script>
     <script>
         add_popover("#add_category_cancel", "#add_category_popover");
+
+        popover_ajax({
+            form_id: "#add_category_form",
+            url: "api/addCategory",
+            type: "POST",
+            fail: function (xhr, status, error) {
+                console.log(xhr);
+                if (xhr.responseJSON.repeatedId) {
+                    $("#add_category_validation").html(xhr.responseJSON.repeatedId);
+                }
+                if (xhr.responseJSON.CategoryId) {
+                    $("#add_category_validation").html(xhr.responseJSON.CategoryId[0]);
+                }
+                if (xhr.responseJSON.CategoryName) {
+                    $("#add_category_validation").html(xhr.responseJSON.CategoryName[0]);
+                }
+            }
+        });
+
     </script>
     @foreach (var category in Model)
     {

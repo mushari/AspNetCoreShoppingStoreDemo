@@ -63,9 +63,9 @@ namespace ShoppingStore.Controllers
 
             foreach (var category in getCategories)
             {
-                if (category.CategoryId.Contains(categoryDto.CategoryId))
+                if (category.CategoryId.Split("_")[0] == (categoryDto.CategoryId))
                 {
-                    return BadRequest(new { repeatedId = "categoryId name already has" });
+                    return BadRequest(new { repeatedId = "CategoryId has repeated" });
                 }
             }
 
@@ -102,13 +102,21 @@ namespace ShoppingStore.Controllers
         [Route("api/deleteCategory")]
         public IActionResult DeleteCategory(string pk)
         {
-            var category = categoryRepository.GetCategory(pk);
-            if (category == null)
+            var categoryId = pk.Split("_")[0];
+            var categories = categoryRepository.GetCategories()
+                .Where(c => c.CategoryId.Split("_")[0] == (categoryId)).ToList();
+
+            if (categories == null)
             {
                 return NotFound();
             }
-            categoryRepository.DeleteCategory(category);
+            foreach (var category in categories)
+            {
+                categoryRepository.DeleteCategory(category);
+            }
+
             uow.Complete();
+
             return Ok("Delete Successful");
         }
     }
