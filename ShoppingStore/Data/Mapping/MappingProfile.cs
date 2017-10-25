@@ -14,7 +14,7 @@ namespace ShoppingStore.Data.Mapping
         {
             CreateMap<Photo, PhotoDto>();
             CreateMap<PhotoDto, Photo>();
-            CreateMap<AddProductViewModel, Product>();
+            CreateMap<ProductFormViewModel, Product>();
            
         }
     }

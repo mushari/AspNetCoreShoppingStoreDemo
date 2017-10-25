@@ -29,9 +29,10 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string url)
         {
             var categories = categoryRepository.GetCategories().ToList();
+            ViewBag.ReturnUrl = url;
 
             return View(categories);
         }

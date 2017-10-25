@@ -9,7 +9,7 @@ namespace ShoppingStore.Data.Repositories
     public interface IProductRepository
     {
         IEnumerable<Product> GetProducts();
-        Product GetProduct(string id,string culture);
+        Product GetProduct(string id);
 
         void AddProduct(Product product);
         Task AddProductAsync(Product product);

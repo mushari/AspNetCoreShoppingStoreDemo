@@ -13,14 +13,6 @@ namespace ShoppingStore.Models
         public string CategoryId { get; set; }
         [Required]
         public string CategoryName { get; set; }
-
-        public string ProductId { get; set; }
-        public ICollection<Product> Products { get; set; }
-
-        public Category()
-        {
-            Products = new Collection<Product>();
-        }
     }
 
 }

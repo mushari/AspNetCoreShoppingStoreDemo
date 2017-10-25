@@ -18,13 +18,13 @@ namespace ShoppingStore.Data.Repositories
         }
         public IEnumerable<Product> GetProducts()
         {
-            return context.Products;
+            return context.Products.Include(p => p.Category);
         }
 
-        public Product GetProduct(string id, string culture)
+        public Product GetProduct(string id)
         {
-            return context.Products.SingleOrDefault(
-                p => p.ProductId == id + "_" + culture);
+            return context.Products.Include(p => p.Category).SingleOrDefault(
+                p => p.ProductId == id);
         }
 
 

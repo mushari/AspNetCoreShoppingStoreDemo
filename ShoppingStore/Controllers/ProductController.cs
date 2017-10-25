@@ -12,6 +12,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using ShoppingStore.Models;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +23,7 @@ namespace ShoppingStore.Controllers
         private IProductRepository productRepository;
         private IPhotoRepository photoRepository;
         private ICategoryRepository categoryRepository;
+        private IHostingEnvironment host;
         private IOptions<RequestLocalizationOptions> options;
         private IMapper mapper;
         private IUnitOfWork uow;
@@ -29,6 +31,7 @@ namespace ShoppingStore.Controllers
             IProductRepository productRepository,
             IPhotoRepository photoRepository,
             ICategoryRepository categoryRepository,
+            IHostingEnvironment host,
             IOptions<RequestLocalizationOptions> options,
             IMapper mapper,
             IUnitOfWork uow)
@@ -36,6 +39,7 @@ namespace ShoppingStore.Controllers
             this.productRepository = productRepository;
             this.photoRepository = photoRepository;
             this.categoryRepository = categoryRepository;
+            this.host = host;
             this.options = options;
             this.mapper = mapper;
             this.uow = uow;
@@ -46,10 +50,9 @@ namespace ShoppingStore.Controllers
         [HttpGet]
         public IActionResult Index(ProductViewModel model)
         {
-            var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
-            var currentCulture = requestFeature.RequestCulture.Culture.Name;
-
-            var products = productRepository.GetProducts().Where(p => p.ProductId.EndsWith("_" + currentCulture)).AsQueryable();
+            var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var products = productRepository.GetProducts()
+                .Where(p => p.ProductId.EndsWith("_" + currentCulture)).AsQueryable();
 
             var photos = photoRepository.GetPhotos().ToList();
 
@@ -73,105 +76,226 @@ namespace ShoppingStore.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-
-            var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
-            var currentCulture = requestFeature.RequestCulture.Culture.Name;
-
-            //var categories = categoryRepository.GetCategories()
-            //    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
-            //    .ToList();
-
-
-            //var product = new AddProductViewModel
-            //{
-            //    Photos = photoRepository.GetPhotos().ToList(),
-            //    Categories = categories
-            //};
-
-            return View(CategoriesAndPhotosList(currentCulture));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(AddProductViewModel productViewModel)
-        {
-
-            var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
-            var currentCulture = requestFeature.RequestCulture.Culture.Name;
-
-            if (!ModelState.IsValid)
-            {
-                return View(CategoriesAndPhotosList(currentCulture));
-            }
-
-
-            var products = productRepository.GetProducts().Where(p=>p.ProductId.Contains(currentCulture)).ToList();
-            foreach (var product in products)
-            {
-                if (productViewModel.ProductId == product.ProductId.Split("_")[0])
-                {
-                    var categories = categoryRepository.GetCategories()
+            var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var photos = photoRepository.GetPhotos().ToList();
+            var categories = categoryRepository.GetCategories()
                     .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
                     .ToList();
 
-                    var product_error = new AddProductViewModel
-                    {
-                        Photos = photoRepository.GetPhotos().ToList(),
-                        Categories = categories
-                    };
-                    ModelState.AddModelError("", "Product Id has already had.");
-                    return View(product_error);
-                } 
-           }
-
-            var cultures = options.Value.SupportedCultures;
-            foreach (var culture in cultures)
+            var viewModel = new ProductFormViewModel
             {
-                Product newproduct = new Product
-                {
-                    ProductId = productViewModel.ProductId + "_" + culture.Name,
-                    CategoryId = productViewModel.CategoryId + "_" + culture.Name,
-                    PhotoId = productViewModel.PhotoId,
-                    Name = productViewModel.Name,
-                    Description = productViewModel.Description,
-                    Price = productViewModel.Price,
-                };
-                productRepository.AddProduct(newproduct);
+                FormType = "Add",
+                Photos = photos,
+                Categories = categories,
+                ReturnUrl = Request.Path.Value
+            };
+
+            return View("ProductForm", viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var product = productRepository.GetProduct(id);
+            var photos = photoRepository.GetPhotos().ToList();
+            var categories = categoryRepository.GetCategories()
+                    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+                    .ToList();
+
+            if (product == null)
+            {
+                return View("Error");
             }
 
-            await uow.CompleteAsync();
+            var viewModel = new ProductFormViewModel
+            {
+                FormType = "Edit",
+                ProductId = product.ProductId.Split("_")[0],
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                PhotoId = product.PhotoId,
+                Photos = photos,
+                Categories = categories,
+                ReturnUrl = Request.Path.Value
+            };
+
+            return View("ProductForm", viewModel);
+        }
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveProduct(ProductFormViewModel productViewModel)
+        {
+            var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var photos = photoRepository.GetPhotos().ToList();
+            var categories = categoryRepository.GetCategories()
+                    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+                    .ToList();
+
+            if (productViewModel.FormType == "Add")
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var viewModel = new ProductFormViewModel
+                    {
+                        FormType = "Add",
+                        Photos = photos,
+                        Categories = categories,
+                        ReturnUrl = Request.Path.Value
+                    };
+                    return View("ProductForm", viewModel);
+                }
+
+                var products = productRepository.GetProducts().Where(
+                    p => p.ProductId.Contains(currentCulture)).ToList();
+
+                if (products.Any(p => p.ProductId.Split("_")[0]
+                        .Contains(productViewModel.ProductId)))
+                {
+                    var viewModel = new ProductFormViewModel
+                    {
+                        FormType = productViewModel.FormType,
+                        Photos = photos,
+                        Categories = categories,
+                        ReturnUrl = Request.Path.Value
+                    };
+                    ModelState.AddModelError("", "Product Id has already had.");
+                    return View("ProductForm", viewModel);
+                }
+
+                var cultures = options.Value.SupportedCultures;
+                foreach (var culture in cultures)
+                {
+                    Product newproduct = new Product
+                    {
+                        ProductId = productViewModel.ProductId + "_" + culture,
+                        CategoryId = productViewModel.CategoryId + "_" + culture,
+                        PhotoId = productViewModel.PhotoId,
+                        Name = productViewModel.Name,
+                        Description = productViewModel.Description,
+                        Price = productViewModel.Price,
+                    };
+                    productRepository.AddProduct(newproduct);
+                }
+                await uow.CompleteAsync();
+
+            }
+            else if (productViewModel.FormType == "Edit")
+            {
+                var product = productRepository.GetProduct(productViewModel.ProductId + "_" + currentCulture);
+
+                if (product == null)
+                {
+                    var viewModel = new ProductFormViewModel
+                    {
+                        FormType = productViewModel.FormType,
+                        ProductId = product.ProductId.Split("_")[0],
+                        Name = product.Name,
+                        Description = product.Description,
+                        Price = product.Price,
+                        PhotoId = product.PhotoId,
+                        Photos = photos,
+                        CategoryId = product.CategoryId,
+                        Categories = categories,
+                        ReturnUrl = Request.Path.Value
+                    };
+                    ModelState.AddModelError("", "Product doesn't exist.");
+                    return View("ProductForm", viewModel);
+                }
+                if (!ModelState.IsValid)
+                {
+                    var viewModel = new ProductFormViewModel
+                    {
+                        FormType = "Edit",
+                        ProductId = product.ProductId.Split("_")[0],
+                        Name = product.Name,
+                        Description = product.Description,
+                        Price = product.Price,
+                        PhotoId = product.PhotoId,
+                        Photos = photos,
+                        CategoryId = product.CategoryId,
+                        Categories = categories,
+                        ReturnUrl = Request.Path.Value
+                    };
+                    return View("ProductForm", viewModel);
+                }
+
+
+                product.Name = productViewModel.Name;
+                product.Description = productViewModel.Description;
+                product.Price = productViewModel.Price;
+                product.PhotoId = productViewModel.PhotoId;
+                product.CategoryId = productViewModel.CategoryId + "_" + currentCulture;
+
+                await uow.CompleteAsync();
+            }
 
             return RedirectToAction("Index");
         }
 
 
-        [HttpDelete]
-        public IActionResult DeleteProduct(string productId)
-        {
-            var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
-            var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
-            var product = productRepository.GetProduct(productId, currentCulture);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(string id)
+        {
+            var product = productRepository.GetProduct(id);
 
             productRepository.RemoveProduct(product);
+            uow.Complete();
 
-            return Ok("Delete Product" + product.ProductId + "Success");
+            return RedirectToAction("Index");
         }
 
-        private AddProductViewModel CategoriesAndPhotosList(string currentCulture)
-        {
-            var categories = categoryRepository.GetCategories()
-                    .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
-                    .ToList();
+        //private ProductFormViewModel ShowFormList(string formType, string id)
+        //{
 
-            var product = new AddProductViewModel
-            {
-                Photos = photoRepository.GetPhotos().ToList(),
-                Categories = categories
-            };
+        //    var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+        //    var currentCulture = requestFeature.RequestCulture.Culture.Name;
 
-            return product;
-        }
+        //    var photos = photoRepository.GetPhotos().ToList();
+        //    var categories = categoryRepository.GetCategories()
+        //            .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
+        //            .ToList();
+
+        //    if (formType == "Add")
+        //    {
+        //        var viewModel = new ProductFormViewModel
+        //        {
+        //            FormType = formType,
+        //            Photos = photos,
+        //            Categories = categories,
+        //            ReturnUrl = Request.Path.Value
+        //        };
+
+        //        return viewModel;
+        //    }
+        //    else
+        //    {
+        //        var product = productRepository.GetProduct(id);
+        //        var viewModel = new ProductFormViewModel
+        //        {
+        //            FormType = formType,
+        //            ProductId = product.ProductId.Split("_")[0],
+        //            Name = product.Name,
+        //            Description = product.Description,
+        //            Price = product.Price,
+        //            PhotoId = product.PhotoId,
+        //            Photos = photos,
+        //            Categories = categories,
+        //            ReturnUrl = Request.Path.Value
+        //        };
+
+        //        return viewModel;
+        //    }
+
+        //}
 
     }
 }

@@ -31,6 +31,11 @@ namespace ShoppingStore.Data.Repositories
             return context.Photos;
         }
 
+        public Photo GetPhoto(string name)
+        {
+            return context.Photos.SingleOrDefault(p => p.FileName == name);
+        }
+
         public async Task AddPhotoAsync(IFormFile file, IHostingEnvironment host)
         {
             var uploadFolderPath = Path.Combine(host.WebRootPath, "photos");

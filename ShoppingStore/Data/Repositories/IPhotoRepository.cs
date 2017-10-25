@@ -11,8 +11,10 @@ namespace ShoppingStore.Data.Repositories
     public interface IPhotoRepository
     {
         IEnumerable<Photo> GetPhotos();
+        Photo GetPhoto(string name);
        
         Task AddPhotoAsync(IFormFile file,IHostingEnvironment host);
+        
         void DeletePhoto(Photo photo, IHostingEnvironment host);
     }
 }

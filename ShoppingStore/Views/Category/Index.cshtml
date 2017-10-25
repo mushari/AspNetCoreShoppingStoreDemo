@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<Category>
 @inject IViewLocalizer Localizer
 
-
 <br />
-
 <button type="button" id="add_category_popover" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-title="@Localizer["AddNewKeyName"]"
         data-html="true"
         data-content='
@@ -24,6 +22,8 @@
                 </form>'>
                     @Localizer["AddNewCategory"]
                 </button>
+
+<a href="@ViewBag.ReturnUrl" class="btn btn-warning">Go Back</a>
 <br />
 <br />
 
@@ -38,21 +38,21 @@
     <tbody>
         @foreach (var category in Model)
         {
-            <tr>
-                <td>@category.CategoryId</td>
-                <td>
-                    <a href="#" id="@(category.CategoryId)_edit_category_popover"
-                       data-type="text" data-url="/api/editCategory"
-                       data-pk="@category.CategoryId"
-                       data-title="Edit Category Name">
-                        @category.CategoryName
-                    </a>
-                </td>
-                <td>
-                    <button type="button" id="@(category.CategoryId)_delete_category_popover"
-                            data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
-                            data-html="true"
-                            data-content='
+        <tr>
+            <td>@category.CategoryId</td>
+            <td>
+                <a href="#" id="@(category.CategoryId)_edit_category_popover"
+                   data-type="text" data-url="/api/editCategory"
+                   data-pk="@category.CategoryId"
+                   data-title="Edit Category Name">
+                    @category.CategoryName
+                </a>
+            </td>
+            <td>
+                <button type="button" id="@(category.CategoryId)_delete_category_popover"
+                        data-container="body" data-toggle="popover" class="btn btn-sm btn-danger" title="@Localizer["AreYouSure"]"
+                        data-html="true"
+                        data-content='
                              <div class="text-danger"id="@(category.CategoryId)_delete_category_validation"></div>
                              <form id="@(category.CategoryId)_delete_category_form">
                                  <div class="form-group">
@@ -64,17 +64,17 @@
                             '>
                             @Localizer["Delete"]
                         </button>
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
 
 @section Scripts{
-    <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <script src="~/js/popover.js"></script>
-    <script>
+<script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="~/js/popover.js"></script>
+<script>
         add_popover("#add_category_cancel", "#add_category_popover");
 
         popover_ajax({
@@ -95,10 +95,10 @@
             }
         });
 
-    </script>
+</script>
     @foreach (var category in Model)
     {
-        <script>
+<script>
             add_popover("#@(category.CategoryId)_delete_category_cancel", "#@(category.CategoryId)_delete_category_popover");
 
             popover_ajax({
@@ -109,6 +109,6 @@
             });
 
             xeditable_ajax("#@(category.CategoryId)_edit_category_popover");
-        </script>
+</script>
     }
 }

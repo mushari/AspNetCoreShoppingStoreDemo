@@ -15,7 +15,8 @@
         <div class="media">
 
             <a class="pull-left" href="#">
-                <img class="media-object" src="http://www.placehold.it/64x64" alt="media-object">
+                <img width="200" height="200" class="media-object"
+                     src="@item.Photo.FileAddress" alt="media-object">
             </a>
 
             <div class="media-body">
@@ -23,8 +24,11 @@
                     <strong style="color:crimson">@Localizer["Name"]:</strong>
                     <strong>@item.Name</strong>
                 </div>
-
                 <div>
+                    <strong style="color:crimson">@Localizer["Category"]:@item.Category.CategoryName</strong>
+                </div>
+                <div>
+
                     <strong style="color:crimson">@Localizer["Description"]:</strong>
                     <br />
                     <br />
@@ -49,11 +53,21 @@
                 </div>
             </div>
         </div>
+        <br />
+
+        <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
+
+        <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
+            <button type="submit" class="btn btn-danger" name="id" value="@item.ProductId">
+                Delete
+            </button>
+        </form>
+
     </div>
 }
 
 
-<a asp-action="AddProduct" asp-controller="Product"  class="btn btn-primary">@Localizer["AddNewProduct"]</a>
+<a asp-action="AddProduct" asp-controller="Product" class="btn btn-primary">@Localizer["AddNewProduct"]</a>
 
 <pagination item-per-page="Model.ItemPerPage"
             current-page="Model.Page"

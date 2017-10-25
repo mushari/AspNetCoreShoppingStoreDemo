@@ -27,8 +27,10 @@ namespace ShoppingStore.Models
         [Display(Name = "ProductPrice")]
         public decimal Price { get; set; }
 
-        public Photo Photo { get; set; }
+
+        [Required]
         public string PhotoId { get; set; }
+        public Photo Photo { get; set; }
 
         [Required]
         public string CategoryId { get; set; }

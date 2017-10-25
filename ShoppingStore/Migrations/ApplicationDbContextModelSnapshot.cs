@@ -187,8 +187,6 @@ namespace ShoppingStore.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired();
 
-                    b.Property<string>("ProductId");
-
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
@@ -196,7 +194,7 @@ namespace ShoppingStore.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.Photo", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("PhotoId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FileAddress")
@@ -206,7 +204,7 @@ namespace ShoppingStore.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.HasKey("Id");
+                    b.HasKey("PhotoId");
 
                     b.ToTable("Photos");
                 });
@@ -225,7 +223,8 @@ namespace ShoppingStore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhotoId");
+                    b.Property<string>("PhotoId")
+                        .IsRequired();
 
                     b.Property<decimal>("Price");
 
@@ -286,13 +285,14 @@ namespace ShoppingStore.Migrations
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
                     b.HasOne("ShoppingStore.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ShoppingStore.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("PhotoId");
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

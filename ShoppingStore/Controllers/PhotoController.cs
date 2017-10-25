@@ -12,6 +12,7 @@ using ShoppingStore.Models;
 using ShoppingStore.Data;
 using ShoppingStore.Models.ProductViewModels;
 using ShoppingStore.Data.Repositories;
+using ShoppingStore.Models.PhotoViewModels;
 
 namespace ShoppingStore.Controllers
 {
@@ -32,6 +33,22 @@ namespace ShoppingStore.Controllers
             this.mapper = mapper;
             this.photoRepository = repository;
             this.unitOfWork = unitOfWork;
+        }
+
+
+        public IActionResult Index(string returnUrl)
+        {
+            PhotoViewModel model = new PhotoViewModel
+            {
+                Photos = photoRepository.GetPhotos().ToList()
+            };
+            return View(model);
+        }
+
+        public IActionResult UploadView(string url)
+        {
+            ViewBag.ReturnUrl = url;
+            return View();
         }
 
         [HttpPost]
@@ -79,6 +96,7 @@ namespace ShoppingStore.Controllers
             return Ok(photo);
         }
 
+
         [HttpGet]
         [Route("api/photos")]
         public IActionResult GetPhotos()
@@ -98,7 +116,7 @@ namespace ShoppingStore.Controllers
         [Route("api/deletefile")]
         public IActionResult DeletePhoto(string id)
         {
-            var photo = photoRepository.GetPhotos().FirstOrDefault(p => p.Id == id);
+            var photo = photoRepository.GetPhotos().SingleOrDefault(p => p.PhotoId == id);
             if (photo == null)
             {
                 return NotFound();
