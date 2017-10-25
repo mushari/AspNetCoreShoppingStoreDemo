@@ -124,9 +124,6 @@ namespace ShoppingStore.Controllers
             return View("ProductForm", viewModel);
         }
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveProduct(ProductFormViewModel productViewModel)
@@ -139,16 +136,23 @@ namespace ShoppingStore.Controllers
 
             if (productViewModel.FormType == "Add")
             {
-
+                var viewModel = new ProductFormViewModel
+                {
+                    FormType = "Add",
+                    Photos = photos,
+                    Categories = categories,
+                    ReturnUrl = Request.Path.Value
+                };
                 if (!ModelState.IsValid)
                 {
-                    var viewModel = new ProductFormViewModel
-                    {
-                        FormType = "Add",
-                        Photos = photos,
-                        Categories = categories,
-                        ReturnUrl = Request.Path.Value
-                    };
+
+                    return View("ProductForm", viewModel);
+                }
+
+                if (productViewModel.ProductId.Contains("_"))
+                {
+                    ModelState.AddModelError("", "Product Id can't contain '_' symbol.");
+
                     return View("ProductForm", viewModel);
                 }
 
@@ -158,13 +162,7 @@ namespace ShoppingStore.Controllers
                 if (products.Any(p => p.ProductId.Split("_")[0]
                         .Contains(productViewModel.ProductId)))
                 {
-                    var viewModel = new ProductFormViewModel
-                    {
-                        FormType = productViewModel.FormType,
-                        Photos = photos,
-                        Categories = categories,
-                        ReturnUrl = Request.Path.Value
-                    };
+
                     ModelState.AddModelError("", "Product Id has already had.");
                     return View("ProductForm", viewModel);
                 }
@@ -189,40 +187,27 @@ namespace ShoppingStore.Controllers
             else if (productViewModel.FormType == "Edit")
             {
                 var product = productRepository.GetProduct(productViewModel.ProductId + "_" + currentCulture);
+                var viewModel = new ProductFormViewModel
+                {
+                    FormType = "Edit",
+                    ProductId = product.ProductId.Split("_")[0],
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    PhotoId = product.PhotoId,
+                    Photos = photos,
+                    CategoryId = product.CategoryId,
+                    Categories = categories,
+                    ReturnUrl = Request.Path.Value
+                };
 
                 if (product == null)
                 {
-                    var viewModel = new ProductFormViewModel
-                    {
-                        FormType = productViewModel.FormType,
-                        ProductId = product.ProductId.Split("_")[0],
-                        Name = product.Name,
-                        Description = product.Description,
-                        Price = product.Price,
-                        PhotoId = product.PhotoId,
-                        Photos = photos,
-                        CategoryId = product.CategoryId,
-                        Categories = categories,
-                        ReturnUrl = Request.Path.Value
-                    };
                     ModelState.AddModelError("", "Product doesn't exist.");
                     return View("ProductForm", viewModel);
                 }
                 if (!ModelState.IsValid)
                 {
-                    var viewModel = new ProductFormViewModel
-                    {
-                        FormType = "Edit",
-                        ProductId = product.ProductId.Split("_")[0],
-                        Name = product.Name,
-                        Description = product.Description,
-                        Price = product.Price,
-                        PhotoId = product.PhotoId,
-                        Photos = photos,
-                        CategoryId = product.CategoryId,
-                        Categories = categories,
-                        ReturnUrl = Request.Path.Value
-                    };
                     return View("ProductForm", viewModel);
                 }
 
@@ -252,50 +237,5 @@ namespace ShoppingStore.Controllers
 
             return RedirectToAction("Index");
         }
-
-        //private ProductFormViewModel ShowFormList(string formType, string id)
-        //{
-
-        //    var requestFeature = Request.HttpContext.Features.Get<IRequestCultureFeature>();
-        //    var currentCulture = requestFeature.RequestCulture.Culture.Name;
-
-        //    var photos = photoRepository.GetPhotos().ToList();
-        //    var categories = categoryRepository.GetCategories()
-        //            .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
-        //            .ToList();
-
-        //    if (formType == "Add")
-        //    {
-        //        var viewModel = new ProductFormViewModel
-        //        {
-        //            FormType = formType,
-        //            Photos = photos,
-        //            Categories = categories,
-        //            ReturnUrl = Request.Path.Value
-        //        };
-
-        //        return viewModel;
-        //    }
-        //    else
-        //    {
-        //        var product = productRepository.GetProduct(id);
-        //        var viewModel = new ProductFormViewModel
-        //        {
-        //            FormType = formType,
-        //            ProductId = product.ProductId.Split("_")[0],
-        //            Name = product.Name,
-        //            Description = product.Description,
-        //            Price = product.Price,
-        //            PhotoId = product.PhotoId,
-        //            Photos = photos,
-        //            Categories = categories,
-        //            ReturnUrl = Request.Path.Value
-        //        };
-
-        //        return viewModel;
-        //    }
-
-        //}
-
     }
 }
