@@ -20,6 +20,7 @@ using AspNetCore.JsonLocalization;
 using Microsoft.AspNetCore.Routing.Constraints;
 using ShoppingStore.Models.LocalizedViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace ShoppingStore
 {
@@ -52,6 +53,9 @@ namespace ShoppingStore
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddJsonLocalization();
 
             services.AddMvc()
@@ -76,6 +80,13 @@ namespace ShoppingStore
                 opts.SupportedCultures = supportedCultures;
                 opts.SupportedUICultures = supportedCultures;
             });
+
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +105,7 @@ namespace ShoppingStore
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseAuthentication();
 
             var options = app.ApplicationServices

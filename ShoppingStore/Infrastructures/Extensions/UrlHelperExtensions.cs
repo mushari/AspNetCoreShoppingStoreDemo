@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ShoppingStore.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace ShoppingStore.Infrastructure.Extensions
 {
@@ -26,5 +27,12 @@ namespace ShoppingStore.Infrastructure.Extensions
                 values: new { userId, code },
                 protocol: scheme);
         }
+
+        public static string PathAndQuery(this HttpRequest request)
+        {
+            return request.QueryString.HasValue ? 
+                $"{request.Path}{request.QueryString}" : request.Path.ToString();
+        }
+
     }
 }

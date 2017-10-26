@@ -228,13 +228,19 @@ namespace ShoppingStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var product = productRepository.GetProduct(id);
-
-            productRepository.RemoveProduct(product);
-            uow.Complete();
-
+            var productId = id.Split("_")[0];
+            var cultures = options.Value.SupportedCultures;
+            foreach (var culture in cultures)
+            {
+                var product = productRepository.GetProduct(productId + "_" + culture);
+                if (product != null)
+                {
+                    productRepository.RemoveProduct(product);
+                }
+            }
+            await uow.CompleteAsync();
             return RedirectToAction("Index");
         }
     }

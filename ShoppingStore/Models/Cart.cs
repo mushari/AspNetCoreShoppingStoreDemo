@@ -33,13 +33,17 @@ namespace ShoppingStore.Models
             lineList.RemoveAll(l => l.Product.ProductId == product.ProductId);
 
 
-        public virtual decimal ComputeTotalValue(string culture) =>
-            lineList.Where(
+        public virtual decimal ComputeTotalValue(string culture)
+        {
+            return lineList.Where(
                 l => l.Product.ProductId.EndsWith("_" + culture)).Sum(e =>
                 e.Product.Price * e.Quantity);
+        }
 
-        public virtual void Clear() =>
+        public virtual void Clear()
+        {
             lineList.Clear();
+        }
 
         public virtual IEnumerable<CartLine> GetCartLines =>
             lineList;

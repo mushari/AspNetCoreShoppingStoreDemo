@@ -13,7 +13,8 @@
     "dropzone": "v5.1.1",
     "lightgallery.js": "1.0.1",
     "image-picker": "0.3.0",
-    "twbs-pagination": "v1.4.1"
+    "twbs-pagination": "v1.4.1",
+    "font-awesome": "Font-Awesome#v4.7.0"
   },
   "resolutions": {
     "bootstrap": "v4.0.0-beta"

@@ -8,8 +8,15 @@
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
 }
 
-<br />
-<br />
+@if (Model.FormType == "Add")
+{
+    <h2>@Localizer["AddNewProduct"]</h2>
+}
+else
+{
+    <h2>@Localizer["EditProduct"]</h2>
+}
+
 <div asp-validation-summary="All"></div>
 <form asp-action="SaveProduct" asp-controller="Product" asp-antiforgery="true" enctype="multipart/form-data">
 

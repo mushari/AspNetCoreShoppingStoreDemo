@@ -27,8 +27,7 @@
                 <div>
                     <strong style="color:crimson">@Localizer["Category"]:@item.Category.CategoryName</strong>
                 </div>
-                <div>
-
+                <div class="lead">
                     <strong style="color:crimson">@Localizer["Description"]:</strong>
                     <br />
                     <br />
@@ -37,31 +36,47 @@
                     </div>
                 </div>
                 <br />
-                <div class="pull-right label label-info ">
-                    @if (currentCulture == "en-GB")
-                {
-                        @(((double)item.Price / 40).ToString("C"))
-                    }
-                    else if (currentCulture == "en-US")
-                    {
-                        @(((double)item.Price / 30).ToString("C"))
-                    }
-                    else
-                    {
-                        @item.Price.ToString("C")
-                    }
-                </div>
+                <h3>
+                    <span class="label label-info">
+                        @if (currentCulture == "en-GB")
+                        {
+                            @(((double)item.Price / 40).ToString("C"))
+                        }
+                        else if (currentCulture == "en-US")
+                        {
+                            @(((double)item.Price / 30).ToString("C"))
+                        }
+                        else
+                        {
+                            @item.Price.ToString("C")
+                        }
+                    </span>
+                </h3>
+                <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                    <input type="hidden" name="productId" value="@item.ProductId" />
+                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <button type="submit" class="btn btn-success ">
+                        Add To Cart
+                    </button>
+                </form>
             </div>
         </div>
         <br />
 
-        <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
+        <div class="row">
 
-        <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
-            <button type="submit" class="btn btn-danger" name="id" value="@item.ProductId">
-                Delete
-            </button>
-        </form>
+            <div class="col-sm-1">
+                <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
+            </div>
+
+            <div>
+                <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
+                    <button type="submit" class="btn btn-danger" name="id" value="@item.ProductId">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
 
     </div>
 }

@@ -977,5 +977,13 @@
       "zh-TW": "登入密碼或帳戶錯誤"
     },
     "Key": "InvalidLoginAttempt"
+  },
+  {
+    "Value": {
+      "en-GB": "Edit Product",
+      "en-US": "Edit Product",
+      "zh-TW": "編輯產品"
+    },
+    "Key": "EditProduct"
   }
 ]
