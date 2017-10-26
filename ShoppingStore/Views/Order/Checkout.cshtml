@@ -1,0 +1,26 @@
+﻿@model Order
+
+<h2>Check out now</h2>
+<p>Please enter your details</p>
+<form generic 
+      asp-validation-summary="All"
+      asp-antiforgery="true" form-model="@Model" asp-action="Checkout" asp-controller="Order" method="post"
+      attrs-tag="{
+            input:{class:'form-control'}
+          }"
+      attrs-tag-from-model="{
+            orderid:{
+                input:{type:'hidden'}
+            }
+          }"
+      disable-tags-from-model="{
+            orderid:{
+                label:true,
+                validation:true
+            }
+          }">
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Complete Order" />
+    </div>
+</form>

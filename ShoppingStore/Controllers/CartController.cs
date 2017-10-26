@@ -24,7 +24,7 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult AddToCart(
+        public IActionResult AddToCart(
             string productId, string returnUrl)
         {
             Product product = productRepository.GetProduct(productId);
@@ -32,7 +32,8 @@ namespace ShoppingStore.Controllers
             {
                 cart.AddItem(product, 1);
             }
-            return RedirectToAction("Index", new { returnUrl });
+            //return RedirectToAction("Index", new { returnUrl });
+            return RedirectToAction("Index", "Product");
         }
 
         public RedirectToActionResult RemoveFromCart(

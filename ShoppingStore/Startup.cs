@@ -51,6 +51,7 @@ namespace ShoppingStore
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IPhotoRepository, PhotoRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
