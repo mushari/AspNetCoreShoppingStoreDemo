@@ -8,6 +8,7 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
+    var cartLines = Model.Cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
 }
 
 
@@ -24,38 +25,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var line in Model.Cart.GetCartLines)
+        @foreach (var line in cartLines)
         {
             <tr>
                 <td class="text-center">@line.Quantity</td>
                 <td class="text-left">@line.Product.Name</td>
                 <td class="text-right">
-                    @if (currentCulture == "en-GB")
-                    {
-                        @(((double)line.Product.Price / 40).ToString("C"))
-                    }
-                    else if (currentCulture == "en-US")
-                    {
-                        @(((double)line.Product.Price / 30).ToString("C"))
-                    }
-                    else
-                    {
-                        @line.Product.Price.ToString("C")
-                    }
+                    @line.Product.Price.ToString("C")
                 </td>
                 <td class="text-right">
-                    @if (currentCulture == "en-GB")
-                    {
-                        @(((double)(line.Quantity * line.Product.Price) / 40).ToString("C"))
-                    }
-                    else if (currentCulture == "en-US")
-                    {
-                        @(((double)(line.Quantity * line.Product.Price) / 30).ToString("C"))
-                    }
-                    else
-                    {
-                        @((line.Quantity * line.Product.Price).ToString("C"))
-                    }
+                    @((line.Quantity*line.Product.Price).ToString("C"))
                 </td>
                 <td>
                     <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">

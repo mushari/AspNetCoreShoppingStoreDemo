@@ -10,6 +10,7 @@ namespace ShoppingStore.Components
     public class CartSummaryViewComponent : ViewComponent
     {
         private Cart cart;
+
         public CartSummaryViewComponent(Cart cartService)
         {
             cart = cartService;

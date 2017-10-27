@@ -7,19 +7,24 @@ using ShoppingStore.Data.Repositories;
 using ShoppingStore.Models;
 using ShoppingStore.Infrastructures.Extensions;
 using ShoppingStore.Models.CartViewModels;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Builder;
 
 namespace ShoppingStore.Controllers
 {
     public class CartController : Controller
     {
         private readonly IProductRepository productRepository;
+        private IOptions<RequestLocalizationOptions> options;
         private Cart cart;
 
         public CartController(
             IProductRepository productRepository,
+            IOptions<RequestLocalizationOptions> options,
             Cart cartService)
         {
             this.productRepository = productRepository;
+            this.options = options;
             cart = cartService;
         }
 
@@ -27,11 +32,20 @@ namespace ShoppingStore.Controllers
         public IActionResult AddToCart(
             string productId, string returnUrl)
         {
-            Product product = productRepository.GetProduct(productId);
-            if (product != null)
+            var id = productId.Split("_")[0];
+            var cultures = options.Value.SupportedCultures;
+            foreach (var culture in cultures)
             {
-                cart.AddItem(product, 1);
+                Product product = productRepository.GetProduct(
+                    id + "_" + culture.Name);
+
+                if (product != null)
+                {
+                    cart.AddItem(product, 1);
+                }
             }
+
+
             //return RedirectToAction("Index", new { returnUrl });
             return RedirectToAction("Index", "Product");
         }
@@ -39,12 +53,19 @@ namespace ShoppingStore.Controllers
         public RedirectToActionResult RemoveFromCart(
             string productId, string returnUrl)
         {
-            Product product = productRepository.GetProduct(productId);
-
-            if (product != null)
+            var id = productId.Split("_")[0];
+            var cultures = options.Value.SupportedCultures;
+            foreach (var culture in cultures)
             {
-                cart.RemoveLine(product);
+                Product product = productRepository.GetProduct(
+                    id + "_" + culture.Name);
+
+                if (product != null)
+                {
+                    cart.RemoveLine(product);
+                }
             }
+
             return RedirectToAction("Index", new { returnUrl });
         }
 

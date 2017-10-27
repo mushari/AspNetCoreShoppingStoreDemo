@@ -6,15 +6,16 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
+    var cartLines = Model.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
 }
 
 
 <div class="">
-    @if (Model.GetCartLines.Count() > 0)
+    @if (cartLines.Count() > 0)
     {
         <small class="navbar-text">
             <b>Your cart:</b>
-            @Model.GetCartLines.Sum(x=>x.Quantity) Item(s)
+            @cartLines.Sum(x=>x.Quantity) Item(s)
             @Model.ComputeTotalValue(currentCulture).ToString("c")
         </small>
     }

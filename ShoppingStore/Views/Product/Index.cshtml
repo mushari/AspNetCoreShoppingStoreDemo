@@ -38,18 +38,7 @@
                 <br />
                 <h3>
                     <span class="label label-info">
-                        @if (currentCulture == "en-GB")
-                        {
-                            @(((double)item.Price / 40).ToString("C"))
-                        }
-                        else if (currentCulture == "en-US")
-                        {
-                            @(((double)item.Price / 30).ToString("C"))
-                        }
-                        else
-                        {
-                            @item.Price.ToString("C")
-                        }
+                        @item.Price.ToString("C")
                     </span>
                 </h3>
                 <form asp-action="AddToCart" asp-controller="Cart" method="post">

@@ -29,8 +29,10 @@ namespace ShoppingStore.Models
                 line.Quantity += quantity;
             }
         }
-        public virtual void RemoveLine(Product product) =>
+        public virtual void RemoveLine(Product product)
+        {
             lineList.RemoveAll(l => l.Product.ProductId == product.ProductId);
+        }
 
 
         public virtual decimal ComputeTotalValue(string culture)
@@ -45,7 +47,8 @@ namespace ShoppingStore.Models
             lineList.Clear();
         }
 
-        public virtual IEnumerable<CartLine> GetCartLines =>
-            lineList;
+        public virtual IEnumerable<CartLine> GetCartLines => lineList;
+
+
     }
 }

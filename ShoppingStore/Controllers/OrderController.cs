@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingStore.Models;
 using ShoppingStore.Data.Repositories;
+using Microsoft.AspNetCore.Localization;
 
 namespace ShoppingStore.Controllers
 {
@@ -28,14 +29,16 @@ namespace ShoppingStore.Controllers
         [HttpPost]
         public IActionResult Checkout(Order order)
         {
-            if (cart.GetCartLines.Count() == 0)
+            var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var cartLines = cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
+            if (cartLines.Count() == 0)
             {
                 ModelState.AddModelError("", "Sorry your cart is empty");
             }
 
             if (ModelState.IsValid)
             {
-                order.Lines = cart.GetCartLines.ToArray();
+                order.Lines = cartLines.ToArray();
                 orderRepository.SaveOrder(order);
 
                 return RedirectToAction(nameof(Completed));
