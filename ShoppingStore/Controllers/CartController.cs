@@ -30,7 +30,7 @@ namespace ShoppingStore.Controllers
 
         [HttpPost]
         public IActionResult AddToCart(
-            string productId, string returnUrl)
+            string productId, int quantity, string returnUrl)
         {
             var id = productId.Split("_")[0];
             var cultures = options.Value.SupportedCultures;
@@ -41,7 +41,7 @@ namespace ShoppingStore.Controllers
 
                 if (product != null)
                 {
-                    cart.AddItem(product, 1);
+                    cart.AddItem(product, quantity);
                 }
             }
 
@@ -50,7 +50,26 @@ namespace ShoppingStore.Controllers
             return RedirectToAction("Index", "Product");
         }
 
-        public RedirectToActionResult RemoveFromCart(
+        [HttpPost]
+        public IActionResult RemoveItem(string productId, int quantity, string returnUrl)
+        {
+            var id = productId.Split("_")[0];
+            var cultures = options.Value.SupportedCultures;
+            foreach (var culture in cultures)
+            {
+                Product product = productRepository.GetProduct(
+                    id + "_" + culture.Name);
+                if (product != null)
+                {
+                    cart.RemoveItem(product, quantity);
+                }
+            }
+
+            return RedirectToAction("Index", new { returnUrl });
+        }
+
+        [HttpPost]
+        public RedirectToActionResult RemoveAll(
             string productId, string returnUrl)
         {
             var id = productId.Split("_")[0];

@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using ShoppingStore.Models.LocalizedViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ShoppingStore
 {
@@ -44,6 +45,25 @@ namespace ShoppingStore
                 .AddDefaultTokenProviders()
                 .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromDays(50);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
             services.AddAutoMapper();
 
             // Add application services.
@@ -56,6 +76,8 @@ namespace ShoppingStore
 
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 
             services.AddJsonLocalization();
 

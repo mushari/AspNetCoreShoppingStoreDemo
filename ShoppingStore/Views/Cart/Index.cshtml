@@ -18,49 +18,74 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Quantity</th>
-            <th>Item</th>
-            <th class="text-right">Price</th>
-            <th class="text-right">Subtotal</th>
+            <th>@Localizer["ProductName"]</th>
+            <th>@Localizer["Quantity"]</th>
+            <th class="text-right">@Localizer["Price"]</th>
+            <th class="text-right">@Localizer["Subtotal"]</th>
+            <th>Quantity Of Remove Item</th>
+            <th>Remove All Line</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var line in cartLines)
+        @if (cartLines.Count() != 0)
+        {
+            @foreach (var line in cartLines)
+            {
+                <tr>
+                    <td class="text-left">@line.Product.Name</td>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-right">
+                        @line.Product.Price.ToString("C")
+                    </td>
+                    <td class="text-right">
+                        @((line.Quantity * line.Product.Price).ToString("C"))
+                    </td>
+                    <td>
+                        <form asp-action="RemoveItem" asp-controller="Cart" method="post">
+                            <input type="hidden" name="ProductId" value="@line.Product.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <input type="number" name="quantity" value="1" max="10000" class="form-control" />
+                            <br/>
+                            <button type="submit" class="btn btn-sm btn-danger pull-right">
+                                RemoveItem
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="RemoveAll" asp-controller="Cart" method="post">
+                            <input type="hidden" name="ProductId" value="@line.Product.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                RemoveAll
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-right">Total:</td>
+                <td class="text-right">
+                    @Model.Cart.ComputeTotalValue(currentCulture).ToString("c")
+                </td>
+            </tr>
+        </tfoot>
+        }
+        else
         {
             <tr>
-                <td class="text-center">@line.Quantity</td>
-                <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">
-                    @line.Product.Price.ToString("C")
-                </td>
-                <td class="text-right">
-                    @((line.Quantity*line.Product.Price).ToString("C"))
-                </td>
-                <td>
-                    <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
-                        <input type="hidden" name="ProductId" value="@line.Product.ProductId" />
-                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Remove
-                        </button>
-                    </form>
+                <td colspan="6" class="text-center text-danger">
+                    <h3>You don't have any items in your cart</h3>
                 </td>
             </tr>
         }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total:</td>
-            <td class="text-right">
-                @Model.Cart.ComputeTotalValue(currentCulture).ToString("c")
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        </tbody>
 
-<div class="text-center">
-    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
-    <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
-        Checkout
-    </a>
-</div>
+    </table>
+
+    <div class="text-center">
+        <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
+        <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
+            Checkout
+        </a>
+    </div>

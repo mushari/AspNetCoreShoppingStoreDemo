@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using ShoppingStore.Data;
 using System;
 
-namespace ShoppingStore.Migrations
+namespace ShoppingStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171026132113_AddOrderTable")]
-    partial class AddOrderTable
+    [Migration("20171028070415_AddCartLineTable")]
+    partial class AddCartLineTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -197,7 +197,7 @@ namespace ShoppingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartLine");
+                    b.ToTable("CartLines");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.Category", b =>

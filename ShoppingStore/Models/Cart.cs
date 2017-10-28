@@ -14,7 +14,7 @@ namespace ShoppingStore.Models
             // Check list already have product
             CartLine line = lineList
                 .Where(p => p.Product.ProductId == product.ProductId)
-                .FirstOrDefault();
+                .SingleOrDefault();
 
             if (line == null)
             {
@@ -29,6 +29,16 @@ namespace ShoppingStore.Models
                 line.Quantity += quantity;
             }
         }
+
+        public virtual void RemoveItem(Product product, int quantity)
+        {
+            var item = lineList.Where(l => l.Product.ProductId == product.ProductId).SingleOrDefault();
+            if (item != null && item.Quantity > 0)
+            {
+                item.Quantity -= quantity;
+            }
+        }
+
         public virtual void RemoveLine(Product product)
         {
             lineList.RemoveAll(l => l.Product.ProductId == product.ProductId);

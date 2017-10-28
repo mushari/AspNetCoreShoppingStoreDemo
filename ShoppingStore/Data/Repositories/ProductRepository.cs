@@ -51,6 +51,14 @@ namespace ShoppingStore.Data.Repositories
 
         public void RemoveProduct(Product product)
         {
+            var cartLine = context.CartLines.Where(
+                c => c.Product.ProductId == product.ProductId).SingleOrDefault();
+
+            if (cartLine != null)
+            {
+                context.CartLines.Remove(cartLine);
+            }
+
             context.Products.Remove(product);
         }
 

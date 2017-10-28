@@ -40,14 +40,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">@Localizer["About"]</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">@Localizer["Contact"]</a></li>
+                    <li><a asp-controller="Localization" asp-action="Index">Localization Editor</a></li>
                     <li><a asp-controller="Product" asp-action="Index">@Localizer["Products"]</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
-                <div class="pull-right">
-                    @await Component.InvokeAsync("CartSummary")
-                </div>
+              
             </div>
         </div>
     </nav>

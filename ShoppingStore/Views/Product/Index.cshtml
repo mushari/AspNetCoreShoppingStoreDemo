@@ -41,9 +41,14 @@
                         @item.Price.ToString("C")
                     </span>
                 </h3>
+                <h4>
+                    <label class="label label-primary">Add Product Quantity</label>
+                </h4>
                 <form asp-action="AddToCart" asp-controller="Cart" method="post">
                     <input type="hidden" name="productId" value="@item.ProductId" />
                     <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <input type="number" name="quantity" max="10000" value="1"  class="form-control"style="width:160px" />
+                    <br />
                     <button type="submit" class="btn btn-success ">
                         Add To Cart
                     </button>

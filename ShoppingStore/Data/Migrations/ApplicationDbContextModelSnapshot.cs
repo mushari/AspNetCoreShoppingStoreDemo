@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using ShoppingStore.Data;
 using System;
 
-namespace ShoppingStore.Migrations
+namespace ShoppingStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -196,7 +196,7 @@ namespace ShoppingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartLine");
+                    b.ToTable("CartLines");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.Category", b =>

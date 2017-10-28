@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using ShoppingStore.Data;
 using System;
 
-namespace ShoppingStore.Migrations
+namespace ShoppingStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171024023103_InitialModel")]
+    [Migration("20171028064953_InitialModel")]
     partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,6 +180,26 @@ namespace ShoppingStore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ShoppingStore.Models.CartLine", b =>
+                {
+                    b.Property<int>("CartLineID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<string>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("CartLineID");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartLine");
+                });
+
             modelBuilder.Entity("ShoppingStore.Models.Category", b =>
                 {
                     b.Property<string>("CategoryId")
@@ -188,11 +208,42 @@ namespace ShoppingStore.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired();
 
-                    b.Property<string>("ProductId");
-
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("ShoppingStore.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City")
+                        .IsRequired();
+
+                    b.Property<string>("Country")
+                        .IsRequired();
+
+                    b.Property<bool>("GiftWrap");
+
+                    b.Property<string>("Line1")
+                        .IsRequired();
+
+                    b.Property<string>("Line2");
+
+                    b.Property<string>("Line3");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("State")
+                        .IsRequired();
+
+                    b.Property<string>("Zip");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.Photo", b =>
@@ -226,7 +277,8 @@ namespace ShoppingStore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhotoId");
+                    b.Property<string>("PhotoId")
+                        .IsRequired();
 
                     b.Property<decimal>("Price");
 
@@ -284,16 +336,28 @@ namespace ShoppingStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ShoppingStore.Models.CartLine", b =>
+                {
+                    b.HasOne("ShoppingStore.Models.Order")
+                        .WithMany("Lines")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("ShoppingStore.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>
                 {
                     b.HasOne("ShoppingStore.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ShoppingStore.Models.Photo", "Photo")
                         .WithMany()
-                        .HasForeignKey("PhotoId");
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
