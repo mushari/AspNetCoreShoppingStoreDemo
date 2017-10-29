@@ -40,12 +40,7 @@ namespace ShoppingStore
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders()
-                .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
-
-            services.Configure<IdentityOptions>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 5;
@@ -53,7 +48,9 @@ namespace ShoppingStore
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-            });
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders()
+              .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -114,32 +111,24 @@ namespace ShoppingStore
 
             services.AddAuthentication().AddGoogle(options =>
             {
-                //options.ClientId = "563822801624-28sr5rr9ngiqe7bcjeg8qmn09khr8fr8.apps.googleusercontent.com";
-                //options.ClientSecret = "dbdYz3vxhOeiR4Ngf3L_0EAJ";
                 options.ClientId = Configuration["Google:ClientId"];
                 options.ClientSecret = Configuration["Google:ClientSecret"];
             });
 
             services.AddAuthentication().AddFacebook(options =>
             {
-                //options.ClientId = "643933675803261";
-                //options.ClientSecret = "dbb9afb0f34ebb6cfdbb45d4a6965d1b";
                 options.ClientId = Configuration["Facebook:ClientId"];
                 options.ClientSecret = Configuration["Facebook:ClientSecret"];
             });
 
             services.AddAuthentication().AddTwitter(options =>
             {
-                //options.ConsumerKey = "gFs2HG3vkCYhVjF466VYVZ76o";
-                //options.ConsumerSecret = "d1wQvKF8BOQ8Uy17TEpjxXY8DQPSdrmsPFBc04m8Rnsz7AL6Qi";
                 options.ConsumerKey = Configuration["Twitter:ConsumerKey"];
                 options.ConsumerSecret = Configuration["Twitter:ConsumerSecret"];
             });
 
             services.AddAuthentication().AddMicrosoftAccount(options =>
             {
-                //options.ClientId = "17637aad-7a0a-4b5f-a261-87728f635945";
-                //options.ClientSecret = "pyjKR44_ooapJLHUH748%&<";
                 options.ClientId = Configuration["Microsoft:ClientId"];
                 options.ClientSecret = Configuration["Microsoft:ClientSecret"];
             });

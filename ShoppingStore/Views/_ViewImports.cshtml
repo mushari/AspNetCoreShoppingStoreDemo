@@ -1,15 +1,16 @@
-@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
 @using Microsoft.AspNetCore.Mvc.Localization
-@using ShoppingStore.Models
+@using Microsoft.AspNetCore.Identity
+@using ShoppingStore.Models.RoleViewModels
 @using ShoppingStore.Models.LocalizedViewModels
 @using ShoppingStore.Models.AccountViewModels
 @using ShoppingStore.Models.ManageViewModels
 @using ShoppingStore.Models.ProductViewModels
 @using ShoppingStore.Models.PhotoViewModels
 @using ShoppingStore.Models.CartViewModels
-@using ShoppingStore.Infrastructure.Extensions
 
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper ShoppingStore.Infrastructures.Extensions.*,ShoppingStore
 @addTagHelper *,GenericTagHelper
 @addTagHelper *,PaginationTagHelper
