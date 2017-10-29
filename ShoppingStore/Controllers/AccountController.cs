@@ -64,9 +64,32 @@ namespace ShoppingStore.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(model.UserNameOrEmail);
+                if (user != null)
+                {
+                    if (!user.EmailConfirmed)
+                    {
+                        return View("VerifyEmailMessage");
+                    }
+                    model.UserNameOrEmail = user.UserName;
+                }
+                else
+                {
+                    user = await _userManager.FindByNameAsync(model.UserNameOrEmail);
+                    if (!user.EmailConfirmed)
+                    {
+                        return View("VerifyEmailMessage");
+                    }
+                }
+
+
+
+                var result = await _signInManager.PasswordSignInAsync(
+                    model.UserNameOrEmail, model.Password,
+                    model.RememberMe, lockoutOnFailure: true);
+
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -81,11 +104,10 @@ namespace ShoppingStore.Controllers
                     _logger.LogWarning("User account locked out.");
                     return RedirectToAction(nameof(Lockout));
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty,_localizer["InvalidLoginAttempt"]);
-                    return View(model);
-                }
+
+
+                ModelState.AddModelError(string.Empty, _localizer["InvalidLoginAttempt"]);
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form
@@ -223,10 +245,18 @@ namespace ShoppingStore.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email
+                };
+
+                var result = await _userManager.CreateAsync(
+                    user, model.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -235,9 +265,10 @@ namespace ShoppingStore.Controllers
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return View("VerifyEmailMessage");
                 }
                 AddErrors(result);
             }

@@ -14,6 +14,9 @@ namespace ShoppingStore.Models
 
         [BindNever]
         public ICollection<CartLine> Lines { get; set; }
+       
+        [BindNever]
+        public bool Shipped { get; set; }
 
         [Required(ErrorMessage = "EnterName")]
         public string Name { get; set; }
@@ -33,7 +36,5 @@ namespace ShoppingStore.Models
 
         [Required(ErrorMessage = "EnterCountry")]
         public string Country { get; set; }
-
-        public bool GiftWrap { get; set; }
     }
 }

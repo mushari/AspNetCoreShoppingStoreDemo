@@ -36,7 +36,7 @@ namespace ShoppingStore.Controllers
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
             {
-                Product product = productRepository.GetProduct(
+                Product product = productRepository.GetProductWithAll(
                     id + "_" + culture.Name);
 
                 if (product != null)
@@ -57,7 +57,7 @@ namespace ShoppingStore.Controllers
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
             {
-                Product product = productRepository.GetProduct(
+                Product product = productRepository.GetProductWithAll(
                     id + "_" + culture.Name);
                 if (product != null)
                 {
@@ -76,7 +76,7 @@ namespace ShoppingStore.Controllers
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
             {
-                Product product = productRepository.GetProduct(
+                Product product = productRepository.GetProductWithAll(
                     id + "_" + culture.Name);
 
                 if (product != null)

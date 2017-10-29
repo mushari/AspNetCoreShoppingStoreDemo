@@ -31,6 +31,7 @@ namespace ShoppingStore.Controllers
         {
             var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
             var cartLines = cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
+
             if (cartLines.Count() == 0)
             {
                 ModelState.AddModelError("", "Sorry your cart is empty");
@@ -47,6 +48,24 @@ namespace ShoppingStore.Controllers
             {
                 return View(order);
             }
+        }
+
+        public IActionResult List()
+        {
+            return View(orderRepository.Orders.Where(o => !o.Shipped));
+        }
+
+        [HttpPost]
+        public IActionResult MarkShipped(int orderId)
+        {
+            Order order = orderRepository.Orders.SingleOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                order.Shipped = true;
+                orderRepository.SaveOrder(order);
+            }
+
+            return RedirectToAction(nameof(List));
         }
 
         public ViewResult Completed()

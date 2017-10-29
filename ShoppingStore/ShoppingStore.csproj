@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <UserSecretsId>aspnet-ShoppingStore-9AA74C90-63CB-4A87-BBE3-A966F577DE4D</UserSecretsId>
+    <UserSecretsId>ShoppingStore-Secret-ID</UserSecretsId>
   </PropertyGroup>
 
 
@@ -14,9 +14,11 @@
     <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="MimeMapping" Version="1.0.1.10" />
     <PackageReference Include="PaginationTagHelper" Version="1.2.0" />
+    <PackageReference Include="SendGrid" Version="9.9.0" />
   </ItemGroup>
 
   <ItemGroup>

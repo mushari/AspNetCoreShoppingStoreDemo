@@ -16,16 +16,60 @@ namespace ShoppingStore.Data.Repositories
         {
             this.context = context;
         }
+
         public IEnumerable<Product> GetProducts()
+        {
+            return context.Products;
+        }
+
+        public IEnumerable<Product> GetProductsWithCategory()
         {
             return context.Products.Include(p => p.Category);
         }
 
+        public IEnumerable<Product> GetProductsWithPhoto()
+        {
+            return context.Products.Include(p => p.Photo);
+        }
+
+        public IEnumerable<Product> GetProductsWithAll()
+        {
+            return context.Products.Include(p => p.Category)
+                .Include(p => p.Photo);
+        }
+
         public Product GetProduct(string id)
         {
-            return context.Products.Include(p => p.Category).SingleOrDefault(
+            return context.Products
+                .SingleOrDefault(
                 p => p.ProductId == id);
         }
+
+        public Product GetProductWithCategory(string id)
+        {
+            return context.Products.Include(p => p.Category)
+                .SingleOrDefault(
+                p => p.ProductId == id);
+        }
+
+        public Product GetProductWithPhoto(string id)
+        {
+            return context.Products.Include(p => p.Photo)
+               .SingleOrDefault(
+               p => p.ProductId == id);
+        }
+
+        public Product GetProductWithAll(string id)
+        {
+            return context.Products.Include(p => p.Category)
+               .Include(p => p.Photo)
+               .SingleOrDefault(
+               p => p.ProductId == id);
+        }
+
+
+
+
 
 
         public void AddProduct(Product product)

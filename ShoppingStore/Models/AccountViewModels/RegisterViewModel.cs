@@ -8,6 +8,11 @@ namespace ShoppingStore.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+
+        [Required(ErrorMessage ="RequiredError")]
+        [Display(Name ="UserName")]
+        public string UserName { get; set; }
+
         [Required(ErrorMessage ="RequiredError")]
         [EmailAddress(ErrorMessage = "EmailAddressError")]
         [Display(Name = "Email")]

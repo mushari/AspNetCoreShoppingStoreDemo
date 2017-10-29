@@ -854,7 +854,7 @@
     "Value": {
       "en-GB": "User name '{0}' is already taken.",
       "en-US": "User name '{0}' is already taken.",
-      "zh-TW": "使用者名稱'{0}' 已經重複"
+      "zh-TW": "使用者名稱 '{0}' 已經重複"
     },
     "Key": "DuplicateUserName"
   },
@@ -985,5 +985,37 @@
       "zh-TW": "編輯產品"
     },
     "Key": "EditProduct"
+  },
+  {
+    "Value": {
+      "zh-TW": "谷歌"
+    },
+    "Key": "Google"
+  },
+  {
+    "Value": {
+      "zh-TW": "微軟"
+    },
+    "Key": "Microsoft"
+  },
+  {
+    "Value": {
+      "zh-TW": "推特"
+    },
+    "Key": "Twitter"
+  },
+  {
+    "Value": {
+      "zh-TW": "臉書"
+    },
+    "Key": "Facebook"
+  },
+  {
+    "Value": {
+      "zh-TW": "使用者名稱或電子郵件",
+      "en-GB": "Username or Email",
+      "en-US": "Username or Email"
+    },
+    "Key": "UserNameOrEmail"
   }
 ]

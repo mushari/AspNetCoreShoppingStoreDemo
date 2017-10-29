@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUniqueChars),
-                Description = localizer["PasswordRequiresUniqueChars"]
+                Description = string.Format(GetString(localizer["PasswordRequiresUniqueChars"]), uniqueChars)
             };
         }
 
@@ -69,7 +70,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(PasswordTooShort),
-                Description = localizer["PasswordTooShort"]
+                Description = string.Format(GetString(localizer["PasswordTooShort"]), length)
             };
         }
 
@@ -78,7 +79,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(DuplicateEmail),
-                Description = localizer["DuplicateEmail"]
+                Description = String.Format(GetString(localizer["DuplicateEmail"]), email)
             };
         }
 
@@ -87,7 +88,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(DuplicateRoleName),
-                Description = localizer["DuplicateRoleName"]
+                Description = string.Format(GetString(localizer["DuplicateRoleName"]), role)
             };
         }
 
@@ -96,7 +97,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(DuplicateUserName),
-                Description = localizer["DuplicateUserName"]
+                Description = string.Format(GetString(localizer["DuplicateUserName"]), userName)
             };
         }
 
@@ -106,7 +107,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(InvalidEmail),
-                Description = localizer["InvalidEmail"]
+                Description = string.Format(GetString(localizer["InvalidEmail"]), email)
             };
         }
 
@@ -115,7 +116,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(InvalidRoleName),
-                Description = localizer["InvalidRoleName"]
+                Description = string.Format(GetString(localizer["InvalidRoleName"]), role)
             };
         }
 
@@ -133,7 +134,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(InvalidToken),
-                Description = localizer["InvalidToken"]
+                Description = string.Format(GetString(localizer["InvalidToken"]), userName)
             };
         }
 
@@ -169,7 +170,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(UserAlreadyInRole),
-                Description = localizer["UserAlreadyInRole"]
+                Description = string.Format(GetString(localizer["UserAlreadyInRole"]), role)
             };
         }
 
@@ -187,7 +188,7 @@ namespace ShoppingStore.Models.LocalizedViewModels
             return new IdentityError
             {
                 Code = nameof(UserNotInRole),
-                Description = localizer["UserNotInRole"]
+                Description = string.Format(GetString(localizer["UserNotInRole"]), role)
             };
         }
 
@@ -207,6 +208,19 @@ namespace ShoppingStore.Models.LocalizedViewModels
                 Code = nameof(DefaultError),
                 Description = localizer["DefaultError"]
             };
+        }
+
+        private static string GetString(string name, params string[] formatterNames)
+        {
+            if (formatterNames != null)
+            {
+                for (var i = 0; i < formatterNames.Length; i++)
+                {
+                    name = name.Replace("{" + formatterNames[i] + "}", "{" + i + "}");
+                }
+            }
+
+            return name;
         }
     }
 }

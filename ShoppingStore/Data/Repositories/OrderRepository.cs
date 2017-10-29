@@ -24,7 +24,6 @@ namespace ShoppingStore.Data.Repositories
             }
         }
 
-        IEnumerable<Order> IOrderRepository.Orders { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void SaveOrder(Order order)
         {

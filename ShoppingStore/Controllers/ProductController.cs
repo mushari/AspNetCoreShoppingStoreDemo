@@ -51,7 +51,7 @@ namespace ShoppingStore.Controllers
         public IActionResult Index(ProductViewModel model)
         {
             var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
-            var products = productRepository.GetProducts()
+            var products = productRepository.GetProductsWithCategory()
                 .Where(p => p.ProductId.EndsWith("_" + currentCulture)).AsQueryable();
 
             var photos = photoRepository.GetPhotos().ToList();
@@ -97,7 +97,7 @@ namespace ShoppingStore.Controllers
         public IActionResult Edit(string id)
         {
             var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
-            var product = productRepository.GetProduct(id);
+            var product = productRepository.GetProductWithCategory(id);
             var photos = photoRepository.GetPhotos().ToList();
             var categories = categoryRepository.GetCategories()
                     .Where(c => c.CategoryId.EndsWith("_" + currentCulture))
@@ -186,7 +186,7 @@ namespace ShoppingStore.Controllers
             }
             else if (productViewModel.FormType == "Edit")
             {
-                var product = productRepository.GetProduct(productViewModel.ProductId + "_" + currentCulture);
+                var product = productRepository.GetProductWithCategory(productViewModel.ProductId + "_" + currentCulture);
                 var viewModel = new ProductFormViewModel
                 {
                     FormType = "Edit",
@@ -234,7 +234,9 @@ namespace ShoppingStore.Controllers
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
             {
-                var product = productRepository.GetProduct(productId + "_" + culture);
+                var product = productRepository
+                    .GetProductWithCategory(productId + "_" + culture);
+
                 if (product != null)
                 {
                     productRepository.RemoveProduct(product);
