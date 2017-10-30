@@ -9,29 +9,37 @@ using ShoppingStore.Infrastructures.Extensions;
 using ShoppingStore.Models.CartViewModels;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly IProductRepository productRepository;
+        private readonly UserManager<ApplicationUser> userManager;
         private IOptions<RequestLocalizationOptions> options;
         private Cart cart;
 
         public CartController(
             IProductRepository productRepository,
+            UserManager<ApplicationUser> userManager,
             IOptions<RequestLocalizationOptions> options,
             Cart cartService)
         {
             this.productRepository = productRepository;
+            this.userManager = userManager;
             this.options = options;
             cart = cartService;
         }
 
-        [HttpPost]
-        public IActionResult AddToCart(
+
+        [HttpGet]
+        public async Task<IActionResult> AddToCart(
             string productId, int quantity, string returnUrl)
         {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
             var id = productId.Split("_")[0];
             var cultures = options.Value.SupportedCultures;
             foreach (var culture in cultures)
@@ -41,7 +49,7 @@ namespace ShoppingStore.Controllers
 
                 if (product != null)
                 {
-                    cart.AddItem(product, quantity);
+                    cart.AddItem(product, user, quantity);
                 }
             }
 
@@ -51,6 +59,7 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult RemoveItem(string productId, int quantity, string returnUrl)
         {
             var id = productId.Split("_")[0];
@@ -69,6 +78,7 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public RedirectToActionResult RemoveAll(
             string productId, string returnUrl)
         {

@@ -13,9 +13,11 @@ using ShoppingStore.Data;
 using ShoppingStore.Models.ProductViewModels;
 using ShoppingStore.Data.Repositories;
 using ShoppingStore.Models.PhotoViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PhotoController : Controller
     {
         private readonly IHostingEnvironment host;

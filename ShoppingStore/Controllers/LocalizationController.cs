@@ -9,9 +9,11 @@ using ShoppingStore.Models.LocalizedViewModels;
 using PaginationTagHelper.Extensions;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LocalizationController : Controller
     {
         private List<JsonLocalizationFormat> jsonLocalization;

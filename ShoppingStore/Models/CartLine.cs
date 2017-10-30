@@ -7,8 +7,9 @@ namespace ShoppingStore.Models
 {
     public class CartLine
     {
-        public int CartLineID { get; set; }
+        public int CartLineId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

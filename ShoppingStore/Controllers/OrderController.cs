@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingStore.Models;
 using ShoppingStore.Data.Repositories;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private IOrderRepository orderRepository;

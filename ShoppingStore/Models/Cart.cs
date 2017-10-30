@@ -9,11 +9,12 @@ namespace ShoppingStore.Models
     {
         private List<CartLine> lineList = new List<CartLine>();
 
-        public virtual void AddItem(Product product, int quantity)
+        public virtual void AddItem(Product product, ApplicationUser user, int quantity)
         {
             // Check list already have product
             CartLine line = lineList
-                .Where(p => p.Product.ProductId == product.ProductId)
+                .Where(l => l.Product.ProductId == product.ProductId
+                && l.User.Id == user.Id)
                 .SingleOrDefault();
 
             if (line == null)
@@ -21,7 +22,8 @@ namespace ShoppingStore.Models
                 lineList.Add(new CartLine
                 {
                     Product = product,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    User = user
                 });
             }
             else

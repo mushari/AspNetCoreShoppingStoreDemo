@@ -6,7 +6,7 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
-    var cartLines = Model.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
+    var cartLines = Model.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture) && l.User.UserName == User.Identity.Name);
 }
 
 
@@ -15,7 +15,7 @@
     {
         <small class="navbar-text">
             <b>Your cart:</b>
-            @cartLines.Sum(x=>x.Quantity) Item(s)
+            @cartLines.Sum(x => x.Quantity) Item(s)
             @Model.ComputeTotalValue(currentCulture).ToString("c")
         </small>
     }

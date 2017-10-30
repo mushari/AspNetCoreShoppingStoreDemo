@@ -9,6 +9,7 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            <li>@await Component.InvokeAsync("CartSummary")</li>
             <li>
                 <a class="nav-item" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
@@ -23,6 +24,6 @@ else
     <ul class="nav navbar-nav navbar-right">
         <li><a class="nav-item" asp-area="" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a></li>
         <li><a class="nav-item" asp-area="" asp-controller="Account" asp-action="Login">@Localizer["LogIn"]</a></li>
-        <li>@await Component.InvokeAsync("CartSummary")</li>
+
     </ul>
 }

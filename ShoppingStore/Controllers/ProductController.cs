@@ -13,11 +13,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using ShoppingStore.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private IProductRepository productRepository;
@@ -46,7 +48,8 @@ namespace ShoppingStore.Controllers
         }
 
 
-        // GET: /<controller>/
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index(ProductViewModel model)
         {

@@ -10,9 +10,11 @@ using ShoppingStore.Models.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoppingStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private ICategoryRepository categoryRepository;

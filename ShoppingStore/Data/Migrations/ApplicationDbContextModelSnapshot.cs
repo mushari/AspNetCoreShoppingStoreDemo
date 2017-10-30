@@ -181,7 +181,7 @@ namespace ShoppingStore.Data.Migrations
 
             modelBuilder.Entity("ShoppingStore.Models.CartLine", b =>
                 {
-                    b.Property<int>("CartLineID")
+                    b.Property<int>("CartLineId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("OrderId");
@@ -190,11 +190,15 @@ namespace ShoppingStore.Data.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.HasKey("CartLineID");
+                    b.Property<string>("UserId");
+
+                    b.HasKey("CartLineId");
 
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("CartLines");
                 });
@@ -344,6 +348,10 @@ namespace ShoppingStore.Data.Migrations
                     b.HasOne("ShoppingStore.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+
+                    b.HasOne("ShoppingStore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ShoppingStore.Models.Product", b =>

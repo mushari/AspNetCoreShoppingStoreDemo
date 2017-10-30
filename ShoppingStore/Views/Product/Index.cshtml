@@ -44,10 +44,10 @@
                 <h4>
                     <label class="label label-primary">Add Product Quantity</label>
                 </h4>
-                <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                <form asp-action="AddToCart" asp-controller="Cart"  method="get">
                     <input type="hidden" name="productId" value="@item.ProductId" />
                     <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                    <input type="number" name="quantity" max="10000" value="1"  class="form-control"style="width:160px" />
+                    <input type="number" name="quantity" max="10000" value="1" class="form-control" style="width:160px" />
                     <br />
                     <button type="submit" class="btn btn-success ">
                         Add To Cart
@@ -58,25 +58,28 @@
         <br />
 
         <div class="row">
-
-            <div class="col-sm-1">
-                <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
-            </div>
-
-            <div>
-                <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
-                    <button type="submit" class="btn btn-danger" name="id" value="@item.ProductId">
-                        Delete
-                    </button>
-                </form>
-            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-xs-1 pull-left">
+                    <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
+                </div>
+                <div class="col-xs-1 pull-left">
+                    <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
+                        <button type="submit" class="btn btn-danger" name="id" iflue="@item.ProductId">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            }
         </div>
 
     </div>
 }
 
-
-<a asp-action="AddProduct" asp-controller="Product" class="btn btn-primary">@Localizer["AddNewProduct"]</a>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="AddProduct" asp-controller="Product" class="btn btn-primary">@Localizer["AddNewProduct"]</a>
+}
 
 <pagination item-per-page="Model.ItemPerPage"
             current-page="Model.Page"
