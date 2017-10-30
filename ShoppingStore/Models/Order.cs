@@ -14,7 +14,7 @@ namespace ShoppingStore.Models
 
         [BindNever]
         public ICollection<CartLine> Lines { get; set; }
-       
+
         [BindNever]
         public bool Shipped { get; set; }
 

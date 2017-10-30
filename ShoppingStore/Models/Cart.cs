@@ -39,6 +39,10 @@ namespace ShoppingStore.Models
             {
                 item.Quantity -= quantity;
             }
+            if (item.Quantity <= 0)
+            {
+                RemoveLine(product);
+            }
         }
 
         public virtual void RemoveLine(Product product)

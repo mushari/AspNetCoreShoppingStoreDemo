@@ -7,6 +7,7 @@ using ShoppingStore.Models;
 using ShoppingStore.Data.Repositories;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShoppingStore.Controllers
 {
@@ -14,12 +15,15 @@ namespace ShoppingStore.Controllers
     public class OrderController : Controller
     {
         private IOrderRepository orderRepository;
+        private UserManager<ApplicationUser> userManager;
         private Cart cart;
         public OrderController(
             IOrderRepository orderRepository,
+            UserManager<ApplicationUser> userManager,
             Cart cartService)
         {
             this.orderRepository = orderRepository;
+            this.userManager = userManager;
             this.cart = cartService;
         }
 
@@ -29,10 +33,14 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(Order order)
         {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var currentCulture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
-            var cartLines = cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
+            var cartLines = cart.GetCartLines.Where(
+                l => l.Product.ProductId.EndsWith("_" + currentCulture) &&
+                l.User.Id == currentUser.Id);
 
             if (cartLines.Count() == 0)
             {
@@ -42,7 +50,10 @@ namespace ShoppingStore.Controllers
             if (ModelState.IsValid)
             {
                 order.Lines = cartLines.ToArray();
-                orderRepository.SaveOrder(order);
+                if (order.Lines != null)
+                {
+                    orderRepository.SaveOrder(order);
+                }
 
                 return RedirectToAction(nameof(Completed));
             }

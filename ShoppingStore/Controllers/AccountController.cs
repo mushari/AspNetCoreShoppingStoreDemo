@@ -76,9 +76,12 @@ namespace ShoppingStore.Controllers
                 else
                 {
                     user = await _userManager.FindByNameAsync(model.UserNameOrEmail);
-                    if (!user.EmailConfirmed)
+                    if (user != null)
                     {
-                        return View("VerifyEmailMessage");
+                        if (!user.EmailConfirmed)
+                        {
+                            return View("VerifyEmailMessage");
+                        }
                     }
                 }
 
