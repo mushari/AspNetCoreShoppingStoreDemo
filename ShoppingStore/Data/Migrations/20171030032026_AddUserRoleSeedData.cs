@@ -45,8 +45,6 @@ namespace ShoppingStore.Data.Migrations
                     var userStore = new UserStore<ApplicationUser>(context);
                     userStore.CreateAsync(user);
 
-                    //context.Users.Add(user);
-
                     context.SaveChanges();
 
                     IdentityUserRole<string> userRole = new IdentityUserRole<string>

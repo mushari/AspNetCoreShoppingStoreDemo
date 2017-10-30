@@ -8,7 +8,7 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCulture = requestCulture.RequestCulture.Culture.Name;
-    var cartLines = Model.Cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture));
+    var cartLines = Model.Cart.GetCartLines.Where(l => l.Product.ProductId.EndsWith("_" + currentCulture) && l.User.UserName == User.Identity.Name);
 }
 
 
