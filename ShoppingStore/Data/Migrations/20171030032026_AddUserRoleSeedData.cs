@@ -22,7 +22,7 @@ namespace ShoppingStore.Data.Migrations
                     var role = new IdentityRole
                     {
                         Name = "Admin",
-                        NormalizedName="ADMIN" 
+                        NormalizedName = "ADMIN"
                     };
 
                     context.Roles.Add(role);
@@ -80,24 +80,25 @@ namespace ShoppingStore.Data.Migrations
                         };
 
                         context.UserRoles.Remove(userRole);
+                        context.SaveChanges();
                     }
 
-                    context.SaveChanges();
 
                     if (role != null)
                     {
                         context.Roles.Remove(role);
+                        context.SaveChanges();
                     }
-                    context.SaveChanges();
 
 
 
                     if (user != null)
                     {
                         context.Users.Remove(user);
+                        context.SaveChanges();
                     }
 
-                    context.SaveChanges();
+
 
 
                     transaction.Commit();
