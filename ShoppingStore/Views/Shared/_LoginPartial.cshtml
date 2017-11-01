@@ -11,7 +11,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li>@await Component.InvokeAsync("CartSummary")</li>
             <li>
-                <a class="nav-item" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a class="nav-item" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@Localizer["Hello"] @UserManager.GetUserName(User)!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">@Localizer["LogOut"]</button>
@@ -24,6 +24,5 @@ else
     <ul class="nav navbar-nav navbar-right">
         <li><a class="nav-item" asp-area="" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a></li>
         <li><a class="nav-item" asp-area="" asp-controller="Account" asp-action="Login">@Localizer["LogIn"]</a></li>
-
     </ul>
 }

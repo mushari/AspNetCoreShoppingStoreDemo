@@ -35,22 +35,22 @@
                         <span class="glyphicon glyphicon-hand-right"> @item.Description</span>
                     </div>
                 </div>
-                <br />
                 <h3>
+                    <strong style="color:crimson">@Localizer["Price"]:</strong>
                     <span class="label label-info">
                         @item.Price.ToString("C")
                     </span>
                 </h3>
                 <h4>
-                    <label class="label label-primary">Add Product Quantity</label>
+                    <label class="label label-primary">@Localizer["AddProductQuantity"]</label>
                 </h4>
-                <form asp-action="AddToCart" asp-controller="Cart"  method="get">
+                <form asp-action="AddToCart" asp-controller="Cart" method="get">
                     <input type="hidden" name="productId" value="@item.ProductId" />
                     <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                    <input type="number" name="quantity" max="10000" value="1" class="form-control" style="width:160px" />
+                    <input type="number" name="quantity" min="0" max="10000" value="1" class="form-control" style="width:160px" />
                     <br />
                     <button type="submit" class="btn btn-success ">
-                        Add To Cart
+                        @Localizer["AddToCart"]
                     </button>
                 </form>
             </div>
@@ -61,12 +61,12 @@
             @if (User.IsInRole("Admin"))
             {
                 <div class="col-xs-1 pull-left">
-                    <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">Edit</a>
+                    <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-success">@Localizer["Edit"]</a>
                 </div>
                 <div class="col-xs-1 pull-left">
                     <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" method="post">
                         <button type="submit" class="btn btn-danger" name="id" iflue="@item.ProductId">
-                            Delete
+                            @Localizer["Delete"]
                         </button>
                     </form>
                 </div>

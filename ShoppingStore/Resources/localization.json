@@ -1017,5 +1017,405 @@
       "en-US": "Username or Email"
     },
     "Key": "UserNameOrEmail"
+  },
+  {
+    "Value": {
+      "zh-TW": "沒有圖片",
+      "en-GB": "No Photos",
+      "en-US": "No Photos"
+    },
+    "Key": "NoPhotos"
+  },
+  {
+    "Value": {
+      "zh-TW": "加入購物車",
+      "en-GB": "Add To Cart",
+      "en-US": "Add To Cart"
+    },
+    "Key": "AddToCart"
+  },
+  {
+    "Value": {
+      "zh-TW": "輸入產品數量",
+      "en-GB": "Add Product Quantity",
+      "en-US": "Add Product Quantity"
+    },
+    "Key": "AddProductQuantity"
+  },
+  {
+    "Value": {
+      "zh-TW": "編輯",
+      "en-GB": "Edit",
+      "en-US": "Edit"
+    },
+    "Key": "Edit"
+  },
+  {
+    "Value": {
+      "zh-TW": "產品辨識碼"
+    },
+    "Key": "ProductId"
+  },
+  {
+    "Value": {
+      "zh-TW": "產品圖片",
+      "en-GB": "Image",
+      "en-US": "Image"
+    },
+    "Key": "ProductPhoto"
+  },
+  {
+    "Value": {
+      "zh-TW": "產品類別",
+      "en-GB": "Category",
+      "en-US": "Category"
+    },
+    "Key": "ProductCategoryId"
+  },
+  {
+    "Value": {
+      "zh-TW": "無類別",
+      "en-GB": "No Category",
+      "en-US": "No Category"
+    },
+    "Key": "NoCategory"
+  },
+  {
+    "Value": {
+      "zh-TW": "編輯類別",
+      "en-GB": "Edit Category",
+      "en-US": "Edit Category"
+    },
+    "Key": "EditCategory"
+  },
+  {
+    "Value": {
+      "zh-TW": "上傳圖片",
+      "en-GB": "Upload Photos",
+      "en-US": "Upload Photos"
+    },
+    "Key": "UploadPhotos"
+  },
+  {
+    "Value": {
+      "zh-TW": "選擇圖片",
+      "en-GB": "Select Photos",
+      "en-US": "Select Photos"
+    },
+    "Key": "SelectPhotos"
+  },
+  {
+    "Value": {
+      "zh-TW": "加入選取圖片",
+      "en-GB": "Add Selected Photo",
+      "en-US": "Add Selected Photo"
+    },
+    "Key": "AddSelectedPhoto"
+  },
+  {
+    "Value": {
+      "zh-TW": "關閉",
+      "en-GB": "Close",
+      "en-US": "Close"
+    },
+    "Key": "Close"
+  },
+  {
+    "Value": {
+      "zh-TW": "數量"
+    },
+    "Key": "Quantity"
+  },
+  {
+    "Value": {
+      "zh-TW": "移除商品",
+      "en-GB": "Remove Items",
+      "en-US": "Remove Items"
+    },
+    "Key": "RemoveItem"
+  },
+  {
+    "Value": {
+      "zh-TW": "商品價格數量"
+    },
+    "Key": "Subtotal"
+  },
+  {
+    "Value": {
+      "zh-TW": "總數"
+    },
+    "Key": "Total"
+  },
+  {
+    "Value": {
+      "zh-TW": "移除全部"
+    },
+    "Key": "RemoveAll"
+  },
+  {
+    "Value": {
+      "zh-TW": "下單"
+    },
+    "Key": "Checkout"
+  },
+  {
+    "Value": {
+      "zh-TW": "繼續購物",
+      "en-GB": "Continue shopping",
+      "en-US": "Continue shopping"
+    },
+    "Key": "ContinueShopping"
+  },
+  {
+    "Value": {
+      "zh-TW": "您的購物車",
+      "en-GB": "Your Cart",
+      "en-US": "Your Cart"
+    },
+    "Key": "YourCart"
+  },
+  {
+    "Value": {
+      "zh-TW": "購物車裡沒有商品",
+      "en-GB": "You don't have any items in your cart.",
+      "en-US": "You don't have any items in your cart."
+    },
+    "Key": "NoItemsInCart"
+  },
+  {
+    "Value": {
+      "zh-TW": "返回",
+      "en-GB": "Go back",
+      "en-US": "Go back"
+    },
+    "Key": "GoBack"
+  },
+  {
+    "Value": {
+      "zh-TW": "加入新的類別",
+      "en-GB": "Add new category",
+      "en-US": "Add new category"
+    },
+    "Key": "AddNewCategory"
+  },
+  {
+    "Value": {
+      "zh-TW": "加入圖片",
+      "en-GB": "Add photos",
+      "en-US": "Add photos"
+    },
+    "Key": "AddPhotos"
+  },
+  {
+    "Value": {
+      "zh-TW": "上傳全部",
+      "en-GB": "Start upload all photos",
+      "en-US": "Start upload all photos"
+    },
+    "Key": "StartUploadAll"
+  },
+  {
+    "Value": {
+      "zh-TW": "取消所有上傳",
+      "zh-GB": "Cancel upload all",
+      "zh-US": "Cancel upload all"
+    },
+    "Key": "CancelUploadAll"
+  },
+  {
+    "Value": {
+      "zh-TW": "上傳",
+      "en-GB": "Upload"
+    },
+    "Key": "Upload"
+  },
+  {
+    "Value": {
+      "zh-TW": "請填寫表格,我們會馬上處理您的訂單",
+      "en-GB": "Please enter your details,and we'll ship your goods right away",
+      "en-US": "Please enter your details,and we'll ship your goods right away"
+    },
+    "Key": "OrderDetail"
+  },
+  {
+    "Value": {
+      "zh-TW": "訂單運送資料",
+      "en-GB": "Checkout now",
+      "en-US": "Checkout now"
+    },
+    "Key": "CheckoutForm"
+  },
+  {
+    "Value": {
+      "zh-TW": "送到",
+      "en-GB": "Ship To",
+      "en-US": "Ship To"
+    },
+    "Key": "ShipTo"
+  },
+  {
+    "Value": {
+      "zh-TW": "地址"
+    },
+    "Key": "Address"
+  },
+  {
+    "Value": {
+      "zh-TW": "城市"
+    },
+    "Key": "City"
+  },
+  {
+    "Value": {
+      "zh-TW": "地址欄",
+      "en-GB": "Line",
+      "en-US": "Line"
+    },
+    "Key": "AddressLine"
+  },
+  {
+    "Value": {
+      "zh-TW": "洲/縣市"
+    },
+    "Key": "State"
+  },
+  {
+    "Value": {
+      "zh-TW": "郵遞區號",
+      "en-GB": "Complete order",
+      "en-US": "Complete order"
+    },
+    "Key": "Zip"
+  },
+  {
+    "Value": {
+      "zh-TW": "國家"
+    },
+    "Key": "Country"
+  },
+  {
+    "Value": {
+      "zh-TW": "完成訂單"
+    },
+    "Key": "CompleteOrder"
+  },
+  {
+    "Value": {
+      "zh-TW": "感謝您",
+      "en-GB": "Thanks"
+    },
+    "Key": "Thanks"
+  },
+  {
+    "Value": {
+      "en-GB": "Thanks for placing your order.",
+      "zh-TW": "感謝您的訂單",
+      "en-US": "Thanks for placing your order."
+    },
+    "Key": "ThanksOrder"
+  },
+  {
+    "Value": {
+      "en-GB": "We'll ship your goods as soon as possible.",
+      "en-US": "We'll ship your goods as soon as possible.",
+      "zh-TW": "我們會盡可能的越快送到您手上"
+    },
+    "Key": "OrderCompleteMessage"
+  },
+  {
+    "Value": {
+      "zh-TW": "購物車"
+    },
+    "Key": "Cart"
+  },
+  {
+    "Value": {
+      "zh-TW": "商品",
+      "en-GB": "item(s}",
+      "en-US": "item(s)"
+    },
+    "Key": "Items"
+  },
+  {
+    "Value": {
+      "zh-TW": "首頁"
+    },
+    "Key": "Home"
+  },
+  {
+    "Value": {
+      "zh-TW": "產品"
+    },
+    "Key": "Products"
+  },
+  {
+    "Value": {
+      "zh-TW": "角色管理"
+    },
+    "Key": "RoleManager"
+  },
+  {
+    "Value": {
+      "zh-TW": "區域化編輯器"
+    },
+    "Key": "LocalizationEditor"
+  },
+  {
+    "Value": {
+      "zh-TW": "你好"
+    },
+    "Key": "Hello"
+  },
+  {
+    "Value": {
+      "zh-TW": "角色"
+    },
+    "Key": "Roles"
+  },
+  {
+    "Value": {
+      "zh-TW": "使用者ID"
+    },
+    "Key": "UserId"
+  },
+  {
+    "Value": {
+      "zh-TW": "使用者"
+    },
+    "Key": "Users"
+  },
+  {
+    "Value": {
+      "zh-TW": "創造新角色"
+    },
+    "Key": "CreateRole"
+  },
+  {
+    "Value": {
+      "zh-TW": "角色名稱"
+    },
+    "Key": "RoleName"
+  },
+  {
+    "Value": {
+      "zh-TW": "加到",
+      "en-GB": "Add To",
+      "en-US": "Add To"
+    },
+    "Key": "AddTo"
+  },
+  {
+    "Value": {
+      "zh-TW": "移除",
+      "en-GB": "Remove From",
+      "en-US": "Remove From"
+    },
+    "Key": "RemoveFrom"
+  },
+  {
+    "Value": {
+      "zh-TW": "儲存"
+    },
+    "Key": "Save"
   }
 ]

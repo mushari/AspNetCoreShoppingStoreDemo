@@ -18,23 +18,31 @@ namespace ShoppingStore.Models
         [BindNever]
         public bool Shipped { get; set; }
 
-        [Required(ErrorMessage = "EnterName")]
+        [Required(ErrorMessage = "RequiredError")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "EnterAddress")]
+        [Required(ErrorMessage = "RequiredError")]
+        [Display(Name = "AddressLine")]
         public string Line1 { get; set; }
+        [Display(Name = "AddressLine")]
         public string Line2 { get; set; }
+        [Display(Name = "AddressLine")]
         public string Line3 { get; set; }
 
-        [Required(ErrorMessage = "EnterCity")]
+        [Required(ErrorMessage = "RequiredError")]
+        [Display(Name = "City")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "EnterStateName")]
+        [Required(ErrorMessage = "RequiredError")]
+        [Display(Name = "State")]
         public string State { get; set; }
 
+        [Display(Name = "Zip")]
         public string Zip { get; set; }
 
-        [Required(ErrorMessage = "EnterCountry")]
+        [Required(ErrorMessage = "RequiredError")]
+        [Display(Name = "Country")]
         public string Country { get; set; }
     }
 }

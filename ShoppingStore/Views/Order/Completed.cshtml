@@ -1,3 +1,4 @@
-﻿<h2>Tnanks!</h2>
-<p>Thanks for placing your order.</p>
-<p>We'll ship your goods as soon as possible.</p>
+﻿@inject IViewLocalizer Localizer
+<h2>@Localizer["Thanks"]!</h2>
+<p>@Localizer["ThanksOrder"]</p>
+<p>@Localizer["OrderCompleteMessage"]</p>

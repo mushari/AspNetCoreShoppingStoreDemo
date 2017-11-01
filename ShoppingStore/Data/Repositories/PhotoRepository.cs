@@ -19,11 +19,9 @@ namespace ShoppingStore.Data.Repositories
         }
         public void DeletePhoto(Photo photo, IHostingEnvironment host)
         {
-            context.Remove(photo);
-            var uploadFolderPath = Path.Combine(host.WebRootPath, "photos");
-            var fileName = photo.FileName;
-            var filePath = Path.Combine(uploadFolderPath, fileName);
-            System.IO.File.Delete(filePath);
+            context.Photos.Remove(photo);
+            var uploadFolderPath = host.WebRootPath + photo.FileAddress;
+            System.IO.File.Delete(uploadFolderPath);
         }
 
         public IEnumerable<Photo> GetPhotos()
@@ -44,8 +42,8 @@ namespace ShoppingStore.Data.Repositories
                 Directory.CreateDirectory(uploadFolderPath);
             }
 
-            var fileName = file.FileName;
-            var filePath = Path.Combine(uploadFolderPath, fileName);
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            var filePath = Path.Combine(uploadFolderPath, file.FileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -55,7 +53,7 @@ namespace ShoppingStore.Data.Repositories
             var photo = new Photo
             {
                 FileName = fileName,
-                FileAddress = "/photos/" + fileName
+                FileAddress = "/photos/" + file.FileName
             };
             context.Photos.Add(photo);
         }

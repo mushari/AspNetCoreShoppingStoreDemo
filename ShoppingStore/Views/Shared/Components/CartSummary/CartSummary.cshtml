@@ -14,8 +14,8 @@
     @if (cartLines.Count() > 0)
     {
         <small class="navbar-text">
-            <b>Your cart:</b>
-            @cartLines.Sum(x => x.Quantity) Item(s)
+            <b>@Localizer["Cart"]:</b>
+            @cartLines.Sum(x => x.Quantity) @Localizer["Items"]
             @Model.ComputeTotalValue(currentCulture).ToString("c")
         </small>
     }

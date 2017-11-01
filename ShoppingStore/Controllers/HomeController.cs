@@ -32,7 +32,7 @@ namespace ShoppingStore.Controllers
         [HttpGet]
         public IActionResult ShowProduct()
         {
-           
+
             return View();
         }
 
@@ -58,6 +58,10 @@ namespace ShoppingStore.Controllers
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
+            if (returnUrl.Contains("_"))
+            {
+                returnUrl = returnUrl.Split("_")[0] + "_" + culture;
+            }
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),

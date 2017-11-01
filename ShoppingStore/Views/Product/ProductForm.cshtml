@@ -51,28 +51,34 @@ else
     </div>
     <div class="form-group">
         <label asp-for="PhotoId"></label>
-        <a asp-action="UploadView" asp-controller="Photo" asp-route-url="@Model.ReturnUrl" class="btn btn-success">Upload Photos</a>
+        <a asp-action="UploadView" asp-controller="Photo" asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()" class="btn btn-success">@Localizer["UploadPhotos"]</a>
         <input asp-for="PhotoId" hidden />
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectPhotoModal">Select Photos</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectPhotoModal">@Localizer["SelectPhotos"]</button>
 
         <div class="modal fade" id="selectPhotoModal" tabindex="-1" role="dialog" aria-labelledby="newProductModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <select id="photo-select">
-                            @if (Model.Photos != null)
-                            {
+                        @if (Model.Photos.Count() > 0)
+                        {
+                            <select id="photo-select">
+
                                 @foreach (var photo in Model.Photos)
                                 {
                                     <option data-img-src="@photo.FileAddress" value="@photo.PhotoId" img-name="@photo.FileName">@photo.FileName</option>
                                 }
-                            }
-                        </select>
+
+                            </select>
+                        }
+                        else
+                        {
+                            <h2>@Localizer["NoPhotos"]</h2>
+                        }
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="submit_photo" type="button" class="btn btn-primary">Add Selected Photo</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                        <button id="submit_photo" type="button" class="btn btn-primary">@Localizer["AddSelectedPhoto"]</button>
                     </div>
                 </div>
             </div>
@@ -96,16 +102,18 @@ else
             }
             else
             {
-                <option value="0">No Category</option>
+                <option value="0">@Localizer["NoCategory"]</option>
             }
         </select>
     </div>
     <div class="form-group">
-        <a asp-action="Index" asp-controller="Category" asp-route-url="@Model.ReturnUrl"class="btn btn-primary">Edit Category</a>
+        <a asp-action="Index" asp-controller="Category" asp-route-url="@Model.ReturnUrl" class="btn btn-primary">
+            @Localizer["EditCategory"]
+        </a>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">@Localizer["Submit"]</button>
-        <a asp-action="Index" asp-controller="Product" class="btn btn-warning">Cancel</a>
+        <a asp-action="Index" asp-controller="Product" class="btn btn-warning">@Localizer["Cancel"]</a>
     </div>
 </form>
 
@@ -124,7 +132,6 @@ else
             var selectedImgId = $("#photo-select").val();
             var selectedImg = $("#photo-select").find(":selected").attr("data-img-src");
             var selectedImgName = $('#photo-select').find(":selected").attr("img-name");
-
 
 
             $('#PhotoId').attr("value", selectedImgId);

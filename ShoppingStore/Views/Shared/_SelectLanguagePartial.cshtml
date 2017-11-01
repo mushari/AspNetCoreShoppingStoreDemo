@@ -16,7 +16,7 @@
 
 <div>
     <form id="selectLanguage" asp-controller="Home"
-          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+          asp-action="SetLanguage" asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()"
           method="post" class="form-horizontal" role="form">
         @Localizer["Language"]: <select name="culture" class="form-control pull-right" style="width:200px;"
                                         asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>

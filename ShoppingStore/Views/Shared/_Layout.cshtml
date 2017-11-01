@@ -42,8 +42,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a></li>
                     @if (User.IsInRole("Admin"))
                     {
-                        <li><a asp-controller="Localization" asp-action="Index">Localization Editor</a></li>
-                        <li><a asp-controller="RoleAdmin" asp-action="Index">RoleManager</a></li>
+                        <li><a asp-controller="Localization" asp-action="Index">@Localizer["LocalizationEditor"]</a></li>
+                        <li><a asp-controller="RoleAdmin" asp-action="Index">@Localizer["RoleManager"]</a></li>
                     }
                     <li><a asp-controller="Product" asp-action="Index">@Localizer["Products"]</a></li>
                 </ul>

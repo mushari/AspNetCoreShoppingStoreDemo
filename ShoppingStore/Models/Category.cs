@@ -9,9 +9,9 @@ namespace ShoppingStore.Models
 {
     public class Category
     {
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string CategoryId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string CategoryName { get; set; }
     }
 

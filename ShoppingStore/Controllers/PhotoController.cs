@@ -47,9 +47,9 @@ namespace ShoppingStore.Controllers
             return View(model);
         }
 
-        public IActionResult UploadView(string url)
+        public IActionResult UploadView(string returnUrl)
         {
-            ViewBag.ReturnUrl = url;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -74,12 +74,13 @@ namespace ShoppingStore.Controllers
                 return BadRequest("Max file size exceeded");
             }
 
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
             if (photos != null)
             {
                 // Check  repeated filename
                 foreach (var p in photos)
                 {
-                    if (p.FileName.Contains(file.FileName))
+                    if (p.FileName.Contains(fileName))
                     {
                         return BadRequest("Your photo name has repeated");
                     }
@@ -89,11 +90,12 @@ namespace ShoppingStore.Controllers
             await photoRepository.AddPhotoAsync(file, host);
             await unitOfWork.CompleteAsync();
 
-            var photo = new Photo
+
+            var photo = photoRepository.GetPhoto(fileName);
+            if (photo == null)
             {
-                FileName = file.FileName,
-                FileAddress = "/photo/" + file.FileName
-            };
+                return NotFound();
+            }
 
             return Ok(photo);
         }
@@ -115,16 +117,17 @@ namespace ShoppingStore.Controllers
         }
 
         [HttpDelete]
-        [Route("api/deletefile")]
-        public IActionResult DeletePhoto(string id)
+        [Route("api/deletePhoto")]
+        public IActionResult DeletePhoto(string name)
         {
-            var photo = photoRepository.GetPhotos().SingleOrDefault(p => p.PhotoId == id);
+            var photo = photoRepository.GetPhoto(name);
             if (photo == null)
             {
                 return NotFound();
             }
 
             photoRepository.DeletePhoto(photo, host);
+            unitOfWork.Complete();
             return Ok(photo);
         }
 

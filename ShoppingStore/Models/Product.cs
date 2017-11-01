@@ -11,28 +11,28 @@ namespace ShoppingStore.Models
 {
     public class Product
     {
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         [Display(Name = "ProductId")]
         public string ProductId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         [Display(Name = "ProductName")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         [Display(Name = "ProductDescription")]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         [Display(Name = "ProductPrice")]
         public decimal Price { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string PhotoId { get; set; }
         public Photo Photo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string CategoryId { get; set; }
         public Category Category { get; set; }
 

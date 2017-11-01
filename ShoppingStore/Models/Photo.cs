@@ -8,14 +8,14 @@ namespace ShoppingStore.Models
 {
     public class Photo
     {
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string PhotoId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         [StringLength(255)]
         public string FileName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "RequiredError")]
         public string FileAddress { get; set; }
     }
 }
