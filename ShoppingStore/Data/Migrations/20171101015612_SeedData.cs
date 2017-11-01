@@ -174,33 +174,35 @@ namespace ShoppingStore.Data.Migrations
                     {
                         context.Photos.Remove(photo);
                         context.SaveChanges();
-                    }
 
 
-                    for (int i = 0; i < 10; i++)
-                    {
-                        var category_gb = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_en-GB");
-                        var category_us = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_en-US");
-                        var category_zh = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_zh-TW");
 
-
-                        if (category_gb != null && category_us != null && category_zh != null)
+                        for (int i = 0; i < 10; i++)
                         {
-                            context.Categories.Remove(category_gb);
-                            context.Categories.Remove(category_zh);
-                            context.Categories.Remove(category_us);
-                            context.SaveChanges();
-                        }
+                            var category_gb = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_en-GB");
+                            var category_us = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_en-US");
+                            var category_zh = context.Categories.FirstOrDefault(c => c.CategoryId == "category" + i + "_zh-TW");
 
-                        var product_gb = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_en-GB");
-                        var product_us = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_en-US");
-                        var product_zh = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_zh-TW");
-                        if (product_gb != null && product_us != null && product_zh != null)
-                        {
-                            context.Products.Remove(product_gb);
-                            context.Products.Remove(product_us);
-                            context.Products.Remove(product_zh);
-                            context.SaveChanges();
+
+                            if (category_gb != null && category_us != null && category_zh != null)
+                            {
+                                context.Categories.Remove(category_gb);
+                                context.Categories.Remove(category_zh);
+                                context.Categories.Remove(category_us);
+                                context.SaveChanges();
+                            }
+
+                            var product_gb = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_en-GB");
+                            var product_us = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_en-US");
+                            var product_zh = context.Products.FirstOrDefault(p => p.ProductId == "productDemo" + i + "_zh-TW");
+
+                            if (product_gb != null && product_us != null && product_zh != null)
+                            {
+                                context.Products.Remove(product_gb);
+                                context.Products.Remove(product_us);
+                                context.Products.Remove(product_zh);
+                                context.SaveChanges();
+                            }
                         }
                     }
 

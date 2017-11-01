@@ -8,13 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.JsonLocalization" Version="1.0.0" />
-    <PackageReference Include="automapper" Version="6.1.1" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
     <PackageReference Include="GenericTagHelper" Version="1.2.0" />
     <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="MimeMapping" Version="1.0.1.10" />
     <PackageReference Include="PaginationTagHelper" Version="1.2.0" />
