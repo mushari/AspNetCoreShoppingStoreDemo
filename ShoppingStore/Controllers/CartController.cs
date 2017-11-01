@@ -52,10 +52,8 @@ namespace ShoppingStore.Controllers
                     cart.AddItem(product, user, quantity);
                 }
             }
-
-
-            //return RedirectToAction("Index", new { returnUrl });
-            return RedirectToAction("Index", "Product");
+            return Redirect("/Product/Index");
+            //return RedirectToAction("Index", "Product");
         }
 
         [HttpPost]

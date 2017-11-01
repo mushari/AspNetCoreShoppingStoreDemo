@@ -1148,13 +1148,17 @@
   },
   {
     "Value": {
-      "zh-TW": "移除全部"
+      "zh-TW": "移除全部",
+      "en-GB": "Remove All",
+      "en-US": "Remove All"
     },
     "Key": "RemoveAll"
   },
   {
     "Value": {
-      "zh-TW": "下單"
+      "zh-TW": "下單",
+      "en-GB": "Checkout",
+      "en-US": "Checkout"
     },
     "Key": "Checkout"
   },
@@ -1324,14 +1328,16 @@
   },
   {
     "Value": {
-      "zh-TW": "購物車"
+      "zh-TW": "購物車",
+      "en-GB": "Cart",
+      "en-US": "Cart"
     },
     "Key": "Cart"
   },
   {
     "Value": {
       "zh-TW": "商品",
-      "en-GB": "item(s}",
+      "en-GB": "item(s)",
       "en-US": "item(s)"
     },
     "Key": "Items"
@@ -1356,7 +1362,9 @@
   },
   {
     "Value": {
-      "zh-TW": "區域化編輯器"
+      "zh-TW": "區域化編輯器",
+      "en-GB": "Localization Editor",
+      "en-US": "Localization Editor"
     },
     "Key": "LocalizationEditor"
   },
@@ -1392,7 +1400,9 @@
   },
   {
     "Value": {
-      "zh-TW": "角色名稱"
+      "zh-TW": "角色名稱",
+      "en-GB": "Role Name",
+      "en-US": "Role Name"
     },
     "Key": "RoleName"
   },
