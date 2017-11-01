@@ -73,7 +73,7 @@ namespace ShoppingStore.Controllers
                 TotalItems = products.Count(),
             };
 
-            return View("Index", productViewModel);
+            return View("~/Views/Product/Index.cshtml", productViewModel);
         }
 
         [HttpGet]
