@@ -14,7 +14,7 @@ namespace ShoppingStore.Services
         public async Task SendEmailAsync(
             string email, string subject, string message)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("martinwang7963@gmail.com", "Shopping Store");
             var to = new EmailAddress(email, "Dear User");
